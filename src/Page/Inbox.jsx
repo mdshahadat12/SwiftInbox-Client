@@ -13,7 +13,7 @@ const Inbox = () => {
     <div className="max-w-screen-xl mx-auto my-12 px-4">
       {/* if there are no emails yet show this  */}
 
-      {emailData.length > 0 && (
+      {emailData.length === 0 && (
         <div className="md:w-96 mx-auto">
           <h1 className="text-center font-bold text-2xl">No messages yet</h1>
           <Lottie animationData={lott} />
@@ -21,7 +21,7 @@ const Inbox = () => {
       )}
 
       {/* if there are emails show this  */}
-      {emailData.length < 0 && (
+      {emailData.length > 0 && (
         <div>
           <h1 className="text-4xl font-bold mb-5">
             Inbox ({emailData.length})
