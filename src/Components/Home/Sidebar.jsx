@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
-import { FaCheck, FaGripLines, FaPlus, FaUsers } from "react-icons/fa6";
-import { GiBrasero } from "react-icons/gi";
+import { MdOutlineConnectWithoutContact } from "react-icons/md";
+import { CiSquareInfo } from "react-icons/ci";
+import { FaInbox } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(true);
-  const role  = "admin";
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
@@ -23,17 +23,15 @@ const Sidebar = () => {
         >
           <AiOutlineBars className="h-5 w-5" />
         </button>
-        <div>
-          <Link to={"/"}>
-            <div className="my-2 flex">
+        <div className="my-2 flex">
               <img
-                src="https://i.ibb.co/zS97G8n/Picsart-24-01-18-11-46-32-251-removebg-preview.png"
-                className="h-32"
+                src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
+                className="h-10 mr-3"
               />
-             
+              <span className="self-center text-black text-2xl font-extrabold whitespace-nowrap ">
+                SwiftInbox
+              </span>
             </div>
-          </Link>
-        </div>
       </div>
       {/* Sidebar */}
       <div
@@ -45,13 +43,15 @@ const Sidebar = () => {
           <div>
             <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center  mx-auto">
               <Link to={"/"}>
-                <div className="mb-0 flex">
-                  <img
-                    src="https://i.ibb.co/zS97G8n/Picsart-24-01-18-11-46-32-251-removebg-preview.png"
-                    className=" w-full h-full"
-                  />
-                 
-                </div>
+              <div className="my-2 flex">
+              <img
+                src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
+                className="h-10 mr-3"
+              />
+              <span className="self-center text-black text-2xl font-extrabold whitespace-nowrap ">
+                SwiftInbox
+              </span>
+            </div>
               </Link>
             </div>
           </div>
@@ -59,59 +59,15 @@ const Sidebar = () => {
           {/* Nav Items */}
           <div className="flex flex-col justify-between flex-1 mt-6">
             <nav>
-              {role == "admin" && (
-                <>
-                  <Menu
-                    icon={FaCheck}
-                    label="Contact Us"
-                    address="/contact"
-                  />
-                  <Menu
-                    icon={FaUsers}
-                    label="About Us"
-                    address="about"
-                  />
-                </>
-              )}
-              {role == "user" && (
-                <>
-                  <Menu
-                    icon={FaCheck}
-                    label="My Profile"
-                    address="/dashboard"
-                  />
-                  <Menu
-                    icon={FaUsers}
-                    label="My Participated Contest"
-                    address="participated"
-                  />
-                  <Menu
-                    icon={GiBrasero}
-                    label="My Winning Contest Page"
-                    address="win"
-                  />
-                </>
-              )}
-              {role == "creator" && (
-                <>
-                  <Menu
-                    icon={FaCheck}
-                    label="Your Contest Info"
-                    address="/dashboard"
-                  />
-                  <Menu
-                    icon={FaPlus}
-                    label="Add Contest Page"
-                    address="addcontest"
-                  />
-                  <Menu
-                    icon={FaGripLines}
-                    label="My Created Contest"
-                    address="createdcontest"
-                  />
-                </>
-              )}
-
+              <>
+                <Menu icon={FaInbox} label="Inbox" address="/" />
+                <Menu
+                  icon={MdOutlineConnectWithoutContact}
+                  label="Contact Us"
+                  address="/contact"
+                />
+                <Menu icon={CiSquareInfo} label="About Us" address="about" />
+              </>
               {/* Menu Items */}
             </nav>
           </div>
