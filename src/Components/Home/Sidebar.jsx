@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
-import { FaCheck, FaGripLines, FaPlus, FaUsers } from "react-icons/fa6";
-import { GiBrasero } from "react-icons/gi";
+import { MdOutlineConnectWithoutContact } from "react-icons/md";
+import { CiSquareInfo } from "react-icons/ci";
+import { FaInbox } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(true);
-  const role  = "admin";
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
@@ -31,7 +31,7 @@ const Sidebar = () => {
                 className="h-8 mr-3"
               />
               <span className="self-center text-green-500 text-2xl font-extrabold whitespace-nowrap dark:text-white">
-                Talent Hunt
+                Swift Inbox
               </span>
             </div>
           </Link>
@@ -53,7 +53,7 @@ const Sidebar = () => {
                     className="h-8 mr-3"
                   />
                   <span className="self-center text-green-500 text-2xl font-extrabold whitespace-nowrap dark:text-white">
-                    Talent Hunt
+                    Swift Inbox
                   </span>
                 </div>
               </Link>
@@ -63,59 +63,15 @@ const Sidebar = () => {
           {/* Nav Items */}
           <div className="flex flex-col justify-between flex-1 mt-6">
             <nav>
-              {role == "admin" && (
-                <>
-                  <Menu
-                    icon={FaCheck}
-                    label="Contact Us"
-                    address="/contact"
-                  />
-                  <Menu
-                    icon={FaUsers}
-                    label="About Us"
-                    address="about"
-                  />
-                </>
-              )}
-              {role == "user" && (
-                <>
-                  <Menu
-                    icon={FaCheck}
-                    label="My Profile"
-                    address="/dashboard"
-                  />
-                  <Menu
-                    icon={FaUsers}
-                    label="My Participated Contest"
-                    address="participated"
-                  />
-                  <Menu
-                    icon={GiBrasero}
-                    label="My Winning Contest Page"
-                    address="win"
-                  />
-                </>
-              )}
-              {role == "creator" && (
-                <>
-                  <Menu
-                    icon={FaCheck}
-                    label="Your Contest Info"
-                    address="/dashboard"
-                  />
-                  <Menu
-                    icon={FaPlus}
-                    label="Add Contest Page"
-                    address="addcontest"
-                  />
-                  <Menu
-                    icon={FaGripLines}
-                    label="My Created Contest"
-                    address="createdcontest"
-                  />
-                </>
-              )}
-
+              <>
+                <Menu icon={FaInbox} label="Inbox" address="/" />
+                <Menu
+                  icon={MdOutlineConnectWithoutContact}
+                  label="Contact Us"
+                  address="/contact"
+                />
+                <Menu icon={CiSquareInfo} label="About Us" address="about" />
+              </>
               {/* Menu Items */}
             </nav>
           </div>

@@ -1,5 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import HomeLayout from "../Layout/HomeLayout";
+import About from "../Page/About";
+import ContactUs from "../Page/ContactUs";
 import App from "../App";
 import InboxDetails from "../Page/InboxDetails";
 
@@ -14,11 +16,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/contact",
-        element: <h1>this contact Us</h1>,
+        element: <ContactUs></ContactUs>,
       },
       {
         path: "/about",
-        element: <h1>this About Us</h1>,
+        element: <About></About>,
       },
       {
         path: "/inbox/:id",
