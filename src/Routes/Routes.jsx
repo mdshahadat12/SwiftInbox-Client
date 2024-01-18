@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import HomeLayout from "../Layout/HomeLayout";
 import App from "../App";
+import InboxDetails from "../Page/InboxDetails";
 
 export const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <h1>this About Us</h1>,
+      },
+      {
+        path: "/inbox/:id",
+        element: <InboxDetails></InboxDetails>,
       },
     ],
   },
