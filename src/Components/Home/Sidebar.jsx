@@ -23,19 +23,15 @@ const Sidebar = () => {
         >
           <AiOutlineBars className="h-5 w-5" />
         </button>
-        <div>
-          <Link to={"/"}>
-            <div className="my-2 flex">
+        <div className="my-2 flex">
               <img
-                src="https://i.ibb.co/N2tXBqb/Talent-hunt.png"
-                className="h-8 mr-3"
+                src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
+                className="h-10 mr-3"
               />
-              <span className="self-center text-green-500 text-2xl font-extrabold whitespace-nowrap dark:text-white">
-                Swift Inbox
+              <span className="self-center text-black text-2xl font-extrabold whitespace-nowrap ">
+                SwiftInbox
               </span>
             </div>
-          </Link>
-        </div>
       </div>
       {/* Sidebar */}
       <div
@@ -45,17 +41,17 @@ const Sidebar = () => {
       >
         <div>
           <div>
-            <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-gray-100 mx-auto">
+            <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center  mx-auto">
               <Link to={"/"}>
-                <div className="mb-0 flex">
-                  <img
-                    src="https://i.ibb.co/N2tXBqb/Talent-hunt.png"
-                    className="h-8 mr-3"
-                  />
-                  <span className="self-center text-green-500 text-2xl font-extrabold whitespace-nowrap dark:text-white">
-                    Swift Inbox
-                  </span>
-                </div>
+              <div className="my-2 flex">
+              <img
+                src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
+                className="h-10 mr-3"
+              />
+              <span className="self-center text-black text-2xl font-extrabold whitespace-nowrap ">
+                SwiftInbox
+              </span>
+            </div>
               </Link>
             </div>
           </div>
