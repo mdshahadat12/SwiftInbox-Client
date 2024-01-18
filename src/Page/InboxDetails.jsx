@@ -39,7 +39,7 @@ const InboxDetails = () => {
         </div>
       </section>
 
-      {/* email body here  */}
+      {/* email description here  */}
       <section className="bg-base-200 p-5 rounded-md min-h-[calc(100vh-160px)] ">
         <div className="flex items-center justify-between mb-5">
           <div className="flex items-center">
