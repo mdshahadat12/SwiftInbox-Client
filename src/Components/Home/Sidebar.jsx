@@ -27,12 +27,10 @@ const Sidebar = () => {
           <Link to={"/"}>
             <div className="my-2 flex">
               <img
-                src="https://i.ibb.co/N2tXBqb/Talent-hunt.png"
-                className="h-8 mr-3"
+                src="https://i.ibb.co/zS97G8n/Picsart-24-01-18-11-46-32-251-removebg-preview.png"
+                className="h-32"
               />
-              <span className="self-center text-green-500 text-2xl font-extrabold whitespace-nowrap dark:text-white">
-                Talent Hunt
-              </span>
+             
             </div>
           </Link>
         </div>
@@ -45,16 +43,14 @@ const Sidebar = () => {
       >
         <div>
           <div>
-            <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-gray-100 mx-auto">
+            <div className="w-full hidden md:flex px-4 py-2 shadow-lg rounded-lg justify-center items-center  mx-auto">
               <Link to={"/"}>
                 <div className="mb-0 flex">
                   <img
-                    src="https://i.ibb.co/N2tXBqb/Talent-hunt.png"
-                    className="h-8 mr-3"
+                    src="https://i.ibb.co/zS97G8n/Picsart-24-01-18-11-46-32-251-removebg-preview.png"
+                    className=" w-full h-full"
                   />
-                  <span className="self-center text-green-500 text-2xl font-extrabold whitespace-nowrap dark:text-white">
-                    Talent Hunt
-                  </span>
+                 
                 </div>
               </Link>
             </div>
