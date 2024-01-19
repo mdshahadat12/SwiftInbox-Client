@@ -34,7 +34,7 @@ const About = () => {
       image: "https://i.ibb.co/DwFKV3g/419777071-731532612264902-1165006245840114393-n.jpg",
     },
     {
-      name: "Md.Shadat Hossain",
+      name: "Md.Shahadat Hossain",
       position: "MERN developer",
       description: "Professional Frontend developer with 3 years of experience",
       image: "https://i.ibb.co/3sNVxQB/419650651-753131800044086-1446559634390518896-n.jpg",
