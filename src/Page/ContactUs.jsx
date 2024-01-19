@@ -36,12 +36,12 @@ const ContactUs = () => {
   ];
 
   return (
-    <section id="contact" className="py-10 px-3 text-white bg-gray-900">
+    <section id="contact" className="py-10 px-3 text-white bg-base-200">
       <div className="text-center ">
-        <h3 className="text-4xl font-semibold text-cyan-500">
-          Contact <span className="text-cyan-300">Us</span>
+        <h3 className="text-4xl font-semibold text-accent">
+          Contact <span className="text-accent">Us</span>
         </h3>
-        <p className="text-gray-400 mt-3 text-center max-w-[900px] mx-auto text-lg">
+        <p className="text-gray-600 mt-3 text-center max-w-[900px] mx-auto text-lg">
         
         Instantly generate temporary email addresses for secure and private communication. Utilize the form below to create a temporary email and begin receiving messages without compromising your personal information.
         </p>
@@ -67,7 +67,7 @@ const ContactUs = () => {
               className="py-2 px-4 border border-cyan-500 rounded focus:outline-none focus:border-cyan-700"
             ></textarea>
             <button
-              className="btn-primary w-fit mt-2 bg-cyan-500 hover:bg-cyan-600 focus:outline-none focus:shadow-outline-cyan-700 text-white font-bold py-2 px-4 rounded"
+              className="btn-primary w-fit mt-2 bg-accent hover:bg-accent-600 focus:outline-none focus:shadow-outline-cyan-700 text-white font-bold py-2 px-4 rounded"
               type="submit"
             >
               Send Message
@@ -79,7 +79,7 @@ const ContactUs = () => {
                 key={i}
                 className="flex flex-row text-left gap-4 items-center"
               >
-                <div className="w-10 h-10 flex items-center justify-center text-white bg-cyan-500 rounded-full">
+                <div className="w-12 h-12 flex items-center justify-center text-white bg-accent rounded-full">
                   {contact.icon}
                 </div>
                 <p className="md:text-base text-sm break-words">
