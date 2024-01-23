@@ -47,7 +47,7 @@ const ContactUs = () => {
         </p>
 
         <div className="mt-16 flex md:flex-row flex-col gap-6 max-w-5xl bg-gray-800 md:p-6 p-2 rounded-lg mx-auto">
-          <form ref={form} onSubmit={sendEmail} className="flex flex-col flex-1 gap-5">
+          <form ref={form} onSubmit={sendEmail} className="flex flex-col flex-1 gap-5 text-black">
             <input
               type="text"
               name="from_name"
