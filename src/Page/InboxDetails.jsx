@@ -3,6 +3,7 @@ import { CiMail } from "react-icons/ci";
 import { GiCrossedBones } from "react-icons/gi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const InboxDetails = () => {
   const { id } = useParams();
@@ -14,6 +15,28 @@ const InboxDetails = () => {
       .then((res) => res.json())
       .then((data) => setEmailData(data));
   }, []);
+
+  //add delete function here
+  const handleDelete = () => {
+    toast.success("Email deleted");
+  };
+  //download function here
+  const handleDownload = () => {
+    const htmlContent = document.documentElement.outerHTML;
+    const blob = new Blob([htmlContent], { type: "text/html" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "email_page.html";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+  //print function here
+  const handlePrint = () => {
+    window.print();
+  };
 
   return (
     <div className="pt-10 lg:px-10">
@@ -34,9 +57,18 @@ const InboxDetails = () => {
           </div>
         </div>
         <div className="flex items-center gap-5 flex-wrap">
-          <button className="btn btn-sm lg:btn-md">Download</button>
-          <button className="btn btn-sm lg:btn-md">Print</button>
-          <button className="btn btn-sm lg:btn-md">Delete</button>
+          <button onClick={handleDownload} className="btn btn-sm lg:btn-md">
+            Download
+          </button>
+          <button onClick={handlePrint} className="btn btn-sm lg:btn-md">
+            Print
+          </button>
+          <button
+            onClick={() => document.getElementById("deleteModal").showModal()}
+            className="btn btn-sm lg:btn-md"
+          >
+            Delete
+          </button>
         </div>
       </section>
 
@@ -73,6 +105,28 @@ const InboxDetails = () => {
         </div>
         <p className="lg:px-5 xl:px-20">{currentData?.description}</p>
       </section>
+      {/* delete modal here  */}
+      <dialog id="deleteModal" className="modal modal-bottom sm:modal-middle">
+        <div className="modal-box">
+          <h3 className="font-bold text-lg mb-5">
+            Are you sure you want to delete this email ?
+          </h3>
+          <div className="">
+            <form
+              method="dialog"
+              className="flex items-center justify-center gap-6"
+            >
+              <button
+                onClick={handleDelete}
+                className="btn bg-red-600 text-white"
+              >
+                Confirm
+              </button>
+              <button className="btn">Cancel</button>
+            </form>
+          </div>
+        </div>
+      </dialog>
     </div>
   );
 };
