@@ -1,4 +1,4 @@
-
+import { motion } from "framer-motion";
 import AboutBanner from './AboutBanner';
 
 const About = () => {
@@ -43,59 +43,115 @@ const About = () => {
 
 
   return (
-    <div>
-      <AboutBanner />
+    <motion.div
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 1 }}
+  >
+    <AboutBanner />
 
-      <section className="bg-base-200 py-12 mt-3 mb-3">
-        <div className="container mx-auto relative mb-8">
-          <h3 className="text-accent text-3xl lg:text-4xl font-bold text-center mb-5">
-            About Us
-          </h3>
-          <div className="flex flex-row-reverse flex-wrap items-center justify-center">
-            <div className="w-full lg:w-1/2 p-6 relative">
-              <h2 className="text-xl lg:text-3xl font-semibold text-gray-800 mb-4">
-                CodeCrafters
-              </h2>
-              <p className="text-gray-600 mb-4">
+    <section className="bg-base-200 py-12 mt-3 mb-3">
+      <div className="container mx-auto relative mb-8">
+        <motion.h3
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-accent text-3xl lg:text-4xl font-bold text-center mb-5"
+        >
+          About Us
+        </motion.h3>
+        <div className="flex flex-row-reverse flex-wrap items-center justify-center">
+          <div className="w-full lg:w-1/2 p-6 relative">
+            <motion.h2
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xl lg:text-3xl font-semibold text-gray-800 mb-4"
+            >
+              CodeCrafters
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.6 }}
+              className="text-gray-600 mb-4"
+            >
               Experience online privacy like never before with our innovative Temporary Email Maker. Seamlessly generate disposable email addresses within seconds, providing a shield for your personal inbox against spam and unwanted communications. Whether you are signing up for a new service, testing applications, or simply need a quick and secure email solution, our Temporary Email Maker is your go-to tool for hassle-free online interactions.
-              </p>
-              <p className="text-gray-600 mb-4">
+            </motion.p>
+            <motion.p
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+              className="text-gray-600 mb-4"
+            >
               At CodeCrafter, we prioritize user security and convenience. Our platform offers a user-friendly experience, allowing you to create temporary email addresses on-the-fly. Trust in our reliable service to enhance your online privacy without the need for a permanent email address. Simplify your digital interactions and enjoy a clutter-free inbox with our Temporary Email Maker today.
-              </p>
-              <button className="px-6 lg:px-8 py-3 lg:py-4 mt-5 text-sm lg:text-base text-[#182226] rounded-full border border-solid border-gray-700">
-                More About Us
-              </button>
-            </div>
-            <div className="w-full lg:w-1/2 p-6">
-              <img
-                src={'https://i.ibb.co/wdhvbrS/420027401-926519852222409-6803075057436810227-n.png'}
-                className="w-[300px] md:w-[550px] lg:w-[650px] h-auto rounded-lg"
-                alt="CodeCrafters"
-              />
-            </div>
+            </motion.p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-6 lg:px-8 py-3 lg:py-4 mt-5 text-sm lg:text-base text-[#182226] rounded-full border border-solid border-gray-700"
+            >
+              More About Us
+            </motion.button>
+          </div>
+          <div className="w-full lg:w-1/2 p-6">
+            <motion.img
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 1 }}
+              src={'https://i.ibb.co/wdhvbrS/420027401-926519852222409-6803075057436810227-n.png'}
+              className="w-[300px] md:w-[550px] lg:w-[650px] h-auto rounded-lg"
+              alt="CodeCrafters"
+            />
           </div>
         </div>
+      </div>
 
-        {/* Testimonial Section */}
-        <div className="container mx-auto text-center">
-          <h3 className="text-accent text-3xl lg:text-4xl font-bold mb-6">Our Team Members</h3>
-          <div className="grid grid-cols-1 px-5 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {testimonialData.map((member) => (
-              <div key={member.name} className="bg-white p-6 rounded-lg shadow-md transition transform hover:scale-105">
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
-                />
-                <h4 className="text-xl font-semibold mb-2">{member.name}</h4>
-                <p className="text-gray-600 mb-2">{member.position}</p>
-                <p className="text-gray-700 mb-4">{member.description}</p>
-              </div>
-            ))}
-          </div>
+      {/* Testimonial Section */}
+      <div className="container mx-auto text-center">
+        <motion.h3
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+          className="text-accent text-3xl lg:text-4xl font-bold mb-6"
+        >
+          Our Team Members
+        </motion.h3>
+        <div className="grid grid-cols-1 px-5 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {testimonialData.map((member, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 1.4 + index * 0.2 }}
+              className="bg-white p-6 rounded-lg shadow-md transition transform hover:scale-105"
+            >
+              <motion.img
+                src={member.image}
+                alt={member.name}
+                className="w-32 h-32 object-cover rounded-full mx-auto mb-4"
+              />
+              <motion.h4
+                className="text-xl font-semibold mb-2"
+              >
+                {member.name}
+              </motion.h4>
+              <motion.p
+                className="text-gray-600 mb-2"
+              >
+                {member.position}
+              </motion.p>
+              <motion.p
+                className="text-gray-700 mb-4"
+              >
+                {member.description}
+              </motion.p>
+            </motion.div>
+          ))}
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+  </motion.div>
   );
 };
 
