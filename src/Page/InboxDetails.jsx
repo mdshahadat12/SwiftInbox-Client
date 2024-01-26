@@ -39,6 +39,22 @@ const InboxDetails = () => {
     window.print();
   };
 
+
+     // Motion variants for button animations
+     const buttonVariants = {
+      hover: {
+        scale: 0.9,
+        transition: {
+          duration: 0.5,
+          yoyo: Infinity,
+        },
+      },
+      tap: {
+        scale: 0.5,
+      },
+    };
+
+
   return (
     <motion.div
     initial={{ opacity: 0, y: 0 }} // Initial animation state (hidden and slightly shifted)
@@ -63,18 +79,30 @@ const InboxDetails = () => {
           </div>
         </div>
         <div className="flex items-center gap-5 flex-wrap">
-          <button onClick={handleDownload} className="btn btn-sm lg:btn-md">
+          <motion.button
+               variants={buttonVariants}
+               whileHover={{ scale: 1.2 }}
+               whileTap={{ scale: 0.9 }}
+          onClick={handleDownload} className="btn btn-sm lg:btn-md">
             Download
-          </button>
-          <button onClick={handlePrint} className="btn btn-sm lg:btn-md">
+          </motion.button>
+          <motion.button
+               variants={buttonVariants}
+               whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+          
+          onClick={handlePrint} className="btn btn-sm lg:btn-md">
             Print
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+               variants={buttonVariants}
+               whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
             onClick={() => document.getElementById("deleteModal").showModal()}
             className="btn btn-sm lg:btn-md"
           >
             Delete
-          </button>
+          </motion.button>
         </div>
       </section>
 
