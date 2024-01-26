@@ -51,11 +51,11 @@ const Login = () => {
     loginGoogle().then((result) => {
       const loggedInUser = result.user;
       console.log(loggedInUser);
-      const saveUser = {
-        name: loggedInUser.displayName,
-        email: loggedInUser.email,
-        photoURL: loggedInUser.photoURL,
-      };
+      // const saveUser = {
+      //   name: loggedInUser.displayName,
+      //   email: loggedInUser.email,
+      //   photoURL: loggedInUser.photoURL,
+      // };
       // axiosPublic.post("/users", saveUser);
       toast("You Are Successfuly Logged In");
       navigate(from, { replace: true });
@@ -68,11 +68,11 @@ const Login = () => {
         console.log(res.user);
         const loggedInUser = res.user;
         console.log(loggedInUser);
-        const saveUser = {
-          name: loggedInUser.displayName,
-          email: loggedInUser.email,
-          photoURL: loggedInUser.photoURL,
-        };
+        // const saveUser = {
+        //   name: loggedInUser.displayName,
+        //   email: loggedInUser.email,
+        //   photoURL: loggedInUser.photoURL,
+        // };
         // axiosPublic.post("/users", saveUser);
         toast("You Are Successfuly Logged In");
         navigate(location?.state ? location.state : "/");

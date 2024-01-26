@@ -1,8 +1,7 @@
 import { useRef } from "react";
 import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { FaEnvelope, FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 const ContactUs = () => {
   const form = useRef();
@@ -20,10 +19,10 @@ const ContactUs = () => {
       .then(
         (result) => {
           console.log(result.text);
-          toast("Successfully sent the message");
+          toast.success("Successfully sent the message");
         },
         (error) => {
-          toast("Message not sent");
+          toast.error("Message not sent");
           console.log(error.text);
         }
       );
@@ -32,7 +31,10 @@ const ContactUs = () => {
   const contact_info = [
     { icon: <FaEnvelope />, text: "codecrafters@gmail.com" },
     { icon: <FaWhatsapp />, text: "+8801860779884" },
-    { icon: <FaMapMarkerAlt />, text: "1137, Nurerchala, Vatara, Ghulsan 1212" },
+    {
+      icon: <FaMapMarkerAlt />,
+      text: "1137, Nurerchala, Vatara, Ghulsan 1212",
+    },
   ];
 
   return (
@@ -42,12 +44,18 @@ const ContactUs = () => {
           Contact <span className="text-accent">Us</span>
         </h3>
         <p className="text-gray-600 mt-3 text-center max-w-[900px] mx-auto text-lg">
-        
-        Instantly generate temporary email addresses for secure and private communication. Utilize the form below to create a temporary email and begin receiving messages without compromising your personal information.
+          Instantly generate temporary email addresses for secure and private
+          communication. Utilize the form below to create a temporary email and
+          begin receiving messages without compromising your personal
+          information.
         </p>
 
         <div className="mt-16 flex md:flex-row flex-col gap-6 max-w-5xl bg-gray-800 md:p-6 p-2 rounded-lg mx-auto">
-          <form ref={form} onSubmit={sendEmail} className="flex flex-col flex-1 gap-5">
+          <form
+            ref={form}
+            onSubmit={sendEmail}
+            className="flex flex-col flex-1 gap-5 text-black"
+          >
             <input
               type="text"
               name="from_name"
@@ -90,7 +98,6 @@ const ContactUs = () => {
           </div>
         </div>
       </div>
-      <ToastContainer />
     </section>
   );
 };
