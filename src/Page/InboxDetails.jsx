@@ -4,6 +4,7 @@ import { GiCrossedBones } from "react-icons/gi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 const InboxDetails = () => {
   const { id } = useParams();
@@ -39,7 +40,12 @@ const InboxDetails = () => {
   };
 
   return (
-    <div className="pt-10 lg:px-10">
+    <motion.div
+    initial={{ opacity: 0, y: 0 }} // Initial animation state (hidden and slightly shifted)
+    animate={{ opacity: 1, y: 60 }} // Animation to reveal the component
+    transition={{ duration: 0.5 }} // Duration of the animation
+   
+    className="pt-10 lg:px-10">
       <Link to="/">
         <button className="mb-3 flex items-center">
           <FaArrowLeft className="text-lg mr-3" /> Back
@@ -127,7 +133,7 @@ const InboxDetails = () => {
           </div>
         </div>
       </dialog>
-    </div>
+    </motion.div>
   );
 };
 
