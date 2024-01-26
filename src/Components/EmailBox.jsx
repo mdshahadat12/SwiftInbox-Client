@@ -7,18 +7,28 @@ import { motion, useAnimation } from "framer-motion";
 import { useContext, useEffect } from "react";
 import { baseUrl } from "./useAxios";
 import { AuthContext } from "../Provider/AuthProvider";
-import CustomSpinner from "./CustomSpinner";
+import { useQuery } from "@tanstack/react-query";
 
 const EmailBox = () => {
   const { refetch, setTempMail, tempMail } = useContext(AuthContext);
 
-  useEffect(() => {
-    fetch(`${baseUrl}/new`)
-      .then((res) => res.json())
-      .then((data) => setTempMail(data?.email));
-  }, [setTempMail]);
+  const { refetch: tempFetch } = useQuery({
+    queryKey: ["userEmail"],
+    queryFn: async () => {
+      if (localStorage.getItem("email")) {
+        setTempMail(localStorage.getItem("email") || "");
+        return localStorage.getItem("email");
+      }
+      const response = await fetch(`${baseUrl}/new`);
+      const data = await response.json().then((data) => {
+        setTempMail(data?.email);
+        localStorage.setItem("email", data?.email);
+      });
+      return data.email;
+    },
+  });
 
-  const userEmail = tempMail || <CustomSpinner small={true}></CustomSpinner>;
+  const userEmail = tempMail || "Loading.....";
   // change this to the temp email we get from the website
 
   //add refetch function here
@@ -33,8 +43,9 @@ const EmailBox = () => {
 
   //add delete function here
   const handleDelete = () => {
-    window.location.reload();
+    localStorage.removeItem("email");
     toast.success("Email address deleted");
+    tempFetch();
   };
 
   // Motion variants for button animations
