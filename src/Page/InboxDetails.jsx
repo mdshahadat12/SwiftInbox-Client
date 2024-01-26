@@ -4,6 +4,7 @@ import { GiCrossedBones } from "react-icons/gi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 
 const InboxDetails = () => {
   const { id } = useParams();
@@ -38,8 +39,29 @@ const InboxDetails = () => {
     window.print();
   };
 
+
+     // Motion variants for button animations
+     const buttonVariants = {
+      hover: {
+        scale: 0.9,
+        transition: {
+          duration: 0.5,
+          yoyo: Infinity,
+        },
+      },
+      tap: {
+        scale: 0.5,
+      },
+    };
+
+
   return (
-    <div className="pt-10 lg:px-10">
+    <motion.div
+    initial={{ opacity: 0, y: 0 }} // Initial animation state (hidden and slightly shifted)
+    animate={{ opacity: 1, y: 60 }} // Animation to reveal the component
+    transition={{ duration: 0.5 }} // Duration of the animation
+   
+    className="pt-10 lg:px-10">
       <Link to="/">
         <button className="mb-3 flex items-center">
           <FaArrowLeft className="text-lg mr-3" /> Back
@@ -57,18 +79,30 @@ const InboxDetails = () => {
           </div>
         </div>
         <div className="flex items-center gap-5 flex-wrap">
-          <button onClick={handleDownload} className="btn btn-sm lg:btn-md">
+          <motion.button
+               variants={buttonVariants}
+               whileHover={{ scale: 1.2 }}
+               whileTap={{ scale: 0.9 }}
+          onClick={handleDownload} className="btn btn-sm lg:btn-md">
             Download
-          </button>
-          <button onClick={handlePrint} className="btn btn-sm lg:btn-md">
+          </motion.button>
+          <motion.button
+               variants={buttonVariants}
+               whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+          
+          onClick={handlePrint} className="btn btn-sm lg:btn-md">
             Print
-          </button>
-          <button
+          </motion.button>
+          <motion.button
+               variants={buttonVariants}
+               whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
             onClick={() => document.getElementById("deleteModal").showModal()}
             className="btn btn-sm lg:btn-md"
           >
             Delete
-          </button>
+          </motion.button>
         </div>
       </section>
 
@@ -127,7 +161,7 @@ const InboxDetails = () => {
           </div>
         </div>
       </dialog>
-    </div>
+    </motion.div>
   );
 };
 
