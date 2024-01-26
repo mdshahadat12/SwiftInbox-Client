@@ -70,25 +70,6 @@ const Inbox = () => {
               {Array.from({
                 length: Math.ceil(emailData.length / itemsPerPage),
               }).map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => paginate(index + 1)}
-                  className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 rounded-full ${
-                    currentPage === index + 1
-                      ? "text-white bg-accent cursor-not-allowed"
-                      : "text-gray-500 hover:bg-accent hover:text-white"
-                  } transition duration-300`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-
-            {/* Display page numbers */}
-            <div className="flex flex-wrap justify-center mb-2 sm:flex-nowrap">
-              {Array.from({
-                length: Math.ceil(emailData.length / itemsPerPage),
-              }).map((_, index) => (
                 <motion.button
                   key={index}
                   onClick={() => paginate(index + 1)}
@@ -119,25 +100,6 @@ const Inbox = () => {
               Next
             </button>
 
-            {/* Items per page dropdown */}
-            <div className="flex items-center justify-center mb-2">
-              <label htmlFor="itemsPerPage" className="mr-2"></label>
-              <select
-                id="itemsPerPage"
-                value={itemsPerPage}
-                onChange={handleItemsPerPageChange}
-                className="p-2 border-2 text-gray-500 border-accent rounded-md"
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={15}>15</option>
-                <option value={20}>20</option>
-                <option value={25}>25</option>
-                <option value={30}>30</option>
-              </select>
-            </div>
-          </div>
-          <div>
             {/* Items per page dropdown */}
             <div className="flex items-center justify-center mb-2">
               <label htmlFor="itemsPerPage" className="mr-2"></label>
