@@ -4,13 +4,26 @@ import { AiOutlineDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
 
 import { motion, useAnimation } from "framer-motion";
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
+import { baseUrl } from "./useAxios";
+import { AuthContext } from "../Provider/AuthProvider";
+
 const EmailBox = () => {
-  const userEmail = "example@tempmail.com"; // change this to the temp email we get from the website
+  const { refetch } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+
+  useEffect(() => {
+    fetch(`${baseUrl}/new`)
+      .then((res) => res.json())
+      .then((data) => setEmail(data));
+  }, []);
+
+  const userEmail = email?.email || "dummyemail@dummy.com";
+  // change this to the temp email we get from the website
 
   //add refetch function here
   const handleRefresh = () => {
-    window.location.reload();
+    refetch();
   };
 
   //add change email function here
@@ -20,43 +33,42 @@ const EmailBox = () => {
 
   //add delete function here
   const handleDelete = () => {
+    window.location.reload();
     toast.success("Email address deleted");
   };
 
-
-
-    // Motion variants for button animations
-    const buttonVariants = {
-      hover: {
-        scale: 0.9,
-        transition: {
-          duration: 0.5,
-          yoyo: Infinity,
-        },
+  // Motion variants for button animations
+  const buttonVariants = {
+    hover: {
+      scale: 0.9,
+      transition: {
+        duration: 0.5,
+        yoyo: Infinity,
       },
-      tap: {
-        scale: 0.5,
-      },
-    };
-  
-    // Animation controls for the card
-    const cardControls = useAnimation();
-  
-    useEffect(() => {
-      // Trigger the fade-in animation on mount
-      cardControls.start({
-         opacity: 4,
-          transition: { duration: 4 }
-        
-        });
-    }, [cardControls]);
-  
+    },
+    tap: {
+      scale: 0.5,
+    },
+  };
+
+  // Animation controls for the card
+  const cardControls = useAnimation();
+
+  useEffect(() => {
+    // Trigger the fade-in animation on mount
+    cardControls.start({
+      opacity: 4,
+      transition: { duration: 4 },
+    });
+  }, [cardControls]);
+
   return (
     <div className="max-w-screen-xl mx-auto my-12 px-4">
-      < motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={cardControls}
-      className="flex items-center justify-center my-8">
+        className="flex items-center justify-center my-8"
+      >
         <div className="card bg-base-200 shadow-xl">
           <div className="card-body">
             <h2 className="text-2xl font-bold text-center">
@@ -66,20 +78,21 @@ const EmailBox = () => {
               <h3 className="text-center font-semibold text-lg">{userEmail}</h3>
             </div>
             <div className="flex items-center justify-around gap-2">
-              < motion.button
-               variants={buttonVariants}
-               whileHover="hover"
-               whileTap="tap"
-              onClick={handleRefresh} 
-              className="btn btn-accent">
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                onClick={handleRefresh}
+                className="btn btn-accent"
+              >
                 {" "}
                 <IoIosRefresh />
                 Refresh
-              </ motion.button>
+              </motion.button>
               <motion.button
-               variants={buttonVariants}
-               whileHover="hover"
-               whileTap="tap"
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={() =>
                   document.getElementById("changeModal").showModal()
                 }
@@ -89,9 +102,9 @@ const EmailBox = () => {
                 <CiEdit /> Change
               </motion.button>
               <motion.button
-               variants={buttonVariants}
-               whileHover="hover"
-               whileTap="tap"
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={() =>
                   document.getElementById("deleteModal").showModal()
                 }
@@ -103,7 +116,7 @@ const EmailBox = () => {
             </div>
           </div>
         </div>
-      </ motion.div>
+      </motion.div>
       {/* delete modal here  */}
       <dialog id="deleteModal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
@@ -120,19 +133,22 @@ const EmailBox = () => {
               className="flex items-center justify-center gap-6"
             >
               <motion.button
-               variants={buttonVariants}
-               whileHover="hover"
-               whileTap="tap"
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={handleDelete}
                 className="btn bg-red-600 text-white"
               >
                 Confirm
               </motion.button>
               <motion.button
-               variants={buttonVariants}
-               whileHover="hover"
-               whileTap="tap"
-               className="btn">Cancel</motion.button>
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                className="btn"
+              >
+                Cancel
+              </motion.button>
             </form>
           </div>
         </div>
@@ -158,20 +174,22 @@ const EmailBox = () => {
               className="flex items-center justify-center gap-6"
             >
               <motion.button
-               variants={buttonVariants}
-               whileHover="hover"
-               whileTap="tap"
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={handleChangeEmail}
                 className="btn bg-accent text-white"
               >
                 Change
               </motion.button>
               <motion.button
-               variants={buttonVariants}
-               whileHover="hover"
-               whileTap="tap"
-              
-              className="btn">Cancel</motion.button>
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                className="btn"
+              >
+                Cancel
+              </motion.button>
             </form>
           </div>
         </div>

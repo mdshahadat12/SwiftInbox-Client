@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -11,6 +12,7 @@ import {
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 import app from "../../public/firebase/firebase.config";
+import Loader from "../Components/Loader";
 // import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
@@ -19,6 +21,12 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const {
+    isLoading,
+    data: messages,
+    refetch,
+  } = Loader("/messages", "userEmail");
   // const axiosPublic = useAxiosPublic();
   const createUser = (email, password) => {
     setLoading(true);
@@ -89,6 +97,9 @@ const AuthProvider = ({ children }) => {
     loginGithub,
     updateUserProfile,
     logOut,
+    refetch,
+    isLoading,
+    messages,
   };
 
   return (
