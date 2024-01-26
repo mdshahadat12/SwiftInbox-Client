@@ -2,6 +2,7 @@ import { IoIosRefresh } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { FaRegCopy } from "react-icons/fa";
 
 import { motion, useAnimation } from "framer-motion";
 import { useContext, useEffect } from "react";
@@ -28,8 +29,13 @@ const EmailBox = () => {
     },
   });
 
-  const userEmail = tempMail || "Loading.....";
   // change this to the temp email we get from the website
+  const userEmail = tempMail || "Loading.....";
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(userEmail);
+    toast.success("Email copied to clipboard");
+  };
 
   //add refetch function here
   const handleRefresh = () => {
@@ -85,8 +91,11 @@ const EmailBox = () => {
             <h2 className="text-2xl font-bold text-center">
               Your Temporary Email Address
             </h2>
-            <div className="border rounded-3xl my-2 border-accent py-3">
+            <div className="border flex justify-around rounded-3xl my-2 border-accent py-3">
               <h3 className="text-center font-semibold text-lg">{userEmail}</h3>
+              <button onClick={handleCopyToClipboard} title="Click to Copy">
+                <FaRegCopy></FaRegCopy>
+              </button>
             </div>
             <div className="flex items-center justify-around gap-2">
               <motion.button
