@@ -4,10 +4,12 @@ import { AiOutlineDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
 
 import { motion, useAnimation } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { baseUrl } from "./useAxios";
+import { AuthContext } from "../Provider/AuthProvider";
 
 const EmailBox = () => {
+  const { refetch } = useContext(AuthContext);
   const [email, setEmail] = useState("");
 
   useEffect(() => {
@@ -21,7 +23,7 @@ const EmailBox = () => {
 
   //add refetch function here
   const handleRefresh = () => {
-    window.location.reload();
+    refetch();
   };
 
   //add change email function here
@@ -31,6 +33,7 @@ const EmailBox = () => {
 
   //add delete function here
   const handleDelete = () => {
+    window.location.reload();
     toast.success("Email address deleted");
   };
 
@@ -129,13 +132,23 @@ const EmailBox = () => {
               method="dialog"
               className="flex items-center justify-center gap-6"
             >
-              <button
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={handleDelete}
                 className="btn bg-red-600 text-white"
               >
                 Confirm
-              </button>
-              <button className="btn">Cancel</button>
+              </motion.button>
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                className="btn"
+              >
+                Cancel
+              </motion.button>
             </form>
           </div>
         </div>
@@ -160,13 +173,23 @@ const EmailBox = () => {
               method="dialog"
               className="flex items-center justify-center gap-6"
             >
-              <button
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={handleChangeEmail}
                 className="btn bg-accent text-white"
               >
                 Change
-              </button>
-              <button className="btn">Cancel</button>
+              </motion.button>
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                className="btn"
+              >
+                Cancel
+              </motion.button>
             </form>
           </div>
         </div>
