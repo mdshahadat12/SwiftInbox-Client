@@ -1,8 +1,10 @@
 const Navbar = () => {
+  // change this to actual user.displayName later
+  const displayName = undefined;
   return (
     <div className="navbar shadow-md sticky rounded-md top-0 z-50 backdrop-blur">
       <div className="flex-1">
-        <a className="text-xl">User Name</a>
+        <a className="text-xl">{displayName || "Guest"}</a>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
@@ -23,9 +25,7 @@ const Navbar = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
-                Profile
-              </a>
+              <a className="justify-between">Profile</a>
             </li>
             <li>
               <a>Logout</a>
