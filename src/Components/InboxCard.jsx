@@ -3,6 +3,7 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
+import { motion } from "framer-motion";
 const InboxCard = ({ data }) => {
   
   //add delete function here
@@ -10,7 +11,11 @@ const InboxCard = ({ data }) => {
     toast.success("Email deleted");
   };
   return (
-    <div className="my-2">
+    <motion.div
+    initial={{ opacity: 0, y: 500 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    transition={{ duration: 2 }} 
+    className="my-2">
       <div className="bg-base-200 flex items-center justify-between w-full rounded-lg">
         <Link to={`/inbox/${data._id}`} className=" w-3/4">
           <div className="flex items-center justify-between p-4">
@@ -69,7 +74,7 @@ const InboxCard = ({ data }) => {
           </div>
         </div>
       </dialog>
-    </div>
+    </motion.div>
   );
 };
 
