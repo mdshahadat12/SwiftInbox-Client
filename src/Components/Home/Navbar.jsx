@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <div className="navbar shadow-md sticky rounded-md top-0 z-50 backdrop-blur">
       <div className="flex-1">
-        <a className="text-xl">{user?.displayName}</a>
+        <a className="text-xl">{user ? user?.displayName : <p>Guest</p>}</a>
       </div>
       <div className="flex-none">
         {/* <div className="dropdown dropdown-end">
