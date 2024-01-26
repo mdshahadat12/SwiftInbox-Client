@@ -2,7 +2,7 @@ const Navbar = () => {
   // change this to actual user.displayName later
   const displayName = undefined;
   return (
-    <div className="navbar shadow-md sticky rounded-md top-0 z-50 backdrop-blur">
+    <div className="navbar shadow-md md:sticky rounded-md top-0 md:z-50 backdrop-blur">
       <div className="flex-1">
         <a className="text-xl">{displayName || "Guest"}</a>
       </div>
