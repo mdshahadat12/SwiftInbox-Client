@@ -21,12 +21,13 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [tempMail, setTempMail] = useState(null);
 
   const {
     isLoading,
     data: messages,
     refetch,
-  } = Loader("/messages", "userEmail");
+  } = Loader(`/messages?email=${tempMail}`, "userEmail");
   // const axiosPublic = useAxiosPublic();
   const createUser = (email, password) => {
     setLoading(true);
@@ -100,6 +101,8 @@ const AuthProvider = ({ children }) => {
     refetch,
     isLoading,
     messages,
+    tempMail,
+    setTempMail,
   };
 
   return (

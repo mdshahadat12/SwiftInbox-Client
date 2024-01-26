@@ -4,21 +4,21 @@ import { AiOutlineDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
 
 import { motion, useAnimation } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { baseUrl } from "./useAxios";
 import { AuthContext } from "../Provider/AuthProvider";
+import CustomSpinner from "./CustomSpinner";
 
 const EmailBox = () => {
-  const { refetch } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
+  const { refetch, setTempMail, tempMail } = useContext(AuthContext);
 
   useEffect(() => {
     fetch(`${baseUrl}/new`)
       .then((res) => res.json())
-      .then((data) => setEmail(data));
-  }, []);
+      .then((data) => setTempMail(data?.email));
+  }, [setTempMail]);
 
-  const userEmail = email?.email || "dummyemail@dummy.com";
+  const userEmail = tempMail || <CustomSpinner small={true}></CustomSpinner>;
   // change this to the temp email we get from the website
 
   //add refetch function here
