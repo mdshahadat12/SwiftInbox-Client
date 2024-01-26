@@ -119,13 +119,20 @@ const EmailBox = () => {
               method="dialog"
               className="flex items-center justify-center gap-6"
             >
-              <button
+              <motion.button
+               variants={buttonVariants}
+               whileHover="hover"
+               whileTap="tap"
                 onClick={handleDelete}
                 className="btn bg-red-600 text-white"
               >
                 Confirm
-              </button>
-              <button className="btn">Cancel</button>
+              </motion.button>
+              <motion.button
+               variants={buttonVariants}
+               whileHover="hover"
+               whileTap="tap"
+               className="btn">Cancel</motion.button>
             </form>
           </div>
         </div>
@@ -150,13 +157,21 @@ const EmailBox = () => {
               method="dialog"
               className="flex items-center justify-center gap-6"
             >
-              <button
+              <motion.button
+               variants={buttonVariants}
+               whileHover="hover"
+               whileTap="tap"
                 onClick={handleChangeEmail}
                 className="btn bg-accent text-white"
               >
                 Change
-              </button>
-              <button className="btn">Cancel</button>
+              </motion.button>
+              <motion.button
+               variants={buttonVariants}
+               whileHover="hover"
+               whileTap="tap"
+              
+              className="btn">Cancel</motion.button>
             </form>
           </div>
         </div>

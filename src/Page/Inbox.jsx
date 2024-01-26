@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import lott from "../assets/lott.json";
 import InboxCard from "../Components/InboxCard";
+import { motion } from "framer-motion";
 
 const Inbox = () => {
   const [emailData, setEmailData] = useState([]);
@@ -63,19 +64,22 @@ const Inbox = () => {
 
   {/* Display page numbers */}
   <div className="flex flex-wrap justify-center mb-2 sm:flex-nowrap">
-    {Array.from({ length: Math.ceil(emailData.length / itemsPerPage) }).map((_, index) => (
-      <button
-        key={index}
-        onClick={() => paginate(index + 1)}
-        className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 rounded-full ${
-          currentPage === index + 1
-            ? "text-white bg-accent cursor-not-allowed"
-            : "text-gray-500 hover:bg-accent hover:text-white"
-        } transition duration-300`}
-      >
-        {index + 1}
-      </button>
-    ))}
+  {Array.from({ length: Math.ceil(emailData.length / itemsPerPage) }).map((_, index) => (
+  <motion.button
+    key={index}
+    onClick={() => paginate(index + 1)}
+    whileHover={{ scale: 1.3 }}
+    whileTap={{ scale: 0.9 }}
+    className={`px-4 py-2 mx-2 text-sm font-semibold border-2 rounded-full ${
+      currentPage === index + 1
+        ? "text-white bg-accent cursor-not-allowed"
+        : "text-gray-500 hover:bg-accent hover:text-white"
+    } transition duration-300`}
+  >
+    {index + 1}
+  </motion.button>
+))}
+
   </div>
 
   <button
