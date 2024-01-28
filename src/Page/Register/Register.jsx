@@ -15,7 +15,7 @@ const Register = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, saveUser } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const onSubmit = (data) => {
@@ -42,6 +42,7 @@ const Register = () => {
             timer: 1500,
           });
           navigate("/");
+          saveUser(loggedUser.email, loggedUser.displayName);
           // }
         });
       })

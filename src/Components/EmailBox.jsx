@@ -9,9 +9,10 @@ import { useContext, useEffect } from "react";
 import { baseUrl } from "./useAxios";
 import { AuthContext } from "../Provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 
 const EmailBox = () => {
-  const { refetch, setTempMail, tempMail } = useContext(AuthContext);
+  const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
 
   const { refetch: tempFetch } = useQuery({
     queryKey: ["userEmail"],
@@ -52,6 +53,23 @@ const EmailBox = () => {
     localStorage.removeItem("email");
     toast.success("Email address deleted");
     tempFetch();
+    if (user) {
+      axios
+        .post(
+          `${baseUrl}/manage-user`,
+          {
+            userEmail: user?.email,
+            displayName: user?.displayName,
+            tempMail: tempMail,
+          },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          if (res.status === 201) {
+            toast.success("New Temp Mail Synced To The Database");
+          }
+        });
+    }
   };
 
   // Motion variants for button animations
