@@ -17,8 +17,6 @@ const Inbox = () => {
       .then((data) => setEmailData(data));
   }, []);
 
-  console.log(messages);
-
   // Calculate the indexes of the items to display on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
