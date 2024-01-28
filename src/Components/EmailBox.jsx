@@ -6,10 +6,9 @@ import { FaRegCopy } from "react-icons/fa";
 
 import { motion, useAnimation } from "framer-motion";
 import { useContext, useEffect } from "react";
-import { baseUrl } from "./useAxios";
+import { axiosSecure, baseUrl } from "./useAxios";
 import { AuthContext } from "../Provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 
 const EmailBox = () => {
   const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
@@ -54,16 +53,12 @@ const EmailBox = () => {
     toast.success("Email address deleted");
     tempFetch();
     if (user) {
-      axios
-        .post(
-          `${baseUrl}/manage-user`,
-          {
-            userEmail: user?.email,
-            displayName: user?.displayName,
-            tempMail: tempMail,
-          },
-          { withCredentials: true }
-        )
+      axiosSecure
+        .post(`${baseUrl}/manage-user`, {
+          userEmail: user?.email,
+          displayName: user?.displayName,
+          tempMail: tempMail,
+        })
         .then((res) => {
           if (res.status === 201) {
             toast.success("New Temp Mail Synced To The Database");

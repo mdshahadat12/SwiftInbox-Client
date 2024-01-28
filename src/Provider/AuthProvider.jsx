@@ -13,8 +13,7 @@ import {
 import { createContext, useEffect, useState } from "react";
 import app from "../../public/firebase/firebase.config";
 import Loader from "../Components/Loader";
-import axios from "axios";
-import { baseUrl } from "../Components/useAxios";
+import { axiosSecure, baseUrl } from "../Components/useAxios";
 // import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
@@ -80,39 +79,32 @@ const AuthProvider = ({ children }) => {
       displayName: name,
       tempMail: tempMail,
     };
-    axios
-      .post(`${baseUrl}/manage-user`, userData, { withCredentials: true })
-      .then((res) => {
-        console.log(res.data);
-      });
+    axiosSecure.post(`${baseUrl}/manage-user`, userData).then((res) => {
+      console.log(res.data);
+    });
   };
 
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       try {
+        setUser(currentUser);
         console.log("Current Active USER:", currentUser);
         const userEmail = currentUser?.email || user?.email;
         const loggedUser = { email: userEmail };
-        setUser(currentUser);
-
         if (currentUser) {
           // get and set user data
-          axios.get(`${baseUrl}/get-user?${loggedUser?.email}`).then((res) => {
+          axiosSecure.get(`/get-user?${loggedUser?.email}`).then((res) => {
             setUserData(res.data);
           });
 
           // create token on login
-          axios
-            .post(`${baseUrl}/jwt`, loggedUser, {
-              withCredentials: true,
-            })
-            .then((res) => {
-              console.log(res.data);
-            });
+          axiosSecure.post(`/jwt`, loggedUser).then((res) => {
+            console.log(res.data);
+          });
         } else {
           // logout user without token
-          axios
-            .post(`${baseUrl}/logout`, loggedUser, { withCredentials: true })
+          axiosSecure
+            .post(`/logout`, loggedUser, { withCredentials: true })
             .then((res) => {
               console.log(res.data);
             });
