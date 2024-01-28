@@ -13,6 +13,7 @@ import {
 import { createContext, useEffect, useState } from "react";
 import app from "../../public/firebase/firebase.config";
 import Loader from "../Components/Loader";
+import { axiosSecure, baseUrl } from "../Components/useAxios";
 // import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
@@ -22,6 +23,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tempMail, setTempMail] = useState(null);
+  const [userData, setUserData] = useState(null);
 
   const {
     isLoading,
@@ -61,11 +63,52 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  // checking if the user is already registered
+  const checkUser = (email) => {
+    if (userData?.email == email) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // saving the user data to the database
+  const saveUser = (email, name) => {
+    const userData = {
+      userEmail: email,
+      displayName: name,
+      tempMail: tempMail,
+    };
+    axiosSecure.post(`${baseUrl}/manage-user`, userData).then((res) => {
+      console.log(res.data);
+    });
+  };
+
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       try {
         setUser(currentUser);
+        console.log("Current Active USER:", currentUser);
+        const userEmail = currentUser?.email || user?.email;
+        const loggedUser = { email: userEmail };
+        if (currentUser) {
+          // get and set user data
+          axiosSecure.get(`/get-user?${loggedUser?.email}`).then((res) => {
+            setUserData(res.data);
+          });
 
+          // create token on login
+          axiosSecure.post(`/jwt`, loggedUser).then((res) => {
+            console.log(res.data);
+          });
+        } else {
+          // logout user without token
+          axiosSecure
+            .post(`/logout`, loggedUser, { withCredentials: true })
+            .then((res) => {
+              console.log(res.data);
+            });
+        }
         // get and set token
         // if (currentUser) {
         //   const response = await axiosPublic.post("/jwt", {
@@ -86,7 +129,7 @@ const AuthProvider = ({ children }) => {
     return () => {
       unSubscribe();
     };
-  }, []);
+  }, [user?.email]);
 
   const authInfo = {
     user,
@@ -102,6 +145,9 @@ const AuthProvider = ({ children }) => {
     messages,
     tempMail,
     setTempMail,
+    userData,
+    checkUser,
+    saveUser,
   };
 
   return (

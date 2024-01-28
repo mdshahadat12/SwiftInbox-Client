@@ -6,12 +6,12 @@ import { FaRegCopy } from "react-icons/fa";
 
 import { motion, useAnimation } from "framer-motion";
 import { useContext, useEffect } from "react";
-import { baseUrl } from "./useAxios";
+import { axiosSecure, baseUrl } from "./useAxios";
 import { AuthContext } from "../Provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 
 const EmailBox = () => {
-  const { refetch, setTempMail, tempMail } = useContext(AuthContext);
+  const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
 
   const { refetch: tempFetch } = useQuery({
     queryKey: ["userEmail"],
@@ -52,6 +52,19 @@ const EmailBox = () => {
     localStorage.removeItem("email");
     toast.success("Email address deleted");
     tempFetch();
+    if (user) {
+      axiosSecure
+        .post(`${baseUrl}/manage-user`, {
+          userEmail: user?.email,
+          displayName: user?.displayName,
+          tempMail: tempMail,
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            toast.success("New Temp Mail Synced To The Database");
+          }
+        });
+    }
   };
 
   // Motion variants for button animations
