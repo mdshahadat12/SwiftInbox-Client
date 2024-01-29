@@ -20,10 +20,23 @@ const EmailBox = () => {
         setTempMail(localStorage.getItem("email") || "");
         return localStorage.getItem("email");
       }
-      const response = await fetch(`${baseUrl}/new`);
+      const response = await fetch(`${baseUrl}/get-mail`);
       const data = await response.json().then((data) => {
         setTempMail(data?.email);
         localStorage.setItem("email", data?.email);
+        if (user) {
+          axiosSecure
+            .post(`/manage-user`, {
+              userEmail: user?.email,
+              displayName: user?.displayName,
+              tempMail: data?.email,
+            })
+            .then((res) => {
+              if (res.status === 201) {
+                console.log("email synced");
+              }
+            });
+        }
       });
       return data.email;
     },
@@ -44,7 +57,37 @@ const EmailBox = () => {
 
   //add change email function here
   const handleChangeEmail = () => {
-    toast.success("Email changed successfully");
+    const customEmail = document.getElementById("customEmail").value;
+
+    if (`${customEmail}@1secmail.com` === tempMail) {
+      toast.error("This is your current email");
+      return;
+    }
+
+    axiosSecure(`/get-mail?customMail=${customEmail}`).then((res) => {
+      if (res.status === 201) {
+        setTempMail(`${customEmail}@1secmail.com`);
+        localStorage.removeItem("email");
+        localStorage.setItem("email", `${customEmail}@1secmail.com`);
+        toast.success("Email changed successfully");
+        tempFetch();
+        if (user) {
+          axiosSecure
+            .post(`/manage-user`, {
+              userEmail: user?.email,
+              displayName: user?.displayName,
+              tempMail: `${customEmail}@1secmail.com`,
+            })
+            .then((res) => {
+              if (res.status === 201) {
+                console.log("email synced");
+              }
+            });
+        }
+      } else {
+        toast.error("Email already taken");
+      }
+    });
   };
 
   //add delete function here
@@ -52,19 +95,19 @@ const EmailBox = () => {
     localStorage.removeItem("email");
     toast.success("Email address deleted");
     tempFetch();
-    if (user) {
-      axiosSecure
-        .post(`${baseUrl}/manage-user`, {
-          userEmail: user?.email,
-          displayName: user?.displayName,
-          tempMail: tempMail,
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            toast.success("New Temp Mail Synced To The Database");
-          }
-        });
-    }
+    // if (user) {
+    //   axiosSecure
+    //     .post(`/manage-user`, {
+    //       userEmail: user?.email,
+    //       displayName: user?.displayName,
+    //       tempMail: tempMail,
+    //     })
+    //     .then((res) => {
+    //       if (res.status === 201) {
+    //         console.log("email synced");
+    //       }
+    //     });
+    // }
   };
 
   // Motion variants for button animations
@@ -189,13 +232,15 @@ const EmailBox = () => {
       {/* change email modal here  */}
       <dialog id="changeModal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <div className="text-center">
+          <div className="text-center flex justify-center items-center gap-2">
             <input
               type="text"
               placeholder="New Email address...."
-              className="input input-bordered input-accent text-center w-full max-w-xs"
-              defaultValue={userEmail}
+              className="input input-bordered input-accent text-center w-3/5 max-w-xs"
+              defaultValue={tempMail?.split("@")[0]}
+              id="customEmail"
             />
+            <p className="font-bold text-xl text-accent">@1secmail.com</p>
           </div>
           <p className="py-4">
             Changing this email address will also delete all the messages in the
