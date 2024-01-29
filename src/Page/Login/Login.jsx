@@ -1,14 +1,13 @@
 import { FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-
 import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthProvider";
 import loginImg from "../../../public/Resources/login.png";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
-// import useAxiosPublic from "../../hooks/useAxiosPublic";
+import SharedAuth from "../SharedAuth/SharedAuth";
 
 const Login = () => {
   const { signIn, loginGoogle, loginGithub } = useContext(AuthContext);
@@ -19,8 +18,6 @@ const Login = () => {
 
   const from = location.state?.from?.pathname || "/";
   console.log("state in the location login page", location.state);
-
-  // const axiosPublic = useAxiosPublic();
 
   const handleLogin = (event) => {
     event.preventDefault();
@@ -66,14 +63,8 @@ const Login = () => {
     loginGithub()
       .then((res) => {
         console.log(res.user);
-        const loggedInUser = res.user;
+         const loggedInUser = res.user;
         console.log(loggedInUser);
-        // const saveUser = {
-        //   name: loggedInUser.displayName,
-        //   email: loggedInUser.email,
-        //   photoURL: loggedInUser.photoURL,
-        // };
-        // axiosPublic.post("/users", saveUser);
         toast("You Are Successfuly Logged In");
         navigate(location?.state ? location.state : "/");
       })
@@ -87,6 +78,7 @@ const Login = () => {
       <Helmet>
         <title>SwiftInbox | Login</title>
       </Helmet>
+
       <div className="hero flex flex-col lg:flex-row min-h-screen">
         <div className="hero-content p-16 flex-1 flex-col md:flex-row-reverse">
           <img className="" src={loginImg} alt="Login" />
@@ -160,6 +152,9 @@ const Login = () => {
             <Link to="/register"> register first </Link>
           </p>
         </div>
+      </div>
+      <div>
+        <SharedAuth />
       </div>
     </>
   );
