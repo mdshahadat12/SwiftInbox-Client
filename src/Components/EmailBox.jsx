@@ -2,12 +2,44 @@ import { IoIosRefresh } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { FaRegCopy } from "react-icons/fa";
+
+import { motion, useAnimation } from "framer-motion";
+import { useContext, useEffect } from "react";
+import { axiosSecure, baseUrl } from "./useAxios";
+import { AuthContext } from "../Provider/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
+
 const EmailBox = () => {
-  const userEmail = "example@tempmail.com"; // change this to the temp email we get from the website
+  const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
+
+  const { refetch: tempFetch } = useQuery({
+    queryKey: ["userEmail"],
+    queryFn: async () => {
+      if (localStorage.getItem("email")) {
+        setTempMail(localStorage.getItem("email") || "");
+        return localStorage.getItem("email");
+      }
+      const response = await fetch(`${baseUrl}/new`);
+      const data = await response.json().then((data) => {
+        setTempMail(data?.email);
+        localStorage.setItem("email", data?.email);
+      });
+      return data.email;
+    },
+  });
+
+  // change this to the temp email we get from the website
+  const userEmail = tempMail || "Loading.....";
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(userEmail);
+    toast.success("Email copied to clipboard");
+  };
 
   //add refetch function here
   const handleRefresh = () => {
-    window.location.reload();
+    refetch();
   };
 
   //add change email function here
@@ -17,26 +49,83 @@ const EmailBox = () => {
 
   //add delete function here
   const handleDelete = () => {
+    localStorage.removeItem("email");
     toast.success("Email address deleted");
+    tempFetch();
+    if (user) {
+      axiosSecure
+        .post(`${baseUrl}/manage-user`, {
+          userEmail: user?.email,
+          displayName: user?.displayName,
+          tempMail: tempMail,
+        })
+        .then((res) => {
+          if (res.status === 201) {
+            toast.success("New Temp Mail Synced To The Database");
+          }
+        });
+    }
   };
+
+  // Motion variants for button animations
+  const buttonVariants = {
+    hover: {
+      scale: 0.9,
+      transition: {
+        duration: 0.5,
+        yoyo: Infinity,
+      },
+    },
+    tap: {
+      scale: 0.5,
+    },
+  };
+
+  // Animation controls for the card
+  const cardControls = useAnimation();
+
+  useEffect(() => {
+    // Trigger the fade-in animation on mount
+    cardControls.start({
+      opacity: 4,
+      transition: { duration: 4 },
+    });
+  }, [cardControls]);
+
   return (
     <div className="max-w-screen-xl mx-auto my-12 px-4">
-      <div className="flex items-center justify-center my-8">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={cardControls}
+        className="flex items-center justify-center my-8"
+      >
         <div className="card bg-base-200 shadow-xl">
           <div className="card-body">
             <h2 className="text-2xl font-bold text-center">
               Your Temporary Email Address
             </h2>
-            <div className="border rounded-3xl my-2 border-accent py-3">
+            <div className="border flex justify-around rounded-3xl my-2 border-accent py-3">
               <h3 className="text-center font-semibold text-lg">{userEmail}</h3>
+              <button onClick={handleCopyToClipboard} title="Click to Copy">
+                <FaRegCopy></FaRegCopy>
+              </button>
             </div>
             <div className="flex items-center justify-around gap-2">
-              <button onClick={handleRefresh} className="btn btn-accent">
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                onClick={handleRefresh}
+                className="btn btn-accent"
+              >
                 {" "}
                 <IoIosRefresh />
                 Refresh
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={() =>
                   document.getElementById("changeModal").showModal()
                 }
@@ -44,8 +133,11 @@ const EmailBox = () => {
               >
                 {" "}
                 <CiEdit /> Change
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={() =>
                   document.getElementById("deleteModal").showModal()
                 }
@@ -53,11 +145,11 @@ const EmailBox = () => {
               >
                 {" "}
                 <AiOutlineDelete /> Delete
-              </button>
+              </motion.button>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
       {/* delete modal here  */}
       <dialog id="deleteModal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
@@ -73,13 +165,23 @@ const EmailBox = () => {
               method="dialog"
               className="flex items-center justify-center gap-6"
             >
-              <button
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={handleDelete}
                 className="btn bg-red-600 text-white"
               >
                 Confirm
-              </button>
-              <button className="btn">Cancel</button>
+              </motion.button>
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                className="btn"
+              >
+                Cancel
+              </motion.button>
             </form>
           </div>
         </div>
@@ -104,13 +206,23 @@ const EmailBox = () => {
               method="dialog"
               className="flex items-center justify-center gap-6"
             >
-              <button
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
                 onClick={handleChangeEmail}
                 className="btn bg-accent text-white"
               >
                 Change
-              </button>
-              <button className="btn">Cancel</button>
+              </motion.button>
+              <motion.button
+                variants={buttonVariants}
+                whileHover="hover"
+                whileTap="tap"
+                className="btn"
+              >
+                Cancel
+              </motion.button>
             </form>
           </div>
         </div>
