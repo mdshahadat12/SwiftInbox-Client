@@ -11,9 +11,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
-import app from "../../public/firebase/firebase.config";
+
 import Loader from "../Components/Loader";
 import { axiosSecure, baseUrl } from "../Components/useAxios";
+import app from "../firebase/firebase.config";
 // import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
@@ -88,7 +89,6 @@ const AuthProvider = ({ children }) => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       try {
         setUser(currentUser);
-        console.log("Current Active USER:", currentUser);
         const userEmail = currentUser?.email || user?.email;
         const loggedUser = { email: userEmail };
         if (currentUser) {
@@ -98,16 +98,10 @@ const AuthProvider = ({ children }) => {
           });
 
           // create token on login
-          axiosSecure.post(`/jwt`, loggedUser).then((res) => {
-            console.log(res.data);
-          });
+          axiosSecure.post(`/jwt`, loggedUser);
         } else {
           // logout user without token
-          axiosSecure
-            .post(`/logout`, loggedUser, { withCredentials: true })
-            .then((res) => {
-              console.log(res.data);
-            });
+          axiosSecure.post(`/logout`, loggedUser, { withCredentials: true });
         }
         // get and set token
         // if (currentUser) {

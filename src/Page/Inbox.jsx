@@ -6,21 +6,37 @@ import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthProvider";
 
 const Inbox = () => {
-  const { messages } = useContext(AuthContext);
+  const { messages, refetch } = useContext(AuthContext);
   const [emailData, setEmailData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
 
+  // useEffect(() => {
+  //   fetch("./emailData.json")
+  //     .then((res) => res.json())
+  //     .then((data) => setEmailData(data));
+  // }, []);
+
   useEffect(() => {
-    fetch("./emailData.json")
-      .then((res) => res.json())
-      .then((data) => setEmailData(data));
-  }, []);
+    const intervalId = setInterval(async () => {
+      try {
+        // Call the refetch function every 7 seconds
+        await refetch();
+        console.log(messages?.messages);
+        setEmailData(messages?.messages || []);
+      } catch (error) {
+        console.error("Error fetching messages:", error);
+      }
+    }, 7000);
+
+    // Clean up the interval when the component is unmounted
+    return () => clearInterval(intervalId);
+  }, [messages?.messages, refetch]);
 
   // Calculate the indexes of the items to display on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = emailData.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = emailData?.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -32,22 +48,22 @@ const Inbox = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto my-12 px-4">
-      {emailData.length === 0 && (
+      {emailData?.length === 0 && (
         <div className="md:w-96 mx-auto">
           <h1 className="text-center font-bold text-2xl">No messages yet</h1>
           <Lottie animationData={lott} />
         </div>
       )}
 
-      {emailData.length > 0 && (
+      {emailData?.length > 0 && (
         <div>
           <h1 className="text-4xl font-bold mb-5">
-            Inbox ({emailData.length})
+            Inbox ({emailData?.length})
           </h1>
 
           <div>
-            {currentItems.map((data) => (
-              <InboxCard key={data._id} data={data}></InboxCard>
+            {currentItems.map((data, idx) => (
+              <InboxCard key={idx} data={data}></InboxCard>
             ))}
           </div>
 
@@ -68,7 +84,7 @@ const Inbox = () => {
             {/* Display page numbers */}
             <div className="flex flex-wrap justify-center mb-2 sm:flex-nowrap">
               {Array.from({
-                length: Math.ceil(emailData.length / itemsPerPage),
+                length: Math.ceil(emailData?.length / itemsPerPage),
               }).map((_, index) => (
                 <motion.button
                   key={index}
@@ -89,10 +105,10 @@ const Inbox = () => {
             <button
               onClick={() => paginate(currentPage + 1)}
               disabled={
-                currentPage === Math.ceil(emailData.length / itemsPerPage)
+                currentPage === Math.ceil(emailData?.length / itemsPerPage)
               }
               className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 border-accent rounded-full ${
-                currentPage === Math.ceil(emailData.length / itemsPerPage)
+                currentPage === Math.ceil(emailData?.length / itemsPerPage)
                   ? "text-gray-500 bg-gray-200 cursor-not-allowed"
                   : "text-gray-400 hover:bg-blue-100"
               } transition duration-300`}
