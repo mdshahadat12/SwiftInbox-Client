@@ -30,14 +30,14 @@ export const router = createBrowserRouter([
         path: "/inbox/:id",
         element: <InboxDetails></InboxDetails>,
       },
-      {
-        path: "/login",
-        element: <Login></Login>,
-      },
-      {
-        path: "/register",
-        element: <Register></Register>,
-      },
     ],
+  },
+  {
+    path: "/login",
+    element: <Login></Login>,
+  },
+  {
+    path: "/register",
+    element: <Register></Register>,
   },
 ]);
