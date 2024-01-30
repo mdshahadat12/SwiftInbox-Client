@@ -13,6 +13,16 @@ import { useQuery } from "@tanstack/react-query";
 const EmailBox = () => {
   const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
 
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     // Call the refetch function every 7 seconds
+  //     refetch();
+  //   }, 7000);
+
+  //   // Clean up the interval when the component is unmounted
+  //   return () => clearInterval(intervalId);
+  // }, [refetch]);
+
   const { refetch: tempFetch } = useQuery({
     queryKey: ["userEmail"],
     queryFn: async () => {
