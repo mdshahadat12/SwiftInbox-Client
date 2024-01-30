@@ -2,24 +2,53 @@ import { IoIosRefresh } from "react-icons/io";
 import { CiEdit } from "react-icons/ci";
 import { AiOutlineDelete } from "react-icons/ai";
 import toast from "react-hot-toast";
+import { FaRegCopy } from "react-icons/fa";
 
 import { motion, useAnimation } from "framer-motion";
-import { useContext, useEffect, useState } from "react";
-import { baseUrl } from "./useAxios";
+import { useContext, useEffect } from "react";
+import { axiosSecure, baseUrl } from "./useAxios";
 import { AuthContext } from "../Provider/AuthProvider";
+import { useQuery } from "@tanstack/react-query";
 
 const EmailBox = () => {
-  const { refetch } = useContext(AuthContext);
-  const [email, setEmail] = useState("");
+  const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
 
-  useEffect(() => {
-    fetch(`${baseUrl}/new`)
-      .then((res) => res.json())
-      .then((data) => setEmail(data));
-  }, []);
+  const { refetch: tempFetch } = useQuery({
+    queryKey: ["userEmail"],
+    queryFn: async () => {
+      if (localStorage.getItem("email")) {
+        setTempMail(localStorage.getItem("email") || "");
+        return localStorage.getItem("email");
+      }
+      const response = await fetch(`${baseUrl}/get-mail`);
+      const data = await response.json().then((data) => {
+        setTempMail(data?.email);
+        localStorage.setItem("email", data?.email);
+        if (user) {
+          axiosSecure
+            .post(`/manage-user`, {
+              userEmail: user?.email,
+              displayName: user?.displayName,
+              tempMail: data?.email,
+            })
+            .then((res) => {
+              if (res.status === 201) {
+                console.log("email synced");
+              }
+            });
+        }
+      });
+      return data.email;
+    },
+  });
 
-  const userEmail = email?.email || "dummyemail@dummy.com";
   // change this to the temp email we get from the website
+  const userEmail = tempMail || "Loading.....";
+
+  const handleCopyToClipboard = () => {
+    navigator.clipboard.writeText(userEmail);
+    toast.success("Email copied to clipboard");
+  };
 
   //add refetch function here
   const handleRefresh = () => {
@@ -28,13 +57,57 @@ const EmailBox = () => {
 
   //add change email function here
   const handleChangeEmail = () => {
-    toast.success("Email changed successfully");
+    const customEmail = document.getElementById("customEmail").value;
+
+    if (`${customEmail}@1secmail.com` === tempMail) {
+      toast.error("This is your current email");
+      return;
+    }
+
+    axiosSecure(`/get-mail?customMail=${customEmail}`).then((res) => {
+      if (res.status === 201) {
+        setTempMail(`${customEmail}@1secmail.com`);
+        localStorage.removeItem("email");
+        localStorage.setItem("email", `${customEmail}@1secmail.com`);
+        toast.success("Email changed successfully");
+        tempFetch();
+        if (user) {
+          axiosSecure
+            .post(`/manage-user`, {
+              userEmail: user?.email,
+              displayName: user?.displayName,
+              tempMail: `${customEmail}@1secmail.com`,
+            })
+            .then((res) => {
+              if (res.status === 201) {
+                console.log("email synced");
+              }
+            });
+        }
+      } else {
+        toast.error("Email already taken");
+      }
+    });
   };
 
   //add delete function here
   const handleDelete = () => {
-    window.location.reload();
+    localStorage.removeItem("email");
     toast.success("Email address deleted");
+    tempFetch();
+    // if (user) {
+    //   axiosSecure
+    //     .post(`/manage-user`, {
+    //       userEmail: user?.email,
+    //       displayName: user?.displayName,
+    //       tempMail: tempMail,
+    //     })
+    //     .then((res) => {
+    //       if (res.status === 201) {
+    //         console.log("email synced");
+    //       }
+    //     });
+    // }
   };
 
   // Motion variants for button animations
@@ -74,8 +147,11 @@ const EmailBox = () => {
             <h2 className="text-2xl font-bold text-center">
               Your Temporary Email Address
             </h2>
-            <div className="border rounded-3xl my-2 border-accent py-3">
+            <div className="border flex justify-around rounded-3xl my-2 border-accent py-3">
               <h3 className="text-center font-semibold text-lg">{userEmail}</h3>
+              <button onClick={handleCopyToClipboard} title="Click to Copy">
+                <FaRegCopy></FaRegCopy>
+              </button>
             </div>
             <div className="flex items-center justify-around gap-2">
               <motion.button
@@ -156,13 +232,15 @@ const EmailBox = () => {
       {/* change email modal here  */}
       <dialog id="changeModal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <div className="text-center">
+          <div className="text-center flex justify-center items-center gap-2">
             <input
               type="text"
               placeholder="New Email address...."
-              className="input input-bordered input-accent text-center w-full max-w-xs"
-              defaultValue={userEmail}
+              className="input input-bordered input-accent text-center w-3/5 max-w-xs"
+              defaultValue={tempMail?.split("@")[0]}
+              id="customEmail"
             />
+            <p className="font-bold text-xl text-accent">@1secmail.com</p>
           </div>
           <p className="py-4">
             Changing this email address will also delete all the messages in the
