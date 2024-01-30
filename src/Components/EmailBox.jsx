@@ -30,8 +30,9 @@ const EmailBox = () => {
         setTempMail(localStorage.getItem("email") || "");
         return localStorage.getItem("email");
       }
-      const response = await fetch(`${baseUrl}/get-mail`);
+      const response = await fetch(`${baseUrl}/new`);
       const data = await response.json().then((data) => {
+        console.log(data);
         setTempMail(data?.email);
         localStorage.setItem("email", data?.email);
         if (user) {
@@ -67,18 +68,18 @@ const EmailBox = () => {
 
   //add change email function here
   const handleChangeEmail = () => {
-    const customEmail = document.getElementById("customEmail").value;
+    const customName = document.getElementById("customName").value;
 
-    if (`${customEmail}@1secmail.com` === tempMail) {
+    if (`${customName}@sfolkar.com` === tempMail) {
       toast.error("This is your current email");
       return;
     }
 
-    axiosSecure(`/get-mail?customMail=${customEmail}`).then((res) => {
+    axiosSecure(`/new?name=${customName}`).then((res) => {
       if (res.status === 201) {
-        setTempMail(`${customEmail}@1secmail.com`);
+        setTempMail(`${customName}@sfolkar.com`);
         localStorage.removeItem("email");
-        localStorage.setItem("email", `${customEmail}@1secmail.com`);
+        localStorage.setItem("email", `${customName}@sfolkar.com`);
         toast.success("Email changed successfully");
         tempFetch();
         if (user) {
@@ -86,7 +87,7 @@ const EmailBox = () => {
             .post(`/manage-user`, {
               userEmail: user?.email,
               displayName: user?.displayName,
-              tempMail: `${customEmail}@1secmail.com`,
+              tempMail: `${customName}@sfolkar.com`,
             })
             .then((res) => {
               if (res.status === 201) {
@@ -248,9 +249,9 @@ const EmailBox = () => {
               placeholder="New Email address...."
               className="input input-bordered input-accent text-center w-3/5 max-w-xs"
               defaultValue={tempMail?.split("@")[0]}
-              id="customEmail"
+              id="customName"
             />
-            <p className="font-bold text-xl text-accent">@1secmail.com</p>
+            <p className="font-bold text-xl text-accent">@sfolkar.com</p>
           </div>
           <p className="py-4">
             Changing this email address will also delete all the messages in the
