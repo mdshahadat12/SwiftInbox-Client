@@ -6,11 +6,13 @@ import App from "../App";
 import InboxDetails from "../Page/InboxDetails";
 import Login from "../Page/Login/Login";
 import Register from "../Page/Register/Register";
+import Error from "../Page/Error/Error";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout></HomeLayout>,
+    errorElement:<Error></Error>,
     children: [
       {
         path: "/",
