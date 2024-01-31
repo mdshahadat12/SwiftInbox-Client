@@ -9,9 +9,12 @@ import { useContext, useEffect } from "react";
 import { axiosSecure, baseUrl } from "./useAxios";
 import { AuthContext } from "../Provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
+import Loader from "./Loader";
 
 const EmailBox = () => {
   const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
+
+  const { data: domains } = Loader("/get-domains", "domains");
 
   // useEffect(() => {
   //   const intervalId = setInterval(() => {
@@ -53,6 +56,14 @@ const EmailBox = () => {
     },
   });
 
+  // useEffect(() => {
+  //   // Fetch domains once after rendering
+  //   axiosSecure.get("/get-domains").then((data) => {
+  //     setDoamains(data.data);
+  //     console.log(domains);
+  //   });
+  // }, []);
+
   // change this to the temp email we get from the website
   const userEmail = tempMail || "Loading.....";
 
@@ -69,36 +80,38 @@ const EmailBox = () => {
   //add change email function here
   const handleChangeEmail = () => {
     const customName = document.getElementById("customName").value;
-
-    if (`${customName}@sfolkar.com` === tempMail) {
+    const customDoamin = document.getElementById("domain").value;
+    if (`${customName}@${customDoamin}` === tempMail) {
       toast.error("This is your current email");
       return;
     }
 
-    axiosSecure(`/new?name=${customName}`).then((res) => {
-      if (res.status === 201) {
-        setTempMail(`${customName}@sfolkar.com`);
-        localStorage.removeItem("email");
-        localStorage.setItem("email", `${customName}@sfolkar.com`);
-        toast.success("Email changed successfully");
-        tempFetch();
-        if (user) {
-          axiosSecure
-            .post(`/manage-user`, {
-              userEmail: user?.email,
-              displayName: user?.displayName,
-              tempMail: `${customName}@sfolkar.com`,
-            })
-            .then((res) => {
-              if (res.status === 201) {
-                console.log("email synced");
-              }
-            });
+    axiosSecure(`/new?name=${customName}&domain=${customDoamin}`).then(
+      (res) => {
+        if (res.status === 201) {
+          setTempMail(`${customName}@${customDoamin}`);
+          localStorage.removeItem("email");
+          localStorage.setItem("email", `${customName}@${customDoamin}`);
+          toast.success("Email changed successfully");
+          tempFetch();
+          if (user) {
+            axiosSecure
+              .post(`/manage-user`, {
+                userEmail: user?.email,
+                displayName: user?.displayName,
+                tempMail: `${customName}@${customDoamin}`,
+              })
+              .then((res) => {
+                if (res.status === 201) {
+                  console.log("email synced");
+                }
+              });
+          }
+        } else {
+          toast.error("Email already taken");
         }
-      } else {
-        toast.error("Email already taken");
       }
-    });
+    );
   };
 
   //add delete function here
@@ -251,7 +264,23 @@ const EmailBox = () => {
               defaultValue={tempMail?.split("@")[0]}
               id="customName"
             />
-            <p className="font-bold text-xl text-accent">@sfolkar.com</p>
+            <select
+              name="domain"
+              id="domain"
+              className="select select-bordered select-accent text-base"
+              defaultValue={tempMail?.split("@")[1]}
+            >
+              {domains?.map((domain, idx) => {
+                if (domain?.type === "public") {
+                  return (
+                    <option value={domain?.name} key={idx}>
+                      @{domain?.name}
+                    </option>
+                  );
+                }
+                return null;
+              })}
+            </select>
           </div>
           <p className="py-4">
             Changing this email address will also delete all the messages in the
