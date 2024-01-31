@@ -35,9 +35,9 @@ const EmailBox = () => {
       }
       const response = await fetch(`${baseUrl}/new`);
       const data = await response.json().then((data) => {
+        localStorage.setItem("email", data?.email);
         console.log(data);
         setTempMail(data?.email);
-        localStorage.setItem("email", data?.email);
         if (user) {
           axiosSecure
             .post(`/manage-user`, {
