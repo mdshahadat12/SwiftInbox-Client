@@ -11,10 +11,9 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
-
-import Loader from "../Components/Loader";
 import { axiosSecure, baseUrl } from "../Components/useAxios";
 import app from "../firebase/firebase.config";
+import { useQuery } from "@tanstack/react-query";
 // import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
@@ -28,9 +27,31 @@ const AuthProvider = ({ children }) => {
 
   const {
     isLoading,
-    data: messages,
     refetch,
-  } = Loader(`/messages?email=${tempMail}`, "userEmail");
+    data: messages,
+  } = useQuery({
+    queryKey: ["messages"],
+    queryFn: async () => {
+      let data = null; // Declare data outside the if block
+
+      if (localStorage.getItem("email")) {
+        const response = await fetch(
+          `${baseUrl}/messages?email=${localStorage.getItem("email")}`
+        );
+        data = await response.json();
+        console.log(data);
+      }
+
+      return data;
+    },
+  });
+
+  // const {
+  //   isLoading,
+  //   data: messages,
+  //   refetch,
+  // } = Loader(`/messages?email=${tempMail}`, "userEmail");
+
   // const axiosPublic = useAxiosPublic();
   const createUser = (email, password) => {
     setLoading(true);
