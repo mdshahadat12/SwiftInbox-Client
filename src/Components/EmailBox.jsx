@@ -36,20 +36,13 @@ const EmailBox = () => {
       const response = await fetch(`${baseUrl}/new`);
       const data = await response.json().then((data) => {
         localStorage.setItem("email", data?.email);
-        console.log(data);
         setTempMail(data?.email);
         if (user) {
-          axiosSecure
-            .post(`/manage-user`, {
-              userEmail: user?.email,
-              displayName: user?.displayName,
-              tempMail: data?.email,
-            })
-            .then((res) => {
-              if (res.status === 201) {
-                console.log("email synced");
-              }
-            });
+          axiosSecure.post(`/manage-user`, {
+            userEmail: user?.email,
+            displayName: user?.displayName,
+            tempMail: data?.email,
+          });
         }
       });
       return data.email;
@@ -95,17 +88,11 @@ const EmailBox = () => {
           toast.success("Email changed successfully");
           tempFetch();
           if (user) {
-            axiosSecure
-              .post(`/manage-user`, {
-                userEmail: user?.email,
-                displayName: user?.displayName,
-                tempMail: `${customName}@${customDoamin}`,
-              })
-              .then((res) => {
-                if (res.status === 201) {
-                  console.log("email synced");
-                }
-              });
+            axiosSecure.post(`/manage-user`, {
+              userEmail: user?.email,
+              displayName: user?.displayName,
+              tempMail: `${customName}@${customDoamin}`,
+            });
           }
         } else {
           toast.error("Email already taken");
@@ -119,6 +106,7 @@ const EmailBox = () => {
     localStorage.removeItem("email");
     toast.success("Email address deleted");
     tempFetch();
+    refetch();
     // if (user) {
     //   axiosSecure
     //     .post(`/manage-user`, {

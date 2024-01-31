@@ -1,19 +1,17 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import Lottie from "lottie-react";
 import lott from "../assets/lott.json";
 import InboxCard from "../Components/InboxCard";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthProvider";
-import { axiosSecure } from "../Components/useAxios";
-import MessageLoader from "./SharedAuth/MessageLoader";
 
 const Inbox = () => {
-  const { tempMail, messages } = useContext(AuthContext);
+  const { messages,  } = useContext(AuthContext);
   // const [emailData, setEmailData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
-
-  const filteredMessages = messages?.filter((message) => {
+  let filteredMessages = [];
+  filteredMessages = messages?.filter((message) => {
     return message.status !== "deleted";
   });
 
