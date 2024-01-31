@@ -14,7 +14,6 @@ import { createContext, useEffect, useState } from "react";
 import { axiosSecure, baseUrl } from "../Components/useAxios";
 import app from "../firebase/firebase.config";
 import { useQuery } from "@tanstack/react-query";
-// import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const AuthContext = createContext(null);
 
@@ -24,7 +23,6 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [tempMail, setTempMail] = useState(null);
   const [userData, setUserData] = useState(null);
-
   const {
     isLoading,
     refetch,
@@ -32,14 +30,13 @@ const AuthProvider = ({ children }) => {
   } = useQuery({
     queryKey: ["messages"],
     queryFn: async () => {
-      let data = null; // Declare data outside the if block
+      let data = []; // Declare data outside the if block
 
       if (localStorage.getItem("email")) {
         const response = await fetch(
           `${baseUrl}/messages?email=${localStorage.getItem("email")}`
         );
         data = await response.json();
-        console.log(data);
       }
 
       return data;
@@ -87,11 +84,10 @@ const AuthProvider = ({ children }) => {
 
   // checking if the user is already registered
   const checkUser = (email) => {
-    if (userData?.email == email) {
+    axiosSecure.get(`/get-user?${email}`).then((res) => {
+      setUserData(res.data);
       return true;
-    } else {
-      return false;
-    }
+    });
   };
 
   // saving the user data to the database
@@ -99,7 +95,7 @@ const AuthProvider = ({ children }) => {
     const userData = {
       userEmail: email,
       displayName: name,
-      tempMail: tempMail,
+      tempMail: localStorage.getItem("email"),
     };
     axiosSecure.post(`${baseUrl}/manage-user`, userData).then((res) => {
       console.log(res.data);
@@ -114,9 +110,6 @@ const AuthProvider = ({ children }) => {
         const loggedUser = { email: userEmail };
         if (currentUser) {
           // get and set user data
-          axiosSecure.get(`/get-user?${loggedUser?.email}`).then((res) => {
-            setUserData(res.data);
-          });
 
           // create token on login
           axiosSecure.post(`/jwt`, loggedUser);
@@ -140,11 +133,15 @@ const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     });
+    const intervalId = setInterval(() => {
+      refetch(); // Call refetch every 10 seconds
+    }, 7000);
 
     return () => {
+      clearInterval(intervalId);
       unSubscribe();
     };
-  }, [user?.email]);
+  }, [refetch, user?.email]);
 
   const authInfo = {
     user,

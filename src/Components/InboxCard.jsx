@@ -11,7 +11,6 @@ import { AuthContext } from "../Provider/AuthProvider";
 const InboxCard = ({ data }) => {
   const { refetch } = useContext(AuthContext);
   //add delete function here
-
   const handleDelete = (id) => {
     axiosSecure.put(`/update-mail/${id}`).then((res) => {
       if (res.status === 201) {

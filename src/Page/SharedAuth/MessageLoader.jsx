@@ -6,8 +6,6 @@ const MessageLoader = ({ tempMail, setEmailData }) => {
   useEffect(() => {
     if (tempMail) {
       axiosSecure.get(`/messages?email=${tempMail}`).then((res) => {
-        console.log(res.data);
-
         setEmailData(res.data);
       });
     }
