@@ -4,14 +4,12 @@ import { AiFillDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import Avatar from "./Avatar";
 const InboxCard = ({ data }) => {
-
   //add delete function here
   const handleDelete = () => {
     toast.success("Email deleted");
   };
-
-
 
   // Motion variants for button animations
   const buttonVariants = {
@@ -31,7 +29,8 @@ const InboxCard = ({ data }) => {
       initial={{ opacity: 0, y: 500 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 2 }}
-      className="my-2">
+      className="my-2"
+    >
       <div className="bg-base-200 flex items-center justify-between w-full rounded-lg">
         <Link to={`/inbox/${data._id}`} className=" w-3/4">
           <div className="flex items-center justify-between p-4">
@@ -39,9 +38,10 @@ const InboxCard = ({ data }) => {
             <div className="flex items-center gap-2 w-1/3 md:1/3 lg:1/3">
               {/* avatar image */}
               <div className="avatar">
-                <div className="rounded-full w-10 h-10 m-1">
+                {/* <div className="rounded-full w-10 h-10 m-1">
                   <img src="https://i.pravatar.cc/500?img=32" />
-                </div>
+                </div> */}
+                <Avatar email={data.email}></Avatar>
               </div>
               {/* email sender name and their email  */}
               <div>
@@ -95,7 +95,10 @@ const InboxCard = ({ data }) => {
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
-                className="btn">Cancel</motion.button>
+                className="btn"
+              >
+                Cancel
+              </motion.button>
             </form>
           </div>
         </div>

@@ -10,7 +10,8 @@ import { Helmet } from "react-helmet-async";
 import SharedAuth from "../SharedAuth/SharedAuth";
 
 const Login = () => {
-  const { signIn, loginGoogle, loginGithub } = useContext(AuthContext);
+  const { signIn, loginGoogle, loginGithub, checkUser, saveUser } =
+    useContext(AuthContext);
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
@@ -48,6 +49,15 @@ const Login = () => {
     loginGoogle().then((result) => {
       const loggedInUser = result.user;
       console.log(loggedInUser);
+
+      const userExists = checkUser(loggedInUser.email);
+
+      if (userExists) {
+        navigate(from, { replace: true });
+        toast("You Are Successfuly Logged In");
+      } else {
+        saveUser(loggedInUser.email, loggedInUser.displayName);
+      }
       // const saveUser = {
       //   name: loggedInUser.displayName,
       //   email: loggedInUser.email,
@@ -63,8 +73,23 @@ const Login = () => {
     loginGithub()
       .then((res) => {
         console.log(res.user);
-         const loggedInUser = res.user;
+        const loggedInUser = res.user;
         console.log(loggedInUser);
+
+        const userExists = checkUser(loggedInUser.email);
+
+        if (userExists) {
+          navigate(location?.state ? location.state : "/");
+          toast("You Are Successfuly Logged In");
+        } else {
+          saveUser(loggedInUser.email, loggedInUser.displayName);
+        }
+        // const saveUser = {
+        //   name: loggedInUser.displayName,
+        //   email: loggedInUser.email,
+        //   photoURL: loggedInUser.photoURL,
+        // };
+        // axiosPublic.post("/users", saveUser);
         toast("You Are Successfuly Logged In");
         navigate(location?.state ? location.state : "/");
       })

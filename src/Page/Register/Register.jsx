@@ -15,7 +15,7 @@ const Register = () => {
     reset,
     formState: { errors },
   } = useForm();
-  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const { createUser, updateUserProfile, saveUser } = useContext(AuthContext);
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -34,6 +34,8 @@ const Register = () => {
             timer: 1500,
           });
           navigate("/");
+          saveUser(loggedUser.email, loggedUser.displayName);
+          // }
         });
       })
       .catch((error) => console.log(error));
@@ -47,7 +49,7 @@ const Register = () => {
         <title>SwiftInbox | Register</title>
       </Helmet>
 
-      <div className="hero flex flex-col lg:flex-row-reverse min-h-screen">
+      <div className="hero flex flex-col lg:flex-row-reverse justify-around items-center">
         <div className="hero-content p-16 flex-1 flex-col md:flex-row-reverse">
           <img src={signUpImg} alt="Register" />
         </div>

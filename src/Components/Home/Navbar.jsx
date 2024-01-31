@@ -42,7 +42,10 @@ const Navbar = () => {
                   tabIndex={0}
                   className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-20"
                 >
-                  <p className="text-red-600 font-bold" onClick={handleLogOut}>
+                  <p
+                    className="hover:text-red-600 font-bold"
+                    onClick={handleLogOut}
+                  >
                     Logout
                   </p>
                 </ul>
@@ -50,7 +53,9 @@ const Navbar = () => {
             </div>
           ) : (
             <Link to="/login" className="font-semibold">
-              Login
+              <span className="py-3 px-6 hover:border border-green-300 rounded-lg shadow-xl">
+                Login
+              </span>
             </Link>
           )}
         </div>
