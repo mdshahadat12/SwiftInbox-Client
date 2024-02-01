@@ -5,10 +5,19 @@ import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Avatar from "./Avatar";
+import { axiosSecure } from "./useAxios";
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthProvider";
 const InboxCard = ({ data }) => {
+  const { refetch } = useContext(AuthContext);
   //add delete function here
-  const handleDelete = () => {
-    toast.success("Email deleted");
+  const handleDelete = (id) => {
+    axiosSecure.put(`/update-mail/${id}`).then((res) => {
+      if (res.status === 201) {
+        toast.success("Email deleted");
+        refetch();
+      }
+    });
   };
 
   const emailRegex = /<([^>]+)>/;
@@ -16,7 +25,6 @@ const InboxCard = ({ data }) => {
   const email = emailMatch ? emailMatch[1] : null;
 
   const name = data?.from.replace(emailRegex, "").replace(/"/g, "").trim();
-
 
   const displayDescription = () => {
     const maxLength = 50;
@@ -101,7 +109,7 @@ const InboxCard = ({ data }) => {
                 variants={buttonVariants}
                 whileHover="hover"
                 whileTap="tap"
-                onClick={handleDelete}
+                onClick={() => handleDelete(data._id)}
                 className="btn bg-red-600 text-white"
               >
                 Confirm
