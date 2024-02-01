@@ -1,25 +1,62 @@
-import { useEffect, useState } from "react";
-import { CiMail } from "react-icons/ci";
+import { useContext } from "react";
 import { GiCrossedBones } from "react-icons/gi";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
+import { AuthContext } from "../Provider/AuthProvider";
+import Avatar from "../Components/Avatar";
+import lott from "../assets/lott.json";
+import Lottie from "lottie-react";
+import { axiosSecure } from "../Components/useAxios";
 
 const InboxDetails = () => {
+  const navigate = useNavigate()
   const { id } = useParams();
-  const [emailData, setEmailData] = useState([]);
-  const currentData = emailData[parseInt(id) - 1];
+  // const currentData = emailData[parseInt(id) - 1];
+  const {messages,isLoading,refetch} = useContext(AuthContext)
+  const message = messages?.find(message=>message._id === id)
+  console.log(message);
 
-  useEffect(() => {
-    fetch("/emailData.json")
-      .then((res) => res.json())
-      .then((data) => setEmailData(data));
-  }, []);
+  const emailRegex = /<([^>]+)>/;
+  const emailMatch = message?.from.match(emailRegex);
+  const email = emailMatch ? emailMatch[1] : null;
+  const name = message?.from.replace(emailRegex, "").replace(/"/g, "").trim();
+
+const date = new Date(message?.created_at);
+// Adjust to UTC+6
+date.setUTCHours(date.getUTCHours() + 6);
+const optionsDate = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+const optionsTime = { hour: 'numeric', minute: 'numeric', hour12: true, timeZone: 'Asia/Almaty' };
+const formattedDate = new Intl.DateTimeFormat('en-US', optionsDate).format(date);
+const formattedTime = new Intl.DateTimeFormat('en-US', optionsTime).format(date);
+const formattedString = `${formattedDate} at ${formattedTime}`;
+console.log(formattedString);
+
+
+const htmlString = message?.body_html
+// Create a div element
+// const divElement = document.createElement('div');
+// // Set innerHTML of the div element with your HTML string
+// divElement.innerHTML = htmlString;
+// // Now you can append the divElement to the document or do whatever you need with it
+// const body = <><div id="body"></div></>
+// document.body.appendChild(divElement);
+
+
+
+
+
 
   //add delete function here
   const handleDelete = () => {
-    toast.success("Email deleted");
+    axiosSecure.put(`/update-mail/${id}`).then((res) => {
+      if (res.status === 201) {
+        toast.success("Email deleted");
+        refetch();
+        navigate("/")
+      }
+    });
   };
   //download function here
   const handleDownload = () => {
@@ -55,7 +92,8 @@ const InboxDetails = () => {
     };
 
 
-  return (
+  return isLoading ?<Lottie animationData={lott} />: (
+    <>
     <motion.div
     initial={{ opacity: 0, y: 0 }} // Initial animation state (hidden and slightly shifted)
     animate={{ opacity: 1, y: 60 }} // Animation to reveal the component
@@ -71,10 +109,10 @@ const InboxDetails = () => {
       <section className="lg:flex justify-between mb-5">
         <div className="flex items-center gap-5 flex-wrap mb-5">
           <h1 title="Subject" className="text-2xl font-semibold ">
-            {currentData?.subject}
+            {message?.subject}
           </h1>
           <div className="badge badge-accent gap-2">
-            {currentData?.label}
+            {"currentData?.label"}
             <GiCrossedBones></GiCrossedBones>
           </div>
         </div>
@@ -107,27 +145,22 @@ const InboxDetails = () => {
       </section>
 
       {/* email description here  */}
-      <section className="bg-base-200 p-5 rounded-md min-h-[calc(100vh-160px)] ">
+      <section className="bg-base-200 p-5 rounded-md min-h-[calc(100vh-160px)]">
         <div className="lg:flex items-center justify-between mb-5">
-          <div className="flex items-center">
-            <img
-              src="https://i.pravatar.cc/500?img=32"
-              alt=""
-              className="rounded-full w-16 mr-5"
-            />
+          <div className="flex gap-2 items-center">
+           <Avatar email={email}/>
             <div>
               {/* user info */}
-              <div className="lg:flex">
-                <p className="lg:mr-3 font-bold">{currentData?.name}</p>
-                <p className="font-medium">{currentData?.email}</p>
+              <div className="">
+                <p className="lg:mr-3 font-bold">{name}</p>
+                <p className="font-medium">{"From: "+email}</p>
               </div>
 
               {/* sender mail  */}
               <p className="flex items-center gap-1">
-                <CiMail className="text-lg" />
-                {emailData[1]?.email}
+                {"To: "+message?.to}
               </p>
-              <p className="">{currentData?.time}</p>
+              <p className="">{formattedString}</p>
             </div>
             {/* date */}
             {/* <div className="lg:text-end">
@@ -137,7 +170,7 @@ const InboxDetails = () => {
 
           {/* email info */}
         </div>
-        <p className="lg:px-5 xl:px-20">{currentData?.description}</p>
+        <p className="lg:px-5 xl:px-20 lg:w-[800px] overflow-y-auto" dangerouslySetInnerHTML={{ __html: htmlString }}></p>
       </section>
       {/* delete modal here  */}
       <dialog id="deleteModal" className="modal modal-bottom sm:modal-middle">
@@ -162,7 +195,8 @@ const InboxDetails = () => {
         </div>
       </dialog>
     </motion.div>
-  );
+    </>
+  )
 };
 
 export default InboxDetails;

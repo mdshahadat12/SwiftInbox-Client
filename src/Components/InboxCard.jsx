@@ -23,7 +23,6 @@ const InboxCard = ({ data }) => {
   const emailRegex = /<([^>]+)>/;
   const emailMatch = data?.from.match(emailRegex);
   const email = emailMatch ? emailMatch[1] : null;
-
   const name = data?.from.replace(emailRegex, "").replace(/"/g, "").trim();
 
   const displayDescription = () => {
