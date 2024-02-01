@@ -58,7 +58,7 @@ const Inbox = () => {
       )}
       {filteredMessages?.length > 0 && (
         <div>
-          <h1 className="text-4xl font-bold mb-5">
+          <h1 className="text-4xl text-white font-bold mb-5">
             Inbox ({filteredMessages?.length})
           </h1>
 
