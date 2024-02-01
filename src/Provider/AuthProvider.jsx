@@ -23,6 +23,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [tempMail, setTempMail] = useState(null);
   const [userData, setUserData] = useState(null);
+
   const {
     isLoading,
     refetch,
@@ -82,34 +83,21 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // checking if the user is already registered
-  const checkUser = (email) => {
-    axiosSecure.get(`/get-user?${email}`).then((res) => {
-      setUserData(res.data);
-      return true;
-    });
-  };
-
-  // saving the user data to the database
-  const saveUser = (email, name) => {
-    const userData = {
-      userEmail: email,
-      displayName: name,
-      tempMail: localStorage.getItem("email"),
-    };
-    axiosSecure.post(`${baseUrl}/manage-user`, userData).then((res) => {
-      console.log(res.data);
-    });
-  };
-
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       try {
         setUser(currentUser);
+
         const userEmail = currentUser?.email || user?.email;
-        const loggedUser = { email: userEmail };
+        const loggedUser = userEmail ? { email: userEmail } : null;
+
         if (currentUser) {
           // get and set user data
+          axiosSecure
+            .get(`/get-user?email=${currentUser?.email}`)
+            .then((res) => {
+              setUserData(res.data);
+            });
 
           // create token on login
           axiosSecure.post(`/jwt`, loggedUser);
@@ -142,6 +130,27 @@ const AuthProvider = ({ children }) => {
       unSubscribe();
     };
   }, [refetch, user?.email]);
+
+  // checking if the user is already registered
+  const checkUser = (email) => {
+    if (userData?.email == email) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // saving the user data to the database
+  const saveUser = (email, name) => {
+    const userData = {
+      userEmail: email,
+      displayName: name,
+      tempMail: localStorage.getItem("email"),
+    };
+    axiosSecure.post(`${baseUrl}/manage-user`, userData).then((res) => {
+      setUserData(res.data);
+    });
+  };
 
   const authInfo = {
     user,
