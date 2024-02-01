@@ -133,7 +133,7 @@ const AuthProvider = ({ children }) => {
 
   // checking if the user is already registered
   const checkUser = (email) => {
-    if (userData?.email == email) {
+    if (userData?.userEmail == email) {
       return true;
     } else {
       return false;
