@@ -11,6 +11,8 @@ import { AuthContext } from "../Provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "./Loader";
 
+import EmailBoxAnimation from "./Animation/EmailBoxAnimation ";
+
 const EmailBox = () => {
   const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
 
@@ -149,6 +151,12 @@ const EmailBox = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto my-12 px-4">
+      
+      {/* <ParticlesAnimation></ParticlesAnimation> */}
+      {/* <Particlesanimation2></Particlesanimation2> */}
+      {/* <AmongUsAnimation></AmongUsAnimation> */}
+      {/* <HexagonsAnimation></HexagonsAnimation> */}
+      <EmailBoxAnimation></EmailBoxAnimation>
       <motion.div
         initial={{ opacity: 0 }}
         animate={cardControls}
