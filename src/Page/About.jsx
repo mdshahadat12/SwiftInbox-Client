@@ -53,7 +53,7 @@ const About = () => {
     <section className="bg-base-200 py-12 mt-3 mb-3">
       <div className="container mx-auto relative mb-8">
         <motion.h3
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="text-accent text-3xl lg:text-4xl font-bold text-center mb-5"

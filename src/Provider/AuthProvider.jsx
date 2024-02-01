@@ -11,10 +11,9 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
-import app from "../../public/firebase/firebase.config";
-import Loader from "../Components/Loader";
 import { axiosSecure, baseUrl } from "../Components/useAxios";
-// import useAxiosPublic from "../hooks/useAxiosPublic";
+import app from "../firebase/firebase.config";
+import { useQuery } from "@tanstack/react-query";
 
 export const AuthContext = createContext(null);
 
@@ -27,9 +26,30 @@ const AuthProvider = ({ children }) => {
 
   const {
     isLoading,
-    data: messages,
     refetch,
-  } = Loader(`/messages?email=${tempMail}`, "userEmail");
+    data: messages,
+  } = useQuery({
+    queryKey: ["messages"],
+    queryFn: async () => {
+      let data = []; // Declare data outside the if block
+
+      if (localStorage.getItem("email")) {
+        const response = await fetch(
+          `${baseUrl}/messages?email=${localStorage.getItem("email")}`
+        );
+        data = await response.json();
+      }
+
+      return data;
+    },
+  });
+
+  // const {
+  //   isLoading,
+  //   data: messages,
+  //   refetch,
+  // } = Loader(`/messages?email=${tempMail}`, "userEmail");
+
   // const axiosPublic = useAxiosPublic();
   const createUser = (email, password) => {
     setLoading(true);
@@ -63,51 +83,27 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
-  // checking if the user is already registered
-  const checkUser = (email) => {
-    if (userData?.email == email) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  // saving the user data to the database
-  const saveUser = (email, name) => {
-    const userData = {
-      userEmail: email,
-      displayName: name,
-      tempMail: tempMail,
-    };
-    axiosSecure.post(`${baseUrl}/manage-user`, userData).then((res) => {
-      console.log(res.data);
-    });
-  };
-
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       try {
         setUser(currentUser);
-        console.log("Current Active USER:", currentUser);
+
         const userEmail = currentUser?.email || user?.email;
-        const loggedUser = { email: userEmail };
+        const loggedUser = userEmail ? { email: userEmail } : null;
+
         if (currentUser) {
           // get and set user data
-          axiosSecure.get(`/get-user?${loggedUser?.email}`).then((res) => {
-            setUserData(res.data);
-          });
+          axiosSecure
+            .get(`/get-user?email=${currentUser?.email}`)
+            .then((res) => {
+              setUserData(res.data);
+            });
 
           // create token on login
-          axiosSecure.post(`/jwt`, loggedUser).then((res) => {
-            console.log(res.data);
-          });
+          axiosSecure.post(`/jwt`, loggedUser);
         } else {
           // logout user without token
-          axiosSecure
-            .post(`/logout`, loggedUser, { withCredentials: true })
-            .then((res) => {
-              console.log(res.data);
-            });
+          axiosSecure.post(`/logout`, loggedUser, { withCredentials: true });
         }
         // get and set token
         // if (currentUser) {
@@ -125,11 +121,36 @@ const AuthProvider = ({ children }) => {
         setLoading(false);
       }
     });
+    const intervalId = setInterval(() => {
+      refetch(); // Call refetch every 10 seconds
+    }, 7000);
 
     return () => {
+      clearInterval(intervalId);
       unSubscribe();
     };
-  }, [user?.email]);
+  }, [refetch, user?.email]);
+
+  // checking if the user is already registered
+  const checkUser = (email) => {
+    if (userData?.email == email) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  // saving the user data to the database
+  const saveUser = (email, name) => {
+    const userData = {
+      userEmail: email,
+      displayName: name,
+      tempMail: localStorage.getItem("email"),
+    };
+    axiosSecure.post(`${baseUrl}/manage-user`, userData).then((res) => {
+      setUserData(res.data);
+    });
+  };
 
   const authInfo = {
     user,
