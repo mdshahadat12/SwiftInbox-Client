@@ -46,16 +46,12 @@ const EmailBox = () => {
         localStorage.setItem("email", data?.email);
         setTempMail(data?.email);
         if (user && userData?.tempMail !== localStorage.getItem("email")) {
-          console.log(userData.tempMail,localStorage.getItem("email"));
           axiosSecure
             .post(`/manage-user`, {
               userEmail: user?.email,
               displayName: user?.displayName,
               tempMail: data?.email,
             })
-            .then((res) => {
-              console.log(res.data);
-            });
         }
       });
       return data.email;

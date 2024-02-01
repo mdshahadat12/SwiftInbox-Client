@@ -45,7 +45,6 @@ const Login = () => {
       const loggedInUser = result.user;
 
       const userExists = checkUser(loggedInUser.email);
-      console.log(userExists, loggedInUser.email);
 
       if (userExists) {
         navigate(from, { replace: true });
