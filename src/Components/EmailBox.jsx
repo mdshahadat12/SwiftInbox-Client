@@ -12,7 +12,8 @@ import { useQuery } from "@tanstack/react-query";
 import Loader from "./Loader";
 
 const EmailBox = () => {
-  const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
+  const { refetch, setTempMail, tempMail, user, userData } =
+    useContext(AuthContext);
 
   const { data: domains } = Loader("/get-domains", "domains");
 
@@ -26,6 +27,13 @@ const EmailBox = () => {
   //   return () => clearInterval(intervalId);
   // }, [refetch]);
 
+  useEffect(() => {
+    if (user) {
+      setTempMail(userData?.tempMail);
+      localStorage.setItem("email", userData?.tempMail);
+    }
+  }, [setTempMail, user, userData?.tempMail]);
+
   const { refetch: tempFetch } = useQuery({
     queryKey: ["userEmail"],
     queryFn: async () => {
@@ -37,12 +45,17 @@ const EmailBox = () => {
       const data = await response.json().then((data) => {
         localStorage.setItem("email", data?.email);
         setTempMail(data?.email);
-        if (user) {
-          axiosSecure.post(`/manage-user`, {
-            userEmail: user?.email,
-            displayName: user?.displayName,
-            tempMail: data?.email,
-          });
+        if (user && userData?.tempMail !== localStorage.getItem("email")) {
+          console.log(userData.tempMail,localStorage.getItem("email"));
+          axiosSecure
+            .post(`/manage-user`, {
+              userEmail: user?.email,
+              displayName: user?.displayName,
+              tempMail: data?.email,
+            })
+            .then((res) => {
+              console.log(res.data);
+            });
         }
       });
       return data.email;
