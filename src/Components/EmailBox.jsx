@@ -9,9 +9,22 @@ import { useContext, useEffect } from "react";
 import { axiosSecure, baseUrl } from "./useAxios";
 import { AuthContext } from "../Provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
+import Loader from "./Loader";
 
 const EmailBox = () => {
   const { refetch, setTempMail, tempMail, user } = useContext(AuthContext);
+
+  const { data: domains } = Loader("/get-domains", "domains");
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     // Call the refetch function every 7 seconds
+  //     refetch();
+  //   }, 7000);
+
+  //   // Clean up the interval when the component is unmounted
+  //   return () => clearInterval(intervalId);
+  // }, [refetch]);
 
   const { refetch: tempFetch } = useQuery({
     queryKey: ["userEmail"],
@@ -22,12 +35,34 @@ const EmailBox = () => {
       }
       const response = await fetch(`${baseUrl}/new`);
       const data = await response.json().then((data) => {
+        console.log(data);
         setTempMail(data?.email);
         localStorage.setItem("email", data?.email);
+        if (user) {
+          axiosSecure
+            .post(`/manage-user`, {
+              userEmail: user?.email,
+              displayName: user?.displayName,
+              tempMail: data?.email,
+            })
+            .then((res) => {
+              if (res.status === 201) {
+                console.log("email synced");
+              }
+            });
+        }
       });
       return data.email;
     },
   });
+
+  // useEffect(() => {
+  //   // Fetch domains once after rendering
+  //   axiosSecure.get("/get-domains").then((data) => {
+  //     setDoamains(data.data);
+  //     console.log(domains);
+  //   });
+  // }, []);
 
   // change this to the temp email we get from the website
   const userEmail = tempMail || "Loading.....";
@@ -44,7 +79,39 @@ const EmailBox = () => {
 
   //add change email function here
   const handleChangeEmail = () => {
-    toast.success("Email changed successfully");
+    const customName = document.getElementById("customName").value;
+    const customDoamin = document.getElementById("domain").value;
+    if (`${customName}@${customDoamin}` === tempMail) {
+      toast.error("This is your current email");
+      return;
+    }
+
+    axiosSecure(`/new?name=${customName}&domain=${customDoamin}`).then(
+      (res) => {
+        if (res.status === 201) {
+          setTempMail(`${customName}@${customDoamin}`);
+          localStorage.removeItem("email");
+          localStorage.setItem("email", `${customName}@${customDoamin}`);
+          toast.success("Email changed successfully");
+          tempFetch();
+          if (user) {
+            axiosSecure
+              .post(`/manage-user`, {
+                userEmail: user?.email,
+                displayName: user?.displayName,
+                tempMail: `${customName}@${customDoamin}`,
+              })
+              .then((res) => {
+                if (res.status === 201) {
+                  console.log("email synced");
+                }
+              });
+          }
+        } else {
+          toast.error("Email already taken");
+        }
+      }
+    );
   };
 
   //add delete function here
@@ -52,19 +119,19 @@ const EmailBox = () => {
     localStorage.removeItem("email");
     toast.success("Email address deleted");
     tempFetch();
-    if (user) {
-      axiosSecure
-        .post(`${baseUrl}/manage-user`, {
-          userEmail: user?.email,
-          displayName: user?.displayName,
-          tempMail: tempMail,
-        })
-        .then((res) => {
-          if (res.status === 201) {
-            toast.success("New Temp Mail Synced To The Database");
-          }
-        });
-    }
+    // if (user) {
+    //   axiosSecure
+    //     .post(`/manage-user`, {
+    //       userEmail: user?.email,
+    //       displayName: user?.displayName,
+    //       tempMail: tempMail,
+    //     })
+    //     .then((res) => {
+    //       if (res.status === 201) {
+    //         console.log("email synced");
+    //       }
+    //     });
+    // }
   };
 
   // Motion variants for button animations
@@ -189,13 +256,31 @@ const EmailBox = () => {
       {/* change email modal here  */}
       <dialog id="changeModal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <div className="text-center">
+          <div className="text-center flex justify-center items-center gap-2">
             <input
               type="text"
               placeholder="New Email address...."
-              className="input input-bordered input-accent text-center w-full max-w-xs"
-              defaultValue={userEmail}
+              className="input input-bordered input-accent text-center w-3/5 max-w-xs"
+              defaultValue={tempMail?.split("@")[0]}
+              id="customName"
             />
+            <select
+              name="domain"
+              id="domain"
+              className="select select-bordered select-accent text-base"
+              defaultValue={tempMail?.split("@")[1]}
+            >
+              {domains?.map((domain, idx) => {
+                if (domain?.type === "public") {
+                  return (
+                    <option value={domain?.name} key={idx}>
+                      @{domain?.name}
+                    </option>
+                  );
+                }
+                return null;
+              })}
+            </select>
           </div>
           <p className="py-4">
             Changing this email address will also delete all the messages in the

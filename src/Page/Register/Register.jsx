@@ -49,11 +49,11 @@ const Register = () => {
         <title>SwiftInbox | Register</title>
       </Helmet>
 
-      <div className="hero flex flex-col lg:flex-row-reverse justify-around items-center">
+      <div className="hero flex flex-col lg:flex-row-reverse min-h-screen">
         <div className="hero-content p-16 flex-1 flex-col md:flex-row-reverse">
-          <img src={signUpImg} alt="Register" />
+          <img src={signUpImg} className="w-full" alt="Register" />
         </div>
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 px-5 py-10">
+        <div className="card flex-1 max-w-sm shadow-2xl bg-base-100 p-10">
           <h2 className="text-2xl font-black bg-gradient-to-r from-green-700 via-lime-600 to-purple-700 text-transparent bg-clip-text">
             Please register
           </h2>

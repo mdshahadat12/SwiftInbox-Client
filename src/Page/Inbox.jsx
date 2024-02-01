@@ -4,18 +4,29 @@ import lott from "../assets/lott.json";
 import InboxCard from "../Components/InboxCard";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthProvider";
+import { axiosSecure } from "../Components/useAxios";
 
 const Inbox = () => {
-  const { messages } = useContext(AuthContext);
+  const { tempMail } = useContext(AuthContext);
   const [emailData, setEmailData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
 
+  // if(tempMail){
+  //   axiosSecure.get(`/messages?email=${tempMail}`).then((res) => {
+  //     console.log(res.data);
+  //     setEmailData(res.data);
+  //   });
+  // }
+
   useEffect(() => {
-    fetch("./emailData.json")
-      .then((res) => res.json())
-      .then((data) => setEmailData(data));
-  }, []);
+    if (tempMail) {
+      axiosSecure.get(`/messages?email=${tempMail}`).then((res) => {
+        console.log(res.data);
+        setEmailData(res.data);
+      });
+    }
+  }, [tempMail]);
 
   // Calculate the indexes of the items to display on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
