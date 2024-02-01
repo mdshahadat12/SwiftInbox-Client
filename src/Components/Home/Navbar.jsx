@@ -10,9 +10,9 @@ const Navbar = () => {
     navigate("/");
   };
   return (
-    <div className="navbar shadow-md md:sticky rounded-md top-0 md:z-50 backdrop-blur">
+    <div className="navbar bg-white shadow-md md:sticky rounded-md top-0 md:z-50 backdrop-blur">
       <div className="flex-1">
-        <a className="text-xl">{user ? user?.displayName : <p>Guest</p>}</a>
+        <a className="text-xl ">{user ? user?.displayName : <p>Guest</p>}</a>
       </div>
       <div className="flex-none">
         <div className="flex gap-4 justify-end items-center">
@@ -49,7 +49,7 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Link to="/login" className="font-semibold">
+            <Link to="/login" className="font-bold mx-4 ">
               Login
             </Link>
           )}

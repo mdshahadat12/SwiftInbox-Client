@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import AboutBanner from './AboutBanner';
+import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 
 const About = () => {
    const testimonialData = [
@@ -49,6 +50,8 @@ const About = () => {
     transition={{ duration: 1 }}
   >
     <AboutBanner />
+    
+    <Particlesanimation2></Particlesanimation2>
 
     <section className="bg-base-200 py-12 mt-3 mb-3">
       <div className="container mx-auto relative mb-8">
