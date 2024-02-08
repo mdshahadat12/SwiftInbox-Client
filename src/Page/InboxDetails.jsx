@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { GiCrossedBones } from "react-icons/gi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -17,25 +17,19 @@ import Loader from "../Components/Loader";
 const InboxDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  const { user, refetch } = useContext(AuthContext);
   // const [message, setMessage] = useState(null);
   // const [loading, setLoading] = useState(true);
   // const currentData = emailData[parseInt(id) - 1];
-  const { user, refetch, isLoading, messages } = useContext(AuthContext);
-  const message = messages?.find((message) => message._id === id);
-  // const { data: message, isLoading } = Loader(
-  //   `/message/${id}`,
-  //   "singleMessage"
-  // );
-  // useEffect(() => {
-  //   console.log("hit");
-  //   axiosSecure.get(`/message/${id}`).then((res) => {
-  //     if (res.status === 201) {
-  //       console.log(res.data);
-  //       setMessage(res.data);
-  //       setLoading(false);
-  //     }
-  //   });
-  // }, [id]);
+  // const message = messages?.find((message) => message._id === id);
+  const { data: message, isLoading } = Loader(
+    `/message/${id}`,
+    "singleMessage"
+  );
+
+  if (isLoading) {
+    return <Lottie animationData={lott} />;
+  }
 
   const emailRegex = /<([^>]+)>/;
   const emailMatch = message?.from.match(emailRegex);
@@ -139,9 +133,7 @@ const InboxDetails = () => {
     },
   };
 
-  return isLoading ? (
-    <Lottie animationData={lott} />
-  ) : (
+  return (
     <>
       <motion.div
         initial={{ opacity: 0, y: 0 }} // Initial animation state (hidden and slightly shifted)
