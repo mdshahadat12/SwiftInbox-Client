@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { CiSquareInfo } from "react-icons/ci";
-import { FaInbox } from "react-icons/fa";
+import { FaInbox, FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(true);
+  const { user } = useContext(AuthContext);
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
@@ -61,6 +63,13 @@ const Sidebar = () => {
             <nav>
               <>
                 <Menu icon={FaInbox} label="Inbox" address="/" />
+                {user && (
+                  <Menu
+                    icon={FaRegBookmark}
+                    label="Bookmarks"
+                    address="/bookmark"
+                  />
+                )}
                 <Menu
                   icon={MdOutlineConnectWithoutContact}
                   label="Contact Us"

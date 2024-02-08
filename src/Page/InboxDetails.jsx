@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { GiCrossedBones } from "react-icons/gi";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -9,15 +9,33 @@ import Avatar from "../Components/Avatar";
 import lott from "../assets/lott.json";
 import Lottie from "lottie-react";
 import { axiosSecure } from "../Components/useAxios";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
-
+import { GoDownload } from "react-icons/go";
+import { IoPrintOutline } from "react-icons/io5";
+import { MdOutlineDelete } from "react-icons/md";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
+import Loader from "../Components/Loader";
 const InboxDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+  // const [message, setMessage] = useState(null);
+  // const [loading, setLoading] = useState(true);
   // const currentData = emailData[parseInt(id) - 1];
-  const { messages, isLoading, refetch } = useContext(AuthContext);
+  const { user, refetch, isLoading, messages } = useContext(AuthContext);
   const message = messages?.find((message) => message._id === id);
-  console.log(message);
+  // const { data: message, isLoading } = Loader(
+  //   `/message/${id}`,
+  //   "singleMessage"
+  // );
+  // useEffect(() => {
+  //   console.log("hit");
+  //   axiosSecure.get(`/message/${id}`).then((res) => {
+  //     if (res.status === 201) {
+  //       console.log(res.data);
+  //       setMessage(res.data);
+  //       setLoading(false);
+  //     }
+  //   });
+  // }, [id]);
 
   const emailRegex = /<([^>]+)>/;
   const emailMatch = message?.from.match(emailRegex);
@@ -67,6 +85,28 @@ const InboxDetails = () => {
       }
     });
   };
+
+  // add bookmark function here
+  const handleBookmark = (id) => {
+    {
+      message?.bookmark?.includes(user?.email)
+        ? axiosSecure
+            .delete(`/bookmark/${id}?email=${user.email}`)
+            .then((res) => {
+              if (res.status === 201) {
+                toast.success("Bookmarked Removed");
+                refetch();
+              }
+            })
+        : axiosSecure.put(`/bookmark/${id}?email=${user.email}`).then((res) => {
+            if (res.status === 201) {
+              toast.success("Bookmarked");
+              refetch();
+            }
+          });
+    }
+  };
+
   //download function here
   const handleDownload = () => {
     const htmlContent = document.documentElement.outerHTML;
@@ -109,7 +149,6 @@ const InboxDetails = () => {
         transition={{ duration: 0.5 }} // Duration of the animation
         className="pt-10 lg:px-10"
       >
-        <Particlesanimation2></Particlesanimation2>
         <Link to="/">
           <button className="mb-3 flex items-center">
             <FaArrowLeft className="text-lg mr-3" /> Back
@@ -131,10 +170,24 @@ const InboxDetails = () => {
               variants={buttonVariants}
               whileHover={{ scale: 1.2 }}
               whileTap={{ scale: 0.9 }}
-              onClick={handleDownload}
+              onClick={() => handleBookmark(message._id)}
               className="btn btn-sm lg:btn-md"
             >
-              Download
+              {message?.bookmark?.includes(user?.email) ? (
+                <FaBookmark />
+              ) : (
+                <FaRegBookmark />
+              )}
+            </motion.button>
+            <motion.button
+              variants={buttonVariants}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={handleDownload}
+              className="btn btn-sm lg:btn-md"
+              title="Download"
+            >
+              <GoDownload />
             </motion.button>
             <motion.button
               variants={buttonVariants}
@@ -142,8 +195,9 @@ const InboxDetails = () => {
               whileTap={{ scale: 0.9 }}
               onClick={handlePrint}
               className="btn btn-sm lg:btn-md"
+              title="Print"
             >
-              Print
+              <IoPrintOutline />
             </motion.button>
             <motion.button
               variants={buttonVariants}
@@ -151,8 +205,9 @@ const InboxDetails = () => {
               whileTap={{ scale: 0.9 }}
               onClick={() => document.getElementById("deleteModal").showModal()}
               className="btn btn-sm lg:btn-md"
+              title="Delete"
             >
-              Delete
+              <MdOutlineDelete />
             </motion.button>
           </div>
         </section>
@@ -184,7 +239,7 @@ const InboxDetails = () => {
             {/* email info */}
           </div>
           <p
-            className="lg:px-5 xl:px-20 lg:w-[800px] overflow-y-auto"
+            className="lg:px-5 xl:px-20 overflow-y-auto"
             dangerouslySetInnerHTML={{ __html: htmlString }}
           ></p>
         </section>
