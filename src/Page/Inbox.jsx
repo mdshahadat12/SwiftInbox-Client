@@ -52,7 +52,7 @@ const Inbox = () => {
     <div className="max-w-screen-xl mx-auto my-12 px-4">
       {filteredMessages?.length === 0 && (
         <div className="md:w-96 mx-auto">
-          <h1 className="text-center font-bold text-2xl">No messages yet</h1>
+          <h1 className="text-center text-white font-bold text-2xl">No messages yet</h1>
           <Lottie animationData={lott} />
         </div>
       )}

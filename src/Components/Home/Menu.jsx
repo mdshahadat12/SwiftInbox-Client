@@ -7,7 +7,7 @@ const Menu = ({ label, address, icon: Icon }) => {
       to={address}
       end
       className={({ isActive }) =>
-        `flex items-center text-white px-4 py-2 my-5 rounded-lg transition-colors duration-300 transform hover:bg-[#33bba765]${
+        `flex items-center md:text-white  px-4 py-2 my-5 rounded-lg transition-colors duration-300 transform hover:bg-[#33bba765]${
           isActive
             ? "rounded-lg bg-[#33bba7a2] "
             : ""
