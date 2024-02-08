@@ -112,7 +112,7 @@ const htmlString = message?.body_html
             {message?.subject}
           </h1>
           <div className="badge badge-accent gap-2">
-            {"currentData?.label"}
+            {"Label"}
             <GiCrossedBones></GiCrossedBones>
           </div>
         </div>
