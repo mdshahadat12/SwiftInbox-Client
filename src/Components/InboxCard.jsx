@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { MdOutlineMailOutline } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
+import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
@@ -8,8 +9,9 @@ import Avatar from "./Avatar";
 import { axiosSecure } from "./useAxios";
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
-const InboxCard = ({ data }) => {
-  const { refetch } = useContext(AuthContext);
+const InboxCard = ({ data, bookFetch }) => {
+  const { user, refetch } = useContext(AuthContext);
+
   //add delete function here
   const handleDelete = (id) => {
     axiosSecure.put(`/update-mail/${id}`).then((res) => {
@@ -18,6 +20,28 @@ const InboxCard = ({ data }) => {
         refetch();
       }
     });
+  };
+  // add bookmark function here
+  const handleBookmark = (id) => {
+    {
+      data?.bookmark?.includes(user?.email)
+        ? axiosSecure
+            .delete(`/bookmark/${id}?email=${user.email}`)
+            .then((res) => {
+              if (res.status === 201) {
+                toast.success("Bookmarked Removed");
+                refetch();
+                bookFetch();
+              }
+            })
+        : axiosSecure.put(`/bookmark/${id}?email=${user.email}`).then((res) => {
+            if (res.status === 201) {
+              toast.success("Bookmarked");
+              refetch();
+              bookFetch();
+            }
+          });
+    }
   };
 
   const emailRegex = /<([^>]+)>/;
@@ -81,7 +105,22 @@ const InboxCard = ({ data }) => {
           </div>
         </Link>
         {/* actions  */}
+        {/* bookmark  */}
         <div className="w-1/3 text-end p-4">
+          <motion.button
+            variants={buttonVariants}
+            whileHover={{ scale: 1.2 }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => handleBookmark(data._id)}
+            className="btn text-accent font-bold text-xl"
+          >
+            {data?.bookmark?.includes(user?.email) ? (
+              <FaBookmark />
+            ) : (
+              <FaRegBookmark />
+            )}
+          </motion.button>
+          {/* delete  */}
           <motion.button
             variants={buttonVariants}
             whileHover={{ scale: 1.2 }}

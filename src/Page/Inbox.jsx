@@ -4,9 +4,11 @@ import lott from "../assets/lott.json";
 import InboxCard from "../Components/InboxCard";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthProvider";
+import Loader from "../Components/Loader";
 
-const Inbox = () => {
-  const { messages,  } = useContext(AuthContext);
+// eslint-disable-next-line react/prop-types
+const Inbox = ({ bookmarkPage }) => {
+  const { user, messages } = useContext(AuthContext);
   // const [emailData, setEmailData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
@@ -14,31 +16,21 @@ const Inbox = () => {
   filteredMessages = messages?.filter((message) => {
     return message.status !== "deleted";
   });
-
-  // if(tempMail){
-  //   axiosSecure.get(`/messages?email=${tempMail}`).then((res) => {
-  //     console.log(res.data);
-  //     setEmailData(res.data);
-  //   });
-  // }
-
-  // useEffect(() => {
-  //   if (tempMail) {
-  //     axiosSecure.get(`/messages?email=${tempMail}`).then((res) => {
-  //       console.log(res.data);
-
-  //       setEmailData(res.data);
-  //     });
-  //   }
-  // }, [tempMail]);
+  const { data: allMessages, refetch: bookFetch } = Loader(
+    `/all-messages`,
+    "allMessages"
+  );
+  const bookmarkedMessages = allMessages?.filter(
+    (messages) =>
+      messages?.bookmark?.includes(user?.email) && messages.status !== "deleted"
+  );
 
   // Calculate the indexes of the items to display on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredMessages?.slice(
-    indexOfFirstItem,
-    indexOfLastItem
-  );
+  const currentItems = bookmarkPage
+    ? bookmarkedMessages?.slice(indexOfFirstItem, indexOfLastItem)
+    : filteredMessages?.slice(indexOfFirstItem, indexOfLastItem);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -50,95 +42,201 @@ const Inbox = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto my-12 px-4">
-      {filteredMessages?.length === 0 && (
-        <div className="md:w-96 mx-auto">
-          <h1 className="text-center font-bold text-2xl">No messages yet</h1>
-          <Lottie animationData={lott} />
-        </div>
-      )}
-      {filteredMessages?.length > 0 && (
-        <div>
-          <h1 className="text-4xl text-white font-bold mb-5">
-            Inbox ({filteredMessages?.length})
-          </h1>
+      {bookmarkPage
+        ? bookmarkedMessages?.length === 0 && (
+            //for bookmark page
+            <div className="md:w-96 mx-auto">
+              <h1 className="text-center font-bold text-2xl text-white">
+                No Bookmarks yet
+              </h1>
+              <Lottie animationData={lott} />
+            </div>
+          )
+        : filteredMessages?.length === 0 && (
+            //for inbox page
+            <div className="md:w-96 mx-auto">
+              <h1 className="text-center font-bold text-2xl text-white">
+                No messages yet
+              </h1>
+              <Lottie animationData={lott} />
+            </div>
+          )}
+      {bookmarkPage
+        ? bookmarkedMessages?.length > 0 && (
+            //for bookmark page
+            <div>
+              <h1 className="text-4xl text-white font-bold mb-5">
+                {bookmarkPage ? "Bookmarks" : "Inbox"} (
+                {bookmarkedMessages?.length})
+              </h1>
 
-          <div>
-            {currentItems?.map((data) => (
-              <InboxCard key={data._id} data={data}></InboxCard>
-            ))}
-          </div>
+              <div>
+                {currentItems?.map((data) => (
+                  <InboxCard
+                    key={data._id}
+                    data={data}
+                    bookFetch={bookFetch}
+                  ></InboxCard>
+                ))}
+              </div>
 
-          {/* Pagination UI */}
-          <div className="flex flex-col items-center justify-center mt-8 sm:flex-row">
-            <button
-              onClick={() => paginate(currentPage - 1)}
-              disabled={currentPage === 1}
-              className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 border-accent rounded-full ${
-                currentPage === 1
-                  ? "text-gray-500 bg-gray-200 cursor-not-allowed"
-                  : "text-gray-400 hover:bg-blue-100"
-              } transition duration-300`}
-            >
-              Previous
-            </button>
-
-            {/* Display page numbers */}
-            <div className="flex flex-wrap justify-center mb-2 sm:flex-nowrap">
-              {Array.from({
-                length: Math.ceil(filteredMessages?.length / itemsPerPage),
-              }).map((_, index) => (
-                <motion.button
-                  key={index}
-                  onClick={() => paginate(index + 1)}
-                  whileHover={{ scale: 1.3 }}
-                  whileTap={{ scale: 0.9 }}
-                  className={`px-4 py-2 mx-2 text-sm font-semibold border-2 rounded-full ${
-                    currentPage === index + 1
-                      ? "text-white bg-accent cursor-not-allowed"
-                      : "text-gray-500 hover:bg-accent hover:text-white"
+              {/* Pagination UI */}
+              <div className="flex flex-col items-center justify-center mt-8 sm:flex-row">
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 border-accent rounded-full ${
+                    currentPage === 1
+                      ? "text-gray-500 bg-gray-200 cursor-not-allowed"
+                      : "text-gray-400 hover:bg-blue-100"
                   } transition duration-300`}
                 >
-                  {index + 1}
-                </motion.button>
-              ))}
-            </div>
+                  Previous
+                </button>
 
-            <button
-              onClick={() => paginate(currentPage + 1)}
-              disabled={
-                currentPage ===
-                Math.ceil(filteredMessages?.length / itemsPerPage)
-              }
-              className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 border-accent rounded-full ${
-                currentPage ===
-                Math.ceil(filteredMessages?.length / itemsPerPage)
-                  ? "text-gray-500 bg-gray-200 cursor-not-allowed"
-                  : "text-gray-400 hover:bg-blue-100"
-              } transition duration-300`}
-            >
-              Next
-            </button>
+                {/* Display page numbers */}
+                <div className="flex flex-wrap justify-center mb-2 sm:flex-nowrap">
+                  {Array.from({
+                    length: Math.ceil(
+                      bookmarkedMessages?.length / itemsPerPage
+                    ),
+                  }).map((_, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => paginate(index + 1)}
+                      whileHover={{ scale: 1.3 }}
+                      whileTap={{ scale: 0.9 }}
+                      className={`px-4 py-2 mx-2 text-sm font-semibold border-2 rounded-full ${
+                        currentPage === index + 1
+                          ? "text-white bg-accent cursor-not-allowed"
+                          : "text-gray-500 hover:bg-accent hover:text-white"
+                      } transition duration-300`}
+                    >
+                      {index + 1}
+                    </motion.button>
+                  ))}
+                </div>
 
-            {/* Items per page dropdown */}
-            <div className="flex items-center justify-center mb-2">
-              <label htmlFor="itemsPerPage" className="mr-2"></label>
-              <select
-                id="itemsPerPage"
-                value={itemsPerPage}
-                onChange={handleItemsPerPageChange}
-                className="p-2 border-2 text-gray-500 border-accent rounded-md"
-              >
-                <option value={5}>5</option>
-                <option value={10}>10</option>
-                <option value={15}>15</option>
-                <option value={20}>20</option>
-                <option value={25}>25</option>
-                <option value={30}>30</option>
-              </select>
+                <button
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={
+                    currentPage ===
+                    Math.ceil(bookmarkedMessages?.length / itemsPerPage)
+                  }
+                  className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 border-accent rounded-full ${
+                    currentPage ===
+                    Math.ceil(bookmarkedMessages?.length / itemsPerPage)
+                      ? "text-gray-500 bg-gray-200 cursor-not-allowed"
+                      : "text-gray-400 hover:bg-blue-100"
+                  } transition duration-300`}
+                >
+                  Next
+                </button>
+
+                {/* Items per page dropdown */}
+                <div className="flex items-center justify-center mb-2">
+                  <label htmlFor="itemsPerPage" className="mr-2"></label>
+                  <select
+                    id="itemsPerPage"
+                    value={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
+                    className="p-2 border-2 text-gray-500 border-accent rounded-md"
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={15}>15</option>
+                    <option value={20}>20</option>
+                    <option value={25}>25</option>
+                    <option value={30}>30</option>
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          )
+        : filteredMessages?.length > 0 && (
+            <div>
+              <h1 className="text-4xl text-white font-bold mb-5">
+                {bookmarkPage ? "Bookmarks" : "Inbox"} (
+                {filteredMessages?.length})
+              </h1>
+
+              <div>
+                {currentItems?.map((data) => (
+                  <InboxCard key={data._id} data={data}></InboxCard>
+                ))}
+              </div>
+
+              {/* Pagination UI */}
+              <div className="flex flex-col items-center justify-center mt-8 sm:flex-row">
+                <button
+                  onClick={() => paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 border-accent rounded-full ${
+                    currentPage === 1
+                      ? "text-gray-500 bg-gray-200 cursor-not-allowed"
+                      : "text-gray-400 hover:bg-blue-100"
+                  } transition duration-300`}
+                >
+                  Previous
+                </button>
+
+                {/* Display page numbers */}
+                <div className="flex flex-wrap justify-center mb-2 sm:flex-nowrap">
+                  {Array.from({
+                    length: Math.ceil(filteredMessages?.length / itemsPerPage),
+                  }).map((_, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => paginate(index + 1)}
+                      whileHover={{ scale: 1.3 }}
+                      whileTap={{ scale: 0.9 }}
+                      className={`px-4 py-2 mx-2 text-sm font-semibold border-2 rounded-full ${
+                        currentPage === index + 1
+                          ? "text-white bg-accent cursor-not-allowed"
+                          : "text-gray-500 hover:bg-accent hover:text-white"
+                      } transition duration-300`}
+                    >
+                      {index + 1}
+                    </motion.button>
+                  ))}
+                </div>
+
+                <button
+                  onClick={() => paginate(currentPage + 1)}
+                  disabled={
+                    currentPage ===
+                    Math.ceil(filteredMessages?.length / itemsPerPage)
+                  }
+                  className={`px-4 py-2 mx-2 mb-2 text-sm font-semibold border-2 border-accent rounded-full ${
+                    currentPage ===
+                    Math.ceil(filteredMessages?.length / itemsPerPage)
+                      ? "text-gray-500 bg-gray-200 cursor-not-allowed"
+                      : "text-gray-400 hover:bg-blue-100"
+                  } transition duration-300`}
+                >
+                  Next
+                </button>
+
+                {/* Items per page dropdown */}
+                <div className="flex items-center justify-center mb-2">
+                  <label htmlFor="itemsPerPage" className="mr-2"></label>
+                  <select
+                    id="itemsPerPage"
+                    value={itemsPerPage}
+                    onChange={handleItemsPerPageChange}
+                    className="p-2 border-2 text-gray-500 border-accent rounded-md"
+                  >
+                    <option value={5}>5</option>
+                    <option value={10}>10</option>
+                    <option value={15}>15</option>
+                    <option value={20}>20</option>
+                    <option value={25}>25</option>
+                    <option value={30}>30</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
     </div>
   );
 };
