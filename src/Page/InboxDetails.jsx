@@ -141,7 +141,7 @@ const InboxDetails = () => {
         transition={{ duration: 0.5 }} // Duration of the animation
         className="pt-10 lg:px-10"
       >
-        <Link to="/">
+        <Link onClick={() => navigate(-1)}>
           <button className="mb-3 flex items-center">
             <FaArrowLeft className="text-lg mr-3" /> Back
           </button>
