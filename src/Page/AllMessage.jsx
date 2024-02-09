@@ -14,7 +14,9 @@ const AllMessage = () => {
       <hr />
 
       {isLoading ? (
-        <Lottie animationData={lott}></Lottie>
+        <div className="flex justify-center items-center ">
+        <Lottie className="w-[200px]" animationData={lott}></Lottie>
+        </div>
       ) : (
         data?.map((data) => <InboxCard key={data._id} data={data}></InboxCard>)
       )}

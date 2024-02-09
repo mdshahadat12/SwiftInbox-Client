@@ -1,4 +1,4 @@
-import { useState } from "react";
+// import { useState } from "react";
 // import RoleUpdateModal from "./RoleUpdateModal";
 // import { useQuery } from "@tanstack/react-query";
 // import Spiner from "../Shared/Spiner";
@@ -7,6 +7,7 @@ import Lottie from "lottie-react";
 import lott from "../assets/lott.json";
 import Loader from "../Components/Loader";
 import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
+import { useState } from "react";
 
 const ManageUser = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +19,9 @@ const ManageUser = () => {
   return (
     <>
     {
-      isLoading? <Lottie animationData={lott}></Lottie>      :
+      isLoading? <div className="flex justify-center items-center ">
+      <Lottie className="w-[200px]" animationData={lott}></Lottie>
+      </div>    :
       <div className="text-white">
     <Particlesanimation2></Particlesanimation2>
       <h1 className="text-center font-bold text-4xl my-5">Manage User</h1>
