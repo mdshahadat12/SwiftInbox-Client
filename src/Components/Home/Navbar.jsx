@@ -40,11 +40,16 @@ const Navbar = () => {
                 </div>
                 <ul
                   tabIndex={0}
-                  className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-20"
+                  className="menu menu-sm mr-4 dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-20"
                 >
-                  <p className="px-3 cursor-pointer py-2 rounded-lg bg-gradient-to-r from-blue-700 via-blue-600 to-purple-700 text-white font-black hover:bg-gradient-to-l" onClick={handleLogOut}>
+                  <p className="px-3 cursor-pointer py-2 rounded-lg bg-gradient-to-r from-green-700 via-green-600 to-green-700 text-white font-black hover:bg-gradient-to-l" onClick={handleLogOut}>
                     Logout
                   </p>
+                  <Link to={"/dashboard"}>
+                  <p className="px-3 mt-2 cursor-pointer py-2 rounded-lg bg-gradient-to-r from-green-700 via-green-600 to-green-700 text-white font-black hover:bg-gradient-to-l">
+                    Dashboard
+                  </p>
+                  </Link>
                 </ul>
               </div>
             </div>

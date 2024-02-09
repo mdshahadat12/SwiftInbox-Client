@@ -7,7 +7,7 @@ const Avatar = ({ email }) => {
   };
 
   // Get the first letter of the email
-  const firstLetter = email.charAt(0).toUpperCase();
+  const firstLetter = email?.charAt(0).toUpperCase();
   return (
     <div
       className="rounded-full flex items-center justify-center w-10 h-10 m-1"
