@@ -4,6 +4,7 @@ import lott from "../assets/lott.json";
 import InboxCard from "../Components/InboxCard";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthProvider";
+import Loader from "../Components/Loader";
 
 // eslint-disable-next-line react/prop-types
 const Inbox = ({ bookmarkPage }) => {
@@ -15,10 +16,14 @@ const Inbox = ({ bookmarkPage }) => {
   filteredMessages = messages?.filter((message) => {
     return message.status !== "deleted";
   });
-  const bookmarkedMessages = filteredMessages?.filter((messages) =>
-    messages?.bookmark?.includes(user?.email)
+  const { data: allMessages, refetch: bookFetch } = Loader(
+    `/all-messages`,
+    "allMessages"
   );
-  console.log(bookmarkedMessages);
+  const bookmarkedMessages = allMessages?.filter(
+    (messages) =>
+      messages?.bookmark?.includes(user?.email) && messages.status !== "deleted"
+  );
 
   // Calculate the indexes of the items to display on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -67,7 +72,11 @@ const Inbox = ({ bookmarkPage }) => {
 
               <div>
                 {currentItems?.map((data) => (
-                  <InboxCard key={data._id} data={data}></InboxCard>
+                  <InboxCard
+                    key={data._id}
+                    data={data}
+                    bookFetch={bookFetch}
+                  ></InboxCard>
                 ))}
               </div>
 
@@ -88,7 +97,9 @@ const Inbox = ({ bookmarkPage }) => {
                 {/* Display page numbers */}
                 <div className="flex flex-wrap justify-center mb-2 sm:flex-nowrap">
                   {Array.from({
-                    length: Math.ceil(bookmarkedMessages?.length / itemsPerPage),
+                    length: Math.ceil(
+                      bookmarkedMessages?.length / itemsPerPage
+                    ),
                   }).map((_, index) => (
                     <motion.button
                       key={index}

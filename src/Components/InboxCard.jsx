@@ -9,7 +9,7 @@ import Avatar from "./Avatar";
 import { axiosSecure } from "./useAxios";
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
-const InboxCard = ({ data }) => {
+const InboxCard = ({ data, bookFetch }) => {
   const { user, refetch } = useContext(AuthContext);
 
   //add delete function here
@@ -31,12 +31,14 @@ const InboxCard = ({ data }) => {
               if (res.status === 201) {
                 toast.success("Bookmarked Removed");
                 refetch();
+                bookFetch();
               }
             })
         : axiosSecure.put(`/bookmark/${id}?email=${user.email}`).then((res) => {
             if (res.status === 201) {
               toast.success("Bookmarked");
               refetch();
+              bookFetch();
             }
           });
     }
