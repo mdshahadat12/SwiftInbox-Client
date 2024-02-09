@@ -10,9 +10,9 @@ const Navbar = () => {
     navigate("/");
   };
   return (
-    <div className="navbar shadow-md md:sticky rounded-md top-0 md:z-50 backdrop-blur">
+    <div className="navbar bg-white shadow-md md:sticky rounded-md top-0 md:z-50 backdrop-blur">
       <div className="flex-1">
-        <a className="text-xl">{user ? user?.displayName : <p>Guest</p>}</a>
+        <a className="text-xl ">{user ? user?.displayName : <p>Guest</p>}</a>
       </div>
       <div className="flex-none">
         <div className="flex gap-4 justify-end items-center">
@@ -43,7 +43,7 @@ const Navbar = () => {
                   className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-20"
                 >
                   <p
-                    className="hover:text-red-600 font-bold"
+                    className="px-3 cursor-pointer py-2 rounded-lg bg-gradient-to-r from-blue-700 via-blue-600 to-purple-700 text-white font-black hover:bg-gradient-to-l"
                     onClick={handleLogOut}
                   >
                     Logout
@@ -52,10 +52,11 @@ const Navbar = () => {
               </div>
             </div>
           ) : (
-            <Link to="/login" className="font-semibold">
-              <span className="py-3 px-6 hover:border border-green-300 rounded-lg shadow-xl">
-                Login
-              </span>
+            <Link
+              to="/login"
+              className="px-3 py-2 rounded-lg bg-gradient-to-r from-blue-700 via-blue-600 to-purple-700 text-white font-black hover:bg-gradient-to-l"
+            >
+              Login
             </Link>
           )}
         </div>

@@ -28,7 +28,7 @@ const Sidebar = () => {
                 src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
                 className="h-10 mr-3"
               />
-              <span className="self-center text-black text-2xl font-extrabold whitespace-nowrap ">
+              <span className="self-center text-white text-2xl font-extrabold whitespace-nowrap ">
                 SwiftInbox
               </span>
             </div>
@@ -46,9 +46,9 @@ const Sidebar = () => {
               <div className="my-2 flex">
               <img
                 src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
-                className="h-10 mr-3"
+                className="h-10 rounded mr-3"
               />
-              <span className="self-center text-black text-2xl font-extrabold whitespace-nowrap ">
+              <span className="self-center text-white text-2xl font-extrabold whitespace-nowrap ">
                 SwiftInbox
               </span>
             </div>
@@ -57,10 +57,10 @@ const Sidebar = () => {
           </div>
 
           {/* Nav Items */}
-          <div className="flex flex-col justify-between flex-1 mt-6">
+          <div className="flex flex-col justify-between  flex-1 mt-6">
             <nav>
               <>
-                <Menu icon={FaInbox} label="Inbox" address="/" />
+                <Menu  icon={FaInbox} label="Inbox" address="/" />
                 <Menu
                   icon={MdOutlineConnectWithoutContact}
                   label="Contact Us"
