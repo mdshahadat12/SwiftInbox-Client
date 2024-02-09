@@ -8,6 +8,10 @@ import Login from "../Page/Login/Login";
 import Register from "../Page/Register/Register";
 import Error from "../Page/Error/Error";
 import Bookmarks from "../Page/Bookmarks";
+import DashboardLayout from "../Layout/DashboardLayout";
+import Profile from "../Page/Profile";
+import ManageUser from "../Page/ManageUser";
+import AllMessage from "../Page/AllMessage";
 
 export const router = createBrowserRouter([
   {
@@ -44,5 +48,23 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register></Register>,
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout></DashboardLayout>,
+    children:[
+      {
+        path:"/dashboard",
+        element:<Profile></Profile>
+      },
+      {
+        path:"manageuser",
+        element:<ManageUser></ManageUser>
+      },
+      {
+        path:"allmessage",
+        element:<AllMessage></AllMessage>
+      }
+    ]
   },
 ]);

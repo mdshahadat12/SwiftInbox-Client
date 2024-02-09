@@ -14,6 +14,7 @@ import { IoPrintOutline } from "react-icons/io5";
 import { MdOutlineDelete } from "react-icons/md";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import Loader from "../Components/Loader";
+import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 const InboxDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -138,6 +139,7 @@ const InboxDetails = () => {
 
   return (
     <>
+    <Particlesanimation2></Particlesanimation2>
       <motion.div
         initial={{ opacity: 0, y: 0 }} // Initial animation state (hidden and slightly shifted)
         animate={{ opacity: 1, y: 60 }} // Animation to reveal the component
@@ -145,14 +147,14 @@ const InboxDetails = () => {
         className="pt-10 lg:px-10"
       >
         <Link onClick={() => navigate(-1)}>
-          <button className="mb-3 flex items-center">
+          <button className="mb-3 flex bg-white btn items-center">
             <FaArrowLeft className="text-lg mr-3" /> Back
           </button>
         </Link>
         {/* email subject here */}
         <section className="lg:flex justify-between mb-5">
           <div className="flex items-center gap-5 flex-wrap mb-5">
-            <h1 title="Subject" className="text-2xl font-semibold ">
+            <h1 title="Subject" className="text-2xl text-white font-semibold ">
               {message?.subject}
             </h1>
             <div className="badge badge-accent gap-2">
