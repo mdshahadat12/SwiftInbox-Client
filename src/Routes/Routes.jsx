@@ -7,16 +7,21 @@ import InboxDetails from "../Page/InboxDetails";
 import Login from "../Page/Login/Login";
 import Register from "../Page/Register/Register";
 import Error from "../Page/Error/Error";
+import Bookmarks from "../Page/Bookmarks";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomeLayout></HomeLayout>,
-    errorElement:<Error></Error>,
+    errorElement: <Error></Error>,
     children: [
       {
         path: "/",
         element: <App></App>,
+      },
+      {
+        path: "/bookmark",
+        element: <Bookmarks></Bookmarks>,
       },
       {
         path: "/contact",
