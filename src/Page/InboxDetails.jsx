@@ -22,10 +22,11 @@ const InboxDetails = () => {
   // const [loading, setLoading] = useState(true);
   // const currentData = emailData[parseInt(id) - 1];
   // const message = messages?.find((message) => message._id === id);
-  const { data: message, isLoading } = Loader(
-    `/message/${id}`,
-    "singleMessage"
-  );
+  const {
+    data: message,
+    isLoading,
+    refetch: mRefetch,
+  } = Loader(`/message/${id}`, "singleMessage");
 
   if (isLoading) {
     return <Lottie animationData={lott} />;
@@ -89,12 +90,14 @@ const InboxDetails = () => {
             .then((res) => {
               if (res.status === 201) {
                 toast.success("Bookmarked Removed");
+                mRefetch();
                 refetch();
               }
             })
         : axiosSecure.put(`/bookmark/${id}?email=${user.email}`).then((res) => {
             if (res.status === 201) {
               toast.success("Bookmarked");
+              mRefetch();
               refetch();
             }
           });
