@@ -1,13 +1,12 @@
 import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
-import { CiSquareInfo } from "react-icons/ci";
 import { FaInbox, FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import Menu from "./Menu";
-import { AuthContext } from "../../Provider/AuthProvider";
+import { AuthContext } from "../Provider/AuthProvider";
+import Menu from "./Home/Menu";
 
-const Sidebar = () => {
+const DashboardSidebar = () => {
   const [isActive, setActive] = useState(true);
   const { user } = useContext(AuthContext);
 
@@ -62,20 +61,19 @@ const Sidebar = () => {
           <div className="flex flex-col justify-between  flex-1 mt-6">
             <nav>
               <>
-                <Menu icon={FaInbox} label="Inbox" address="/" />
-                {user && (
+                <Menu icon={FaInbox} label="Profile" address="/dashboard" />
+                { (
                   <Menu
                     icon={FaRegBookmark}
-                    label="Bookmarks"
-                    address="/bookmark"
+                    label="User Manage"
+                    address="manageuser"
                   />
                 )}
                 <Menu
                   icon={MdOutlineConnectWithoutContact}
-                  label="Contact Us"
-                  address="/contact"
+                  label="All Messages"
+                  address="allmessage"
                 />
-                <Menu icon={CiSquareInfo} label="About Us" address="about" />
               </>
               {/* Menu Items */}
             </nav>
@@ -86,4 +84,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default DashboardSidebar;
