@@ -11,6 +11,7 @@ import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 const InboxCard = ({ data, bookFetch }) => {
   const { user, refetch } = useContext(AuthContext);
+  console.log(data);
 
   //add delete function here
   const handleDelete = (id) => {
@@ -45,9 +46,9 @@ const InboxCard = ({ data, bookFetch }) => {
   };
 
   const emailRegex = /<([^>]+)>/;
-  const emailMatch = data?.from.match(emailRegex);
+  const emailMatch = data?.from?.match(emailRegex);
   const email = emailMatch ? emailMatch[1] : null;
-  const name = data?.from.replace(emailRegex, "").replace(/"/g, "").trim();
+  const name = data?.from?.replace(emailRegex, "").replace(/"/g, "").trim();
 
   const displayDescription = () => {
     const maxLength = 50;
