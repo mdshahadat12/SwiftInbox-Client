@@ -1,24 +1,11 @@
-// import { useState } from "react";
-// import RoleUpdateModal from "./RoleUpdateModal";
-// import { useQuery } from "@tanstack/react-query";
-// import Spiner from "../Shared/Spiner";
-// import { axiosSecure } from "../Components/useAxios";
 import Lottie from "lottie-react";
 import lott from "../assets/lott.json";
 import Loader from "../Components/Loader";
 import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
-import { useState } from "react";
 import { Helmet } from "react-helmet";
 
 const ManageUser = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  function closeModal() {
-    setIsOpen(false);
-  }
-  function openModal() {
-    setIsOpen(true);
-  }
-  const [email, setEmail] = useState(null);
+
   const { data, isLoading } = Loader("/all-users", "userinfo");
   console.log(data);
   return (
@@ -61,8 +48,7 @@ const ManageUser = () => {
                     <th>
                       <button
                         onClick={() => {
-                          openModal();
-                          setEmail(data.email);
+                          console.log("clicked");
                         }}
                         className="btn btn-xs"
                       >

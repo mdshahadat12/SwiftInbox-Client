@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom"
-import { ToastContainer, Zoom } from "react-toastify"
 import DashboardSidebar from "../Components/DashboardSidebar"
+import { Toaster } from "react-hot-toast"
 
 const DashboardLayout = () => {
     return (
@@ -13,19 +13,7 @@ const DashboardLayout = () => {
           </div>
         </div>
       </div>
-      <ToastContainer
-          position="top-center"
-          autoClose={1000}
-          hideProgressBar
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-          transition={Zoom}
-        />
+      <Toaster></Toaster>
       </>
     )
   }
