@@ -23,6 +23,7 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [tempMail, setTempMail] = useState(null);
   const [userData, setUserData] = useState(null);
+  const [roleLoading, setRoleLoading] = useState(true);
 
   const {
     isLoading,
@@ -86,6 +87,7 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, async (currentUser) => {
       try {
+        setRoleLoading(true);
         setUser(currentUser);
 
         const userEmail = currentUser?.email || user?.email;
@@ -97,6 +99,7 @@ const AuthProvider = ({ children }) => {
             .get(`/get-user?email=${currentUser?.email}`)
             .then((res) => {
               setUserData(res.data);
+              setRoleLoading(false);
             });
 
           // create token on login
@@ -169,6 +172,7 @@ const AuthProvider = ({ children }) => {
     userData,
     checkUser,
     saveUser,
+    roleLoading,
   };
 
   return (
