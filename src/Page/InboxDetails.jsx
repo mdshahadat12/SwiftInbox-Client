@@ -78,12 +78,14 @@ const InboxDetails = () => {
             .then((res) => {
               if (res.status === 201) {
                 toast.success("Bookmarked Removed");
+                mRefetch();
                 refetch();
               }
             })
         : axiosSecure.put(`/bookmark/${id}?email=${user.email}`).then((res) => {
             if (res.status === 201) {
               toast.success("Bookmarked");
+              mRefetch();
               refetch();
             }
           });
