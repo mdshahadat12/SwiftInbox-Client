@@ -1,14 +1,17 @@
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
+import { Helmet } from "react-helmet";
 
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
-  console.log(user);
   return (
     <>
     <Particlesanimation2></Particlesanimation2>
+    <Helmet>
+        <title>SwiftInbox | Profile</title>
+      </Helmet>
     <div className={`p-10 text-white rounded-lg`}>
       <div>
         <img

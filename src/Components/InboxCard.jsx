@@ -9,9 +9,8 @@ import Avatar from "./Avatar";
 import { axiosSecure } from "./useAxios";
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
-const InboxCard = ({ data, bookFetch }) => {
+const InboxCard = ({ data, bookFetch, admin }) => {
   const { user, refetch } = useContext(AuthContext);
-  console.log(data);
 
   //add delete function here
   const handleDelete = (id) => {
@@ -106,21 +105,25 @@ const InboxCard = ({ data, bookFetch }) => {
           </div>
         </Link>
         {/* actions  */}
-        {/* bookmark  */}
         <div className="w-1/3 text-end p-4">
-          <motion.button
-            variants={buttonVariants}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => handleBookmark(data._id)}
-            className="btn text-accent font-bold text-xl"
-          >
-            {data?.bookmark?.includes(user?.email) ? (
-              <FaBookmark />
-            ) : (
-              <FaRegBookmark />
-            )}
-          </motion.button>
+          {/* bookmark  */}
+          {admin ? (
+            " "
+          ) : (
+            <motion.button
+              variants={buttonVariants}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => handleBookmark(data._id)}
+              className="btn text-accent font-bold text-xl"
+            >
+              {data?.bookmark?.includes(user?.email) ? (
+                <FaBookmark />
+              ) : (
+                <FaRegBookmark />
+              )}
+            </motion.button>
+          )}
           {/* delete  */}
           <motion.button
             variants={buttonVariants}
