@@ -7,8 +7,8 @@ const EmailBoxAnimation = () => {
         await loadSlim(engine);
     }, []);
 
-    const particlesLoaded = useCallback(async (container) => {
-        console.log(container);
+    const particlesLoaded = useCallback(async () => {
+        // console.log(container);
     }, []);
 
     return (
