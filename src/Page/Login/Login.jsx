@@ -1,13 +1,12 @@
 import { FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthProvider";
 import loginImg from "../../../public/Resources/login.png";
 import { FcGoogle } from "react-icons/fc";
-import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import SharedAuth from "../SharedAuth/SharedAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const { signIn, loginGoogle, loginGithub, checkUser, saveUser } =
@@ -26,13 +25,7 @@ const Login = () => {
     const password = form.password.value;
     signIn(email, password)
       .then(() => {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Login successful.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+       toast.success("Login Successful")
         navigate(from, { replace: true });
       })
       .catch((error) => {

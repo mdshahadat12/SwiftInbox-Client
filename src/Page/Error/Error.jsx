@@ -18,8 +18,7 @@ const Error = () => {
     return (
         <div className='px-20 ' style={containerStyle}>
             <Helmet>
-                <title>Error | Pearl Ashore</title>
-                <meta name="description" content="This is my awesome app." />
+                <title>SwiftInbox | Error</title>
             </Helmet>
             <h1 className="text-6xl text-black mb-40 font-bold"> Page Not Found</h1>
             <Link to='/'><button className='btn btn-warning'>Go Home</button></Link>

@@ -30,11 +30,9 @@
     "react-router-dom": "^6.21.2",
     "react-slick": "^0.29.0",
     "react-spinners-kit": "^1.9.1",
-    "react-toastify": "^10.0.4",
     "react-tsparticles": "^2.12.2",
     "slick-carousel": "^1.8.1",
     "sort-by": "^0.0.2",
-    "sweetalert2": "^11.10.4",
     "tsparticles": "^3.2.1",
     "tsparticles-slim": "^2.12.0"
   },

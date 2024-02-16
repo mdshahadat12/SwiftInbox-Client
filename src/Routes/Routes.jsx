@@ -8,6 +8,12 @@ import Login from "../Page/Login/Login";
 import Register from "../Page/Register/Register";
 import Error from "../Page/Error/Error";
 import Bookmarks from "../Page/Bookmarks";
+import DashboardLayout from "../Layout/DashboardLayout";
+import Profile from "../Page/Profile";
+import ManageUser from "../Page/ManageUser";
+import AllMessage from "../Page/AllMessage";
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -21,7 +27,11 @@ export const router = createBrowserRouter([
       },
       {
         path: "/bookmark",
-        element: <Bookmarks></Bookmarks>,
+        element: (
+          <PrivateRoute>
+            <Bookmarks></Bookmarks>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/contact",
@@ -44,5 +54,39 @@ export const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register></Register>,
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "/dashboard",
+        element: <Profile></Profile>,
+      },
+      {
+        path: "manageuser",
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <ManageUser></ManageUser>
+            </PrivateRoute>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "allmessage",
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <AllMessage></AllMessage>
+            </PrivateRoute>
+          </AdminRoute>
+        ),
+      },
+    ],
   },
 ]);

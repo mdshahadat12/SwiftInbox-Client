@@ -4,9 +4,9 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import signUpImg from "../../../public/Resources/register.jpg";
 import SharedAuth from "../SharedAuth/SharedAuth";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const {
@@ -25,13 +25,7 @@ const Register = () => {
         const loggedUser = result.user;
         updateUserProfile(data.name, data.photoURL).then(() => {
           reset();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "User created successfully.",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          toast.success("Registration Successful");
           navigate("/");
           saveUser(loggedUser.email, loggedUser.displayName);
           // }
