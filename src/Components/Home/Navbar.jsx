@@ -12,7 +12,7 @@ const Navbar = () => {
   return (
     <div className="navbar bg-blue-800/15 shadow-md md:sticky rounded-md top-0 md:z-50 backdrop-blur text-white">
       <div className="flex-1">
-        <a className="text-lg font-bold bg-gradient-to-r from-lime-400 via-lime-500 to-green-600 text-transparent bg-clip-text">
+        <a className="text-xl font-bold bg-gradient-to-r from-lime-400 via-lime-500 to-green-600 text-transparent bg-clip-text">
           {user ? user?.displayName : <p>Guest</p>}
         </a>
       </div>
