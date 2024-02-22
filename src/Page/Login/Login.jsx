@@ -91,8 +91,8 @@ const Login = () => {
       </Helmet>
 
       <div className="hero flex flex-col lg:flex-row min-h-screen">
-        <div className="hero-content p-16 flex-1 flex-col md:flex-row-reverse">
-          <img className="" src={loginImg} alt="Login" />
+        <div className="hero-content px-16 flex-1 flex-col md:flex-row-reverse">
+          <img src={loginImg} alt="Login" />
         </div>
         <div className="card flex-1 max-w-sm shadow-2xl bg-base-100 p-10">
           <h2 className="text-2xl font-black bg-gradient-to-r from-blue-700 via-blue-600 to-purple-700 text-transparent bg-clip-text">
