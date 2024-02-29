@@ -12,6 +12,9 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import Profile from "../Page/Profile";
 import ManageUser from "../Page/ManageUser";
 import AllMessage from "../Page/AllMessage";
+import Faq from "../Page/Faq";
+
+
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +37,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <About></About>,
+      },
+      {
+        path: "/faq",
+        element: <Faq></Faq>
       },
       {
         path: "/inbox/:id",
