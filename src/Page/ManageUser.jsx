@@ -3,11 +3,29 @@ import lott from "../assets/lott.json";
 import Loader from "../Components/Loader";
 import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { Helmet } from "react-helmet";
+import { axiosSecure } from "../Components/useAxios";
+import toast from "react-hot-toast";
 
 const ManageUser = () => {
+  const { data, isLoading, refetch } = Loader("/all-users", "userinfo");
 
-  const { data, isLoading } = Loader("/all-users", "userinfo");
-  console.log(data);
+  const handleRoleChange = (email, role, existedRole) => {
+    if (role === existedRole) {
+      toast.error("You can't change your role to the same one");
+    } else {
+      axiosSecure
+        .put("/change-role", { email: email, role: role })
+        .then((res) => {
+          if (res.status == 201) {
+            toast.success("Role changed successfully");
+            refetch();
+          } else {
+            toast.error("Something went wrong");
+          }
+        });
+    }
+  };
+
   return (
     <>
       {isLoading ? (
@@ -48,13 +66,57 @@ const ManageUser = () => {
                     <th>
                       <button
                         onClick={() => {
-                          console.log("clicked");
+                          document.getElementById(data._id).showModal();
                         }}
                         className="btn btn-xs"
                       >
                         Change Role
                       </button>
                     </th>
+                    {/* modal here  */}
+                    <dialog id={data._id} className="modal">
+                      <div className="modal-box bg-stone-800 rounded-lg p-5">
+                        <form method="dialog">
+                          {/* if there is a button in form, it will close the modal */}
+                          <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+                            ✕
+                          </button>
+                        </form>
+                        <h3 className="font-bold text-lg text-center">
+                          Changing the role for{" "}
+                          <span className="underline">{data.displayName}</span>{" "}
+                          <br />
+                          Currently Set to{" "}
+                          <span className="underline">{data.role}</span>
+                        </h3>
+                        <div className="flex justify-center gap-5 mt-5">
+                          <button
+                            onClick={() =>
+                              handleRoleChange(
+                                data.userEmail,
+                                "admin",
+                                data.role
+                              )
+                            }
+                            className="btn btn-accent"
+                          >
+                            Set to Admin
+                          </button>
+                          <button
+                            onClick={() =>
+                              handleRoleChange(
+                                data.userEmail,
+                                "user",
+                                data.role
+                              )
+                            }
+                            className="btn btn-accent"
+                          >
+                            Set to User
+                          </button>
+                        </div>
+                      </div>
+                    </dialog>
                   </tr>
                 ))}
               </tbody>
