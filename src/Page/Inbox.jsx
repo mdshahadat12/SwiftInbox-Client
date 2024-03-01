@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Lottie from "lottie-react";
 import lott from "../assets/lott.json";
 import InboxCard from "../Components/InboxCard";
@@ -9,21 +9,32 @@ import Loader from "../Components/Loader";
 // eslint-disable-next-line react/prop-types
 const Inbox = ({ bookmarkPage }) => {
   const { user, messages } = useContext(AuthContext);
-  // const [emailData, setEmailData] = useState([]);
+  const [filteredMessages, setFilteredMessages] = useState([]);
+  const [bookmarkedMessages, setBookmarkedMessages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
-  let filteredMessages = [];
-  filteredMessages = messages?.filter((message) => {
+  let checkMessage = [];
+  checkMessage = messages?.filter((message) => {
     return message.status !== "deleted";
   });
   const { data: allMessages, refetch: bookFetch } = Loader(
     `/all-messages`,
     "allMessages"
   );
-  const bookmarkedMessages = allMessages?.filter(
-    (messages) =>
-      messages?.bookmark?.includes(user?.email) && messages.status !== "deleted"
-  );
+  useEffect(() => {
+    setFilteredMessages(
+      messages?.filter((message) => {
+        return message.status !== "deleted";
+      })
+    );
+    setBookmarkedMessages(
+      allMessages?.filter(
+        (messages) =>
+          messages?.bookmark?.includes(user?.email) &&
+          messages.status !== "deleted"
+      )
+    );
+  }, [allMessages, messages, user?.email]);
 
   // Calculate the indexes of the items to display on the current page
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -40,6 +51,59 @@ const Inbox = ({ bookmarkPage }) => {
     setCurrentPage(1); // Reset to the first page when changing items per page
   };
 
+  const handleLabel = (e) => {
+    const sort = e.target.value;
+    if (sort === "Default") {
+      bookmarkPage
+        ? setBookmarkedMessages(
+            allMessages?.filter(
+              (messages) =>
+                messages?.bookmark?.includes(user?.email) &&
+                messages.status !== "deleted"
+            )
+          )
+        : setFilteredMessages(
+            messages?.filter((message) => {
+              return message.status !== "deleted";
+            })
+          );
+    } else if (sort === "Date") {
+      bookmarkPage
+        ? setBookmarkedMessages(
+            allMessages
+              ?.filter(
+                (messages) =>
+                  messages?.bookmark?.includes(user?.email) &&
+                  messages.status !== "deleted"
+              )
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          )
+        : setFilteredMessages(
+            messages
+              ?.filter((message) => {
+                return message.status !== "deleted";
+              })
+              .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          );
+    } else
+      bookmarkPage
+        ? setBookmarkedMessages(
+            allMessages?.filter(
+              (messages) =>
+                messages?.bookmark?.includes(user?.email) &&
+                messages.status !== "deleted" &&
+                messages?.label === sort
+            )
+          )
+        : setFilteredMessages(
+            messages?.filter((message) => {
+              return message.status !== "deleted" && message?.label === sort;
+            })
+          );
+
+    setCurrentPage(1);
+  };
+
   return (
     <div className="max-w-screen-xl mx-auto my-12 px-4">
       {bookmarkPage
@@ -52,7 +116,7 @@ const Inbox = ({ bookmarkPage }) => {
               <Lottie animationData={lott} />
             </div>
           )
-        : filteredMessages?.length === 0 && (
+        : checkMessage?.length === 0 && (
             //for inbox page
             <div className="md:w-96 mx-auto">
               <h1 className="text-center font-bold text-2xl text-white">
@@ -65,10 +129,24 @@ const Inbox = ({ bookmarkPage }) => {
         ? bookmarkedMessages?.length > 0 && (
             //for bookmark page
             <div>
-              <h1 className="text-4xl text-white font-bold mb-5">
-                {bookmarkPage ? "Bookmarks" : "Inbox"} (
-                {bookmarkedMessages?.length})
-              </h1>
+              <div className="flex items-center justify-between">
+                <h1 className="text-4xl text-white font-bold mb-5">
+                  {bookmarkPage ? "Bookmarks" : "Inbox"} (
+                  {bookmarkedMessages?.length})
+                </h1>
+                <select
+                  onChange={handleLabel}
+                  className="select select-accent select-sm max-w-xs"
+                  title="Select Label"
+                >
+                  <option value="Default">Default</option>
+                  <option value="Work">Work</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Scam">Scam</option>
+                  <option value="Date">Date</option>
+                </select>
+              </div>
 
               <div>
                 {currentItems?.map((data) => (
@@ -153,12 +231,26 @@ const Inbox = ({ bookmarkPage }) => {
               </div>
             </div>
           )
-        : filteredMessages?.length > 0 && (
+        : checkMessage?.length > 0 && (
             <div>
-              <h1 className="text-4xl text-white font-bold mb-5">
-                {bookmarkPage ? "Bookmarks" : "Inbox"} (
-                {filteredMessages?.length})
-              </h1>
+              <div className="flex items-center justify-between">
+                <h1 className="text-4xl text-white font-bold mb-5">
+                  {bookmarkPage ? "Bookmarks" : "Inbox"} (
+                  {filteredMessages?.length})
+                </h1>
+                <select
+                  onChange={handleLabel}
+                  className="select select-accent select-sm max-w-xs"
+                  title="Select Label"
+                >
+                  <option value="Default">Default</option>
+                  <option value="Work">Work</option>
+                  <option value="Personal">Personal</option>
+                  <option value="Entertainment">Entertainment</option>
+                  <option value="Scam">Scam</option>
+                  <option value="Date">Date</option>
+                </select>
+              </div>
 
               <div>
                 {currentItems?.map((data) => (

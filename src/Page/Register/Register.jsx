@@ -4,9 +4,9 @@ import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../Provider/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import signUpImg from "../../../public/Resources/register.jpg";
 import SharedAuth from "../SharedAuth/SharedAuth";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const {
@@ -25,13 +25,7 @@ const Register = () => {
         const loggedUser = result.user;
         updateUserProfile(data.name, data.photoURL).then(() => {
           reset();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "User created successfully.",
-            showConfirmButton: false,
-            timer: 1500,
-          });
+          toast.success("Registration Successful");
           navigate("/");
           saveUser(loggedUser.email, loggedUser.displayName);
           // }
@@ -50,9 +44,9 @@ const Register = () => {
 
       <div className="hero flex flex-col lg:flex-row-reverse min-h-screen">
         <div className="hero-content p-16 flex-1 flex-col md:flex-row-reverse">
-          <img src={signUpImg} alt="Register" />
+          <img src={signUpImg} className="w-full" alt="Register" />
         </div>
-        <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100 px-5 py-10">
+        <div className="card flex-1 max-w-sm shadow-2xl bg-base-100 p-10">
           <h2 className="text-2xl font-black bg-gradient-to-r from-green-700 via-lime-600 to-purple-700 text-transparent bg-clip-text">
             Please register
           </h2>

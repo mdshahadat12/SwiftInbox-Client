@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { MdOutlineMailOutline } from "react-icons/md";
+import { MdOutlineMailOutline, MdFiberNew } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -9,9 +9,8 @@ import Avatar from "./Avatar";
 import { axiosSecure } from "./useAxios";
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
-const InboxCard = ({ data, bookFetch }) => {
+const InboxCard = ({ data, bookFetch, admin }) => {
   const { user, refetch } = useContext(AuthContext);
-  console.log(data);
 
   //add delete function here
   const handleDelete = (id) => {
@@ -78,7 +77,11 @@ const InboxCard = ({ data, bookFetch }) => {
       transition={{ duration: 2 }}
       className="my-2"
     >
-      <div className="bg-base-200 flex items-center justify-between w-full rounded-lg">
+      <div
+        className={`${
+          data.status == "unread" ? "bg-base-200" : "bg-gray-400"
+        } flex items-center justify-between w-full rounded-lg `}
+      >
         <Link to={`/inbox/${data?._id}`} className=" w-3/4">
           <div className="flex items-center justify-between p-4">
             {/* image and sender info */}
@@ -106,28 +109,43 @@ const InboxCard = ({ data, bookFetch }) => {
           </div>
         </Link>
         {/* actions  */}
-        {/* bookmark  */}
-        <div className="w-1/3 text-end p-4">
-          <motion.button
-            variants={buttonVariants}
-            whileHover={{ scale: 1.2 }}
-            whileTap={{ scale: 0.9 }}
-            onClick={() => handleBookmark(data._id)}
-            className="btn text-accent font-bold text-xl"
-          >
-            {data?.bookmark?.includes(user?.email) ? (
-              <FaBookmark />
-            ) : (
-              <FaRegBookmark />
-            )}
-          </motion.button>
+        <div className="w-1/3 text-end p-4 relative">
+          {data.status == "unread" && (
+            <MdFiberNew className="absolute text-3xl text-red-500 translate-x-3/4 translate-y-1/2" />
+          )}
+          {/* bookmark  */}
+          {admin ? (
+            " "
+          ) : (
+            <motion.button
+              variants={buttonVariants}
+              whileHover={{ scale: 1.2 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={() => handleBookmark(data._id)}
+              className={`btn text-accent font-bold text-xl lg:mr-2 ${
+                data.status == "unread"
+                  ? "bg-base-200"
+                  : "bg-gray-400 border-gray-400"
+              }`}
+            >
+              {data?.bookmark?.includes(user?.email) ? (
+                <FaBookmark />
+              ) : (
+                <FaRegBookmark />
+              )}
+            </motion.button>
+          )}
           {/* delete  */}
           <motion.button
             variants={buttonVariants}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
             onClick={() => document.getElementById("deleteModal2").showModal()}
-            className="btn text-accent font-bold text-xl"
+            className={`btn text-accent font-bold text-xl ${
+              data.status == "unread"
+                ? "bg-base-200"
+                : "bg-gray-400 border-gray-400"
+            }`}
           >
             <AiFillDelete />
           </motion.button>

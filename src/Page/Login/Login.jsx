@@ -1,13 +1,12 @@
 import { FaEye, FaEyeSlash, FaGithub } from "react-icons/fa";
 import { useContext, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import { AuthContext } from "../../Provider/AuthProvider";
 import loginImg from "../../../public/Resources/login.png";
 import { FcGoogle } from "react-icons/fc";
-import { toast } from "react-toastify";
 import { Helmet } from "react-helmet-async";
 import SharedAuth from "../SharedAuth/SharedAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const { signIn, loginGoogle, loginGithub, checkUser, saveUser } =
@@ -26,13 +25,7 @@ const Login = () => {
     const password = form.password.value;
     signIn(email, password)
       .then(() => {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          title: "Login successful.",
-          showConfirmButton: false,
-          timer: 1500,
-        });
+       toast.success("Login Successful")
         navigate(from, { replace: true });
       })
       .catch((error) => {
@@ -98,8 +91,8 @@ const Login = () => {
       </Helmet>
 
       <div className="hero flex flex-col lg:flex-row min-h-screen">
-        <div className="hero-content p-16 flex-1 flex-col md:flex-row-reverse">
-          <img className="" src={loginImg} alt="Login" />
+        <div className="hero-content px-16 flex-1 flex-col md:flex-row-reverse">
+          <img src={loginImg} alt="Login" />
         </div>
         <div className="card flex-1 max-w-sm shadow-2xl bg-base-100 p-10">
           <h2 className="text-2xl font-black bg-gradient-to-r from-blue-700 via-blue-600 to-purple-700 text-transparent bg-clip-text">

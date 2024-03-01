@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { GiCrossedBones } from "react-icons/gi";
+import { useContext, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -15,18 +14,20 @@ import { MdOutlineDelete } from "react-icons/md";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import Loader from "../Components/Loader";
 import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
+import { Helmet } from "react-helmet";
 const InboxDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user, refetch } = useContext(AuthContext);
-  // const [message, setMessage] = useState(null);
-  // const [loading, setLoading] = useState(true);
-  // const currentData = emailData[parseInt(id) - 1];
-  // const message = messages?.find((message) => message._id === id);
-  const { data: message, isLoading } = Loader(
-    `/message/${id}`,
-    "singleMessage"
-  );
+  const {
+    data: message,
+    isLoading,
+    refetch: mRefetch,
+  } = Loader(`/message/${id}`, "singleMessage");
+
+  useEffect(() => {
+    axiosSecure.put(`/notify-mail/${id}`);
+  }, [id]);
 
   if (isLoading) {
     return <Lottie animationData={lott} />;
@@ -59,16 +60,8 @@ const InboxDetails = () => {
     date
   );
   const formattedString = `${formattedDate} at ${formattedTime}`;
-  console.log(formattedString);
 
   const htmlString = message?.body_html;
-  // Create a div element
-  // const divElement = document.createElement('div');
-  // // Set innerHTML of the div element with your HTML string
-  // divElement.innerHTML = htmlString;
-  // // Now you can append the divElement to the document or do whatever you need with it
-  // const body = <><div id="body"></div></>
-  // document.body.appendChild(divElement);
 
   //add delete function here
   const handleDelete = () => {
@@ -90,12 +83,14 @@ const InboxDetails = () => {
             .then((res) => {
               if (res.status === 201) {
                 toast.success("Bookmarked Removed");
+                mRefetch();
                 refetch();
               }
             })
         : axiosSecure.put(`/bookmark/${id}?email=${user.email}`).then((res) => {
             if (res.status === 201) {
               toast.success("Bookmarked");
+              mRefetch();
               refetch();
             }
           });
@@ -120,6 +115,22 @@ const InboxDetails = () => {
     window.print();
   };
 
+  // label function here
+  const handleLabel = (e) => {
+    axiosSecure
+      .put(`/label/${id}?label=${e.target.value}`)
+      .then((res) => {
+        if (res.status === 201) {
+          toast.success("Label Updated");
+          mRefetch();
+        }
+      })
+      .catch((error) => {
+        toast.error("Label not added");
+        console.log(error);
+      });
+  };
+
   // Motion variants for button animations
   const buttonVariants = {
     hover: {
@@ -136,7 +147,10 @@ const InboxDetails = () => {
 
   return (
     <>
-    <Particlesanimation2></Particlesanimation2>
+      <Particlesanimation2></Particlesanimation2>
+      <Helmet>
+        <title>SwiftInbox | Inbox Details</title>
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 0 }} // Initial animation state (hidden and slightly shifted)
         animate={{ opacity: 1, y: 60 }} // Animation to reveal the component
@@ -145,7 +159,8 @@ const InboxDetails = () => {
       >
         <Link onClick={() => navigate(-1)}>
           <button className="mb-3 flex bg-white btn items-center">
-            <FaArrowLeft className="text-lg mr-3" /> Back
+            <FaArrowLeft className="text-lg mr-3" />
+            Go Back
           </button>
         </Link>
         {/* email subject here */}
@@ -154,10 +169,21 @@ const InboxDetails = () => {
             <h1 title="Subject" className="text-2xl text-white font-semibold ">
               {message?.subject}
             </h1>
-            <div className="badge badge-accent gap-2">
-              {"Label"}
-              <GiCrossedBones></GiCrossedBones>
-            </div>
+            {message?.label && (
+              <div className="badge badge-accent gap-2">{message?.label}</div>
+            )}
+            <select
+              onChange={handleLabel}
+              className="select select-accent select-sm max-w-xs"
+              title="Select Label"
+            >
+              <option></option>
+              <option value="Default">Default</option>
+              <option value="Work">Work</option>
+              <option value="Personal">Personal</option>
+              <option value="Entertainment">Entertainment</option>
+              <option value="Scam">Scam</option>
+            </select>
           </div>
           <div className="flex items-center gap-5 flex-wrap">
             <motion.button
@@ -166,6 +192,7 @@ const InboxDetails = () => {
               whileTap={{ scale: 0.9 }}
               onClick={() => handleBookmark(message._id)}
               className="btn btn-sm lg:btn-md"
+              title="Bookmark"
             >
               {message?.bookmark?.includes(user?.email) ? (
                 <FaBookmark />
