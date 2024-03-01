@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
+import { GoCodeReview } from "react-icons/go";
 import { FaInbox, FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
@@ -73,6 +74,15 @@ const DashboardSidebar = () => {
                       icon={MdOutlineConnectWithoutContact}
                       label="All Messages"
                       address="allmessage"
+                    />
+                  </>
+                )}
+                {userData?.role === "user" && (
+                  <>
+                    <Menu
+                      icon={GoCodeReview}
+                      label="Opinion"
+                      address="opinion"
                     />
                   </>
                 )}

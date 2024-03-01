@@ -3,6 +3,7 @@ import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { CiSquareInfo } from "react-icons/ci";
 import { FaInbox, FaRegBookmark } from "react-icons/fa";
+import { GoCodeReview } from "react-icons/go";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -70,6 +71,11 @@ const Sidebar = () => {
                     address="/bookmark"
                   />
                 )}
+                <Menu
+                  icon={GoCodeReview}
+                  label="Testimonials"
+                  address="/testimonial"
+                />
                 <Menu
                   icon={MdOutlineConnectWithoutContact}
                   label="Contact Us"

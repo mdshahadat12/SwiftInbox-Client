@@ -14,6 +14,9 @@ import ManageUser from "../Page/ManageUser";
 import AllMessage from "../Page/AllMessage";
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
+import Opinion from "../Page/Opinion";
+import UserRoute from "./UserRoute";
+import Testimonial from "../Page/Testimonial";
 
 export const router = createBrowserRouter([
   {
@@ -36,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: "/contact",
         element: <ContactUs></ContactUs>,
+      },
+      {
+        path: "/testimonial",
+        element: <Testimonial></Testimonial>
       },
       {
         path: "/about",
@@ -85,6 +92,16 @@ export const router = createBrowserRouter([
               <AllMessage></AllMessage>
             </PrivateRoute>
           </AdminRoute>
+        ),
+      },
+      {
+        path: "opinion",
+        element: (
+          <UserRoute>
+            <PrivateRoute>
+              <Opinion></Opinion>
+            </PrivateRoute>
+          </UserRoute>
         ),
       },
     ],

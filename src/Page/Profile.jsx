@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  const { user, userData } = useContext(AuthContext);
   return (
     <>
     <Particlesanimation2></Particlesanimation2>
@@ -26,6 +26,9 @@ const Profile = () => {
       </div>
       <h1 className="text-center text-xl font-semibold">
         Name: {user?.displayName}
+      </h1>
+      <h1 className="text-center text-xl font-semibold">
+        Role: {userData?.role?.toUpperCase()}
       </h1>
       <div className="grid grid-cols-2 gap-5 my-10">
         <div className="md:px-20">
