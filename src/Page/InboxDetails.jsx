@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
@@ -19,10 +19,15 @@ const InboxDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const { user, refetch } = useContext(AuthContext);
-  const { data: message, isLoading , refetch:mRefetch } = Loader(
-    `/message/${id}`,
-    "singleMessage"
-  );
+  const {
+    data: message,
+    isLoading,
+    refetch: mRefetch,
+  } = Loader(`/message/${id}`, "singleMessage");
+
+  useEffect(() => {
+    axiosSecure.put(`/notify-mail/${id}`);
+  }, [id]);
 
   if (isLoading) {
     return <Lottie animationData={lott} />;
@@ -165,9 +170,7 @@ const InboxDetails = () => {
               {message?.subject}
             </h1>
             {message?.label && (
-              <div className="badge badge-accent gap-2">
-                {message?.label}
-              </div>
+              <div className="badge badge-accent gap-2">{message?.label}</div>
             )}
             <select
               onChange={handleLabel}
