@@ -18,6 +18,7 @@ import Opinion from "../Page/Opinion";
 import UserRoute from "./UserRoute";
 import Testimonial from "../Page/Testimonial";
 import Blog from "../Page/Blog/Blog";
+import ShowBlogDetails from "../Page/Blog/ShowBlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -67,6 +68,11 @@ export const router = createBrowserRouter([
   {
     path: "/blog",
     element: <Blog></Blog>,
+    loader: () => fetch("/blog.json"),
+  },
+  {
+    path: "/blogDetails/:id",
+    element: <ShowBlogDetails></ShowBlogDetails>,
     loader: () => fetch("/blog.json"),
   },
   {
