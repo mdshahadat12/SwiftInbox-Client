@@ -8,12 +8,13 @@ const HomeLayout = () => {
     <div className="relative min-h-screen md:flex">
       <Sidebar />
       <div className="flex-1  md:ml-64">
-        <div className="p-5 ">
+        <div className="p-5">
           <Navbar />
           <div className="min-h-screen">
             <Outlet />
           </div>
         </div>
+
         <Footer />
       </div>
     </div>
