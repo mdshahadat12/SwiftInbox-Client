@@ -19,6 +19,7 @@ import UserRoute from "./UserRoute";
 import Testimonial from "../Page/Testimonial";
 import Blog from "../Page/Blog/Blog";
 import ShowBlogDetails from "../Page/Blog/ShowBlogDetails";
+import BuyCoffee from "../Page/BuyCoffeePayment/BuyCoffee";
 
 export const router = createBrowserRouter([
   {
@@ -73,6 +74,11 @@ export const router = createBrowserRouter([
   {
     path: "/blogDetails/:id",
     element: <ShowBlogDetails></ShowBlogDetails>,
+    loader: () => fetch("/blog.json"),
+  },
+  {
+    path: "/buyCoffee",
+    element: <BuyCoffee></BuyCoffee>,
     loader: () => fetch("/blog.json"),
   },
   {

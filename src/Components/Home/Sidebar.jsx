@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { CiSquareInfo } from "react-icons/ci";
-// import { FaBlog } from "react-icons/fa6";
+import { FiCoffee } from "react-icons/fi";
 import { SiBloglovin } from "react-icons/si";
 import { FaInbox, FaRegBookmark } from "react-icons/fa";
 import { GoCodeReview } from "react-icons/go";
@@ -90,6 +90,14 @@ const Sidebar = () => {
               </>
               {/* Menu Items */}
             </nav>
+            <div>
+              <Link to="/buyCoffee">
+                <p className="flex justify-center items-center align-middle gap-2 px-3 cursor-pointer py-2 rounded-md bg-lime-800 text-white font-bold hover:bg-lime-700 hover:text-slate-300 hover:underline text-lg">
+                  Buy us a coffee
+                  <FiCoffee />
+                </p>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
