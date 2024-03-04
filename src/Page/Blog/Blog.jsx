@@ -150,6 +150,7 @@ import SingleBlogCard from "./SingleBlog.Card";
 import axios from "axios"; // Import Axios for making HTTP requests
 import { axiosSecure } from "../../Components/useAxios";
 import toast from "react-hot-toast";
+import Loader from "../../Components/Loader";
 
 const Blog = () => {
   const [blogData, setBlogData] = useState([]);
@@ -184,17 +185,20 @@ const Blog = () => {
     const title = e.target.title.value;
     const article = e.target.article.value;
     const imageUrl = e.target.imageUrl.value;
-    const timeStamp = new Date().toLocaleString();
+    const date = new Date().toLocaleString();
     const data = {
       title,
       article,
       imageUrl,
-      timeStamp,
+      date,
     };
+    const { refetch } = Loader;
     axiosSecure.post("/blog", data).then((res) => {
       if (res.status === 201) {
         e.target.reset();
         toast.success("New Blog Successfully Created");
+        closeModal();
+        refetch;
       }
     });
   };
@@ -264,13 +268,7 @@ const Blog = () => {
                         className="input input-bordered"
                         required
                       />
-                      <input
-                        type="date"
-                        name="date"
-                        placeholder="date"
-                        className="input input-bordered"
-                        required
-                      />
+
                       <input
                         type="text"
                         name="imageUrl"
