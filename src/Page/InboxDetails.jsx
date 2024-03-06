@@ -18,7 +18,7 @@ import { Helmet } from "react-helmet";
 const InboxDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { user, refetch } = useContext(AuthContext);
+  const { user, refetch, userData } = useContext(AuthContext);
   const {
     data: message,
     isLoading,
@@ -26,8 +26,10 @@ const InboxDetails = () => {
   } = Loader(`/message/${id}`, "singleMessage");
 
   useEffect(() => {
-    axiosSecure.put(`/notify-mail/${id}`);
-  }, [id]);
+    if (userData?.role != "admin") {
+      axiosSecure.put(`/notify-mail/${id}`);
+    }
+  }, [id, userData?.role]);
 
   if (isLoading) {
     return <Lottie animationData={lott} />;
@@ -76,6 +78,9 @@ const InboxDetails = () => {
 
   // add bookmark function here
   const handleBookmark = (id) => {
+    if (!user) {
+      navigate("/login");
+    }
     {
       message?.bookmark?.includes(user?.email)
         ? axiosSecure

@@ -12,6 +12,9 @@ import DashboardLayout from "../Layout/DashboardLayout";
 import Profile from "../Page/Profile";
 import ManageUser from "../Page/ManageUser";
 import AllMessage from "../Page/AllMessage";
+import Faq from "../Page/Faq";
+
+
 import PrivateRoute from "./PrivateRoute";
 import AdminRoute from "./AdminRoute";
 import Opinion from "../Page/Opinion";
@@ -53,6 +56,10 @@ export const router = createBrowserRouter([
       },
 
       {
+        path: "/faq",
+        element: <Faq></Faq>
+      },
+      {
         path: "/inbox/:id",
         element: <InboxDetails></InboxDetails>,
       },
@@ -70,15 +77,18 @@ export const router = createBrowserRouter([
     path: "/blog",
     element: <Blog></Blog>,
     // loader: () => fetch("/blog.json"),
+    loader: () => fetch("./blog.json"),
   },
   {
     path: "/blogDetails/:id",
     element: <ShowBlogDetails></ShowBlogDetails>,
     // loader: () => fetch("/blog.json"),
+    loader: () => fetch("./blog.json"),
   },
   {
     path: "/buyCoffee",
     element: <BuyCoffee></BuyCoffee>,
+    loader: () => fetch("./blog.json"),
   },
   {
     path: "/dashboard",
