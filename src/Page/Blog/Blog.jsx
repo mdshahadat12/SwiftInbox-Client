@@ -141,20 +141,24 @@
 
 // export default Blog;
 
-import { Link, useLoaderData } from "react-router-dom";
 import Navbar from "../../Components/Home/Navbar";
 import { IoMdAddCircleOutline } from "react-icons/io";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet";
 import SingleBlogCard from "./SingleBlog.Card";
 import axios from "axios"; // Import Axios for making HTTP requests
 import { axiosSecure } from "../../Components/useAxios";
 import toast from "react-hot-toast";
 import Loader from "../../Components/Loader";
+import { motion } from "framer-motion";
+import Particlesanimation from "../../Components/Animation/Particlesanimation";
+import { Link } from "react-router-dom";
+import { AuthContext } from "../../Provider/AuthProvider";
 
 const Blog = () => {
   const [blogData, setBlogData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { user } = useContext(AuthContext);
 
   // Fetch blog data from backend when component mounts
   useEffect(() => {
@@ -208,118 +212,125 @@ const Blog = () => {
       <Helmet>
         <title>SwiftInbox | Blog</title>
       </Helmet>
-      <div className="min-h-screen flex flex-col">
-        <div className="sticky z-50 top-0 h-58px bg-white bg-transparent">
-          <Navbar></Navbar>
-        </div>
-        <div className="flex-1 py-10 flex justify-center">
-          <div className="w-2/3">
-            <div className="my-2 flex">
-              <img
-                src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
-                className="h-9 mr-3"
-              />
-              <span className="self-center text-2xl font-extrabold whitespace-nowrap text-blue-700">
-                SwiftInbox
-              </span>
-            </div>
-            <div className="pb-4 flex justify-between">
-              <div>
-                <Link to="/">
-                  <span className="hover:underline hover:text-blue-500">
-                    SwiftInbox Home
-                  </span>
-                </Link>{" "}
-                / <span className="underline">Blog</span>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        <Particlesanimation></Particlesanimation>
+        <div className="min-h-screen flex flex-col text-white">
+          <div className="sticky z-50 top-0 h-58px bg-transparent">
+            <Navbar></Navbar>
+          </div>
+          <div className="flex-1 py-10 flex justify-center">
+            <div className="w-2/3">
+              <div className="my-2 flex">
+                <img
+                  src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
+                  className="h-9 mr-3"
+                />
+                <span className="self-center text-2xl font-extrabold whitespace-nowrap">
+                  SwiftInbox
+                </span>
               </div>
-              <div className="flex items-center align-middle gap-1">
-                <IoMdAddCircleOutline />
-                <button onClick={openModal}>Add a Blog</button>
+              <div className="pb-4 flex justify-between">
+                <div>
+                  <Link to="/">
+                    <span className="hover:underline">SwiftInbox Home</span>
+                  </Link>{" "}
+                  / <span className="underline">Blog</span>
+                </div>
+                {user && (
+                  <div className="flex items-center align-middle gap-1">
+                    <IoMdAddCircleOutline />
+                    <button onClick={openModal}>Add a Blog</button>
+                  </div>
+                )}
               </div>
-            </div>
-            <hr />
-            {/* MODAL PART STARTS */}
-            {isModalOpen && (
-              <div className="modal-container">
-                <dialog
-                  id="To_Donate"
-                  className="modal modal-bottom sm:modal-middle"
-                  open
-                >
-                  <div className="modal-box bg-black text-black z-100 shadow-2xl">
-                    <h3 className="font-semibold text-lg text-yellow-300 text-center">
-                      Please write your blog
-                    </h3>
-                    <form
-                      onSubmit={handleAddBlog}
-                      className="flex flex-col gap-4 px-5 py-9"
-                    >
-                      <input
-                        type="text"
-                        name="title"
-                        placeholder="Add a title"
-                        className="input input-bordered"
-                        required
-                      />
-                      <input
-                        type="text"
-                        name="article"
-                        placeholder="Write blog details"
-                        className="input input-bordered"
-                        required
-                      />
+              <hr />
+              {/* MODAL PART STARTS */}
+              {isModalOpen && (
+                <div className="modal-container">
+                  <dialog
+                    id="To_Donate"
+                    className="modal modal-bottom sm:modal-middle"
+                    open
+                  >
+                    <div className="modal-box bg-black text-black z-100 shadow-2xl">
+                      <h3 className="font-semibold text-lg text-yellow-300 text-center">
+                        Please write your blog
+                      </h3>
+                      <form
+                        onSubmit={handleAddBlog}
+                        className="flex flex-col gap-4 px-5 py-9"
+                      >
+                        <input
+                          type="text"
+                          name="title"
+                          placeholder="Add a title"
+                          className="input input-bordered"
+                          required
+                        />
+                        <input
+                          type="text"
+                          name="article"
+                          placeholder="Write blog details"
+                          className="input input-bordered"
+                          required
+                        />
 
-                      <input
-                        type="text"
-                        name="imageUrl"
-                        placeholder="Input image url"
-                        className="input input-bordered"
-                        required
-                      />
-                      <div className="form-control border-none mt-6">
-                        <button className="btn bg-yellow-600 hover:bg-yellow-700 text-black">
-                          Add
-                        </button>
-                      </div>
-                    </form>
-                    <div className="flex justify-center">
-                      <div className="modal-action">
-                        <button
-                          onClick={closeModal}
-                          className="underline text-xs text-red-700 hover:text-red-600"
-                        >
-                          close
-                        </button>
+                        <input
+                          type="text"
+                          name="imageUrl"
+                          placeholder="Input image url"
+                          className="input input-bordered"
+                          required
+                        />
+                        <div className="form-control border-none mt-6">
+                          <button className="btn bg-yellow-600 hover:bg-yellow-700 text-black">
+                            Add
+                          </button>
+                        </div>
+                      </form>
+                      <div className="flex justify-center">
+                        <div className="modal-action">
+                          <button
+                            onClick={closeModal}
+                            className="underline text-xs text-red-700 hover:text-red-600"
+                          >
+                            close
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </dialog>
-              </div>
-            )}
-            {/* MODAL PART ENDS */}
-            <div className="py-9 flex flex-col gap-5">
-              {/* Add logging and check if blogData is an array before mapping */}
-              {Array.isArray(blogData) ? (
-                blogData.map((blog) => (
-                  <SingleBlogCard
-                    key={blog._id}
-                    blogData={blog}
-                  ></SingleBlogCard>
-                ))
-              ) : (
-                <p>No blog data available</p>
+                  </dialog>
+                </div>
               )}
+              {/* MODAL PART ENDS */}
+              <div className="py-9 flex flex-col gap-5">
+                {/* Add logging and check if blogData is an array before mapping */}
+                {Array.isArray(blogData) ? (
+                  blogData?.map((blog) => (
+                    <SingleBlogCard
+                      key={blog._id}
+                      blogData={blog}
+                    ></SingleBlogCard>
+                  ))
+                ) : (
+                  <p>No blog data available</p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="sticky z-50 bottom-0 h-96px ">
+            <div className="z-50 w-full p-10 bg-blue-600/10 flex justify-center items-center align-middle">
+              <p className="text-white text-xs font-semibold">
+                Copyright © 2024 - All right reserved by Team CodeCrafters
+              </p>
             </div>
           </div>
         </div>
-        <div className="sticky z-50 bottom-0 h-96px ">
-          <div className="z-50 w-full p-10 bg-blue-600/10 flex justify-center items-center align-middle">
-            <p className="text-black text-xs font-semibold">
-              Copyright © 2024 - All right reserved by Team CodeCrafters
-            </p>
-          </div>
-        </div>
-      </div>
+      </motion.div>
     </>
   );
 };

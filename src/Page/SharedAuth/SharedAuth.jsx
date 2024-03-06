@@ -9,9 +9,9 @@ const SharedAuth = () => {
             <div className="my-2 flex">
               <img
                 src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
-                className="h-10 mr-3"
+                className="h-9 mr-3"
               />
-              <span className="self-center text-black text-2xl font-extrabold whitespace-nowrap ">
+              <span className="self-center text-white text-2xl font-extrabold whitespace-nowrap ">
                 SwiftInbox
               </span>
             </div>
