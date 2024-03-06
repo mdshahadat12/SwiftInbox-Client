@@ -4,7 +4,7 @@ import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { CiSquareInfo } from "react-icons/ci";
 import { FiCoffee } from "react-icons/fi";
 import { SiBloglovin } from "react-icons/si";
-import { FaInbox, FaRegBookmark } from "react-icons/fa";
+import { FaInbox, FaRegBookmark, FaQq } from "react-icons/fa";
 import { GoCodeReview } from "react-icons/go";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
@@ -84,6 +84,7 @@ const Sidebar = () => {
                   address="/contact"
                 />
                 <Menu icon={CiSquareInfo} label="About Us" address="about" />
+                <Menu icon={FaQq} label="FAQ" address="faq" />
                 <div className="bg-lime-400/10 rounded-md text-lg font-bold shadow-xl">
                   <Menu icon={SiBloglovin} label="BLOG" address="/blog" />
                 </div>
