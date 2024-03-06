@@ -1,11 +1,12 @@
-import { useLoaderData, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BlogDetailsCard from "./BlogDetailsCard";
+import Loader from "../../Components/Loader";
 
 const ShowBlogDetails = () => {
-  const blogs = useLoaderData();
   const { id } = useParams();
-  const theBlog = blogs.find((blog) => blog.id == id);
-  return <BlogDetailsCard key={theBlog.id} blog={theBlog}></BlogDetailsCard>;
+  const { data: blog } = Loader(`/blog/${id}`, "singleBlog");
+
+  return <BlogDetailsCard key={id} blog={blog}></BlogDetailsCard>;
 };
 
 export default ShowBlogDetails;

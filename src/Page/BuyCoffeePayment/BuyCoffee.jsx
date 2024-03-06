@@ -9,12 +9,12 @@ const BuyCoffee = () => {
       <Helmet>
         <title>SwiftInbox | Payment</title>
       </Helmet>
-      <div className="min-h-screen bg-green-500/5">
+      <div className="min-h-screen flex flex-col bg-green-500/5">
         <div className="sticky z-50 top-0 h-58px bg-white bg-transparent">
           <Navbar></Navbar>
         </div>
-        <div className="md:m-10 p-10 flex gap-3 md:flex-row flex-col-reverse  items-center justify-center">
-          <div className="md:w-1/2 w-full bg-slate-300/25 rounded-2xl p-5 min-h-0.5">
+        <div className="md:m-10 p-10 flex gap-3 md:flex-row flex-col-reverse items-stretch justify-center">
+          <div className="md:w-1/2 w-full bg-slate-300/25 rounded-2xl p-5 flex flex-col">
             <div className="my-2 pb-3 flex">
               <img
                 src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
@@ -25,7 +25,7 @@ const BuyCoffee = () => {
               </span>
             </div>
             <hr />
-            <div className="p-3 flex flex-col gap-5">
+            <div className="p-3 flex flex-col gap-5 flex-1">
               <Link to="/">
                 <span className="font-semibold hover:underline hover:text-blue-500">
                   Home
@@ -50,19 +50,19 @@ const BuyCoffee = () => {
               </div>
             </div>
           </div>
-          <div className="md:w-1/2 w-full bg-white/10 rounded-2xl shadow-lg p-5">
+          <div className="md:w-1/2 w-full bg-white/10 rounded-2xl shadow-lg p-5 flex flex-col">
             <div className="pb-4">
               SwiftInbox /
               <span className="underline text-green-900">Payment</span>
             </div>
             <hr />
-            <div>
+            <div className="flex flex-col flex-1">
               <h1 className="font-bold text-xl flex items-center gap-1">
                 Buy SwiftInbox temp mail a coffee{" "}
-                <FaQuestionCircle title="Show your appreciation for SwiftInbox with a symbolic 'coffee'! Each one is just 20tk and helps fuel our helpful platform." />
+                <FaQuestionCircle title="Show your appreciation for SwiftInbox with a symbolic 'coffee'! Each one is just 50tk and helps fuel our helpful platform." />
               </h1>
               {/* FORM STARTS */}
-              <form className="card-body">
+              <form className="card-body flex-1">
                 <div className="form-control">
                   <input
                     type="text"
@@ -82,7 +82,7 @@ const BuyCoffee = () => {
                 <div className="form-control"></div>
                 <div className="form-control mt-6">
                   <button className="p-3 rounded-lg bg-green-950/25 w-full font-bold">
-                    Support 20 Tk
+                    Support 50 Tk
                   </button>
                 </div>
               </form>
@@ -90,8 +90,9 @@ const BuyCoffee = () => {
             </div>
           </div>
         </div>
-        <div className="sticky z-50 bottom-0 h-96px ">
-          <div className="z-50 w-full p-10 flex justify-center items-center align-middle">
+
+        <div className="sticky z-50 bottom-0 h-96px">
+          <div className="w-full p-10 flex justify-center items-center align-middle">
             <p className="text-black text-sm font-semibold">
               Copyright © 2024 - All right reserved by Team CodeCrafters
             </p>
