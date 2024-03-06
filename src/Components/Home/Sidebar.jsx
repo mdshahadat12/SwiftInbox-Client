@@ -2,13 +2,14 @@ import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { CiSquareInfo } from "react-icons/ci";
-// import { FaBlog } from "react-icons/fa6";
 import { SiBloglovin } from "react-icons/si";
-import { FaInbox, FaRegBookmark } from "react-icons/fa";
+import { FaInbox, FaRegBookmark, FaQq } from "react-icons/fa";
 import { GoCodeReview } from "react-icons/go";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
 import { AuthContext } from "../../Provider/AuthProvider";
+
+
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(true);
@@ -84,9 +85,7 @@ const Sidebar = () => {
                   address="/contact"
                 />
                 <Menu icon={CiSquareInfo} label="About Us" address="about" />
-                <div className="bg-lime-400/10 rounded-md text-lg font-bold shadow-xl">
-                  <Menu icon={SiBloglovin} label="BLOG" address="/blog" />
-                </div>
+                <Menu icon={FaQq} label="FAQ" address="faq" />
               </>
               {/* Menu Items */}
             </nav>
