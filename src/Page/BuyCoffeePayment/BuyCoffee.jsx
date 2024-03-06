@@ -1,0 +1,105 @@
+import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
+import Navbar from "../../Components/Home/Navbar";
+import { FaQuestionCircle } from "react-icons/fa";
+
+const BuyCoffee = () => {
+  return (
+    <>
+      <Helmet>
+        <title>SwiftInbox | Payment</title>
+      </Helmet>
+      <div className="min-h-screen bg-green-500/5">
+        <div className="sticky z-50 top-0 h-58px bg-white bg-transparent">
+          <Navbar></Navbar>
+        </div>
+        <div className="md:m-10 p-10 flex gap-3 md:flex-row flex-col-reverse  items-center justify-center">
+          <div className="md:w-1/2 w-full bg-slate-300/25 rounded-2xl p-5 min-h-0.5">
+            <div className="my-2 pb-3 flex">
+              <img
+                src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
+                className="h-9 mr-1"
+              />
+              <span className="self-center text-2xl font-extrabold whitespace-nowrap">
+                SwiftInbox
+              </span>
+            </div>
+            <hr />
+            <div className="p-3 flex flex-col gap-5">
+              <Link to="/">
+                <span className="font-semibold hover:underline hover:text-blue-500">
+                  Home
+                </span>
+              </Link>
+              <div>
+                <h2 className="font-bold text-lg">About Us</h2>
+                <p className="text-sm">
+                  The Temp Email project is a user-friendly web application
+                  designed to provide temporary email addresses, effectively
+                  shielding users from spam, advertising, and potential security
+                  threats associated with revealing personal email addresses.
+                  This innovative platform generates unique disposable email
+                  addresses, allowing users to receive emails and attachments
+                  securely. Developed by a team of six skilled software
+                  engineers - Abir Hossain, Antu Bhatta, Ayan Kumar Das, Hassan
+                  Sabbir, Pallab Kumar, and Shahadat Hossain - the system
+                  ensures privacy and security by automatically deleting emails
+                  after a set duration, offering a seamless and anonymous email
+                  experience.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="md:w-1/2 w-full bg-white/10 rounded-2xl shadow-lg p-5">
+            <div className="pb-4">
+              SwiftInbox /
+              <span className="underline text-green-900">Payment</span>
+            </div>
+            <hr />
+            <div>
+              <h1 className="font-bold text-xl flex items-center gap-1">
+                Buy SwiftInbox temp mail a coffee{" "}
+                <FaQuestionCircle title="Show your appreciation for SwiftInbox with a symbolic 'coffee'! Each one is just 20tk and helps fuel our helpful platform." />
+              </h1>
+              {/* FORM STARTS */}
+              <form className="card-body">
+                <div className="form-control">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Your Name"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+                <div className="form-control">
+                  <input
+                    type="text"
+                    name="text"
+                    placeholder="Say Something Good About Us"
+                    className="input input-bordered w-full"
+                  />
+                </div>
+                <div className="form-control"></div>
+                <div className="form-control mt-6">
+                  <button className="p-3 rounded-lg bg-green-950/25 w-full font-bold">
+                    Support 20 Tk
+                  </button>
+                </div>
+              </form>
+              {/* FORM ENDS */}
+            </div>
+          </div>
+        </div>
+        <div className="sticky z-50 bottom-0 h-96px ">
+          <div className="z-50 w-full p-10 flex justify-center items-center align-middle">
+            <p className="text-black text-sm font-semibold">
+              Copyright © 2024 - All right reserved by Team CodeCrafters
+            </p>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+};
+
+export default BuyCoffee;

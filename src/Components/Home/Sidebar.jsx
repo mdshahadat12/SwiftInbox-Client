@@ -2,14 +2,13 @@ import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { CiSquareInfo } from "react-icons/ci";
+import { FiCoffee } from "react-icons/fi";
 import { SiBloglovin } from "react-icons/si";
-import { FaInbox, FaRegBookmark, FaQq } from "react-icons/fa";
+import { FaInbox, FaRegBookmark } from "react-icons/fa";
 import { GoCodeReview } from "react-icons/go";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
 import { AuthContext } from "../../Provider/AuthProvider";
-
-
 
 const Sidebar = () => {
   const [isActive, setActive] = useState(true);
@@ -85,10 +84,20 @@ const Sidebar = () => {
                   address="/contact"
                 />
                 <Menu icon={CiSquareInfo} label="About Us" address="about" />
-                <Menu icon={FaQq} label="FAQ" address="faq" />
+                <div className="bg-lime-400/10 rounded-md text-lg font-bold shadow-xl">
+                  <Menu icon={SiBloglovin} label="BLOG" address="/blog" />
+                </div>
               </>
               {/* Menu Items */}
             </nav>
+            <div>
+              <Link to="/buyCoffee">
+                <p className="flex justify-center items-center align-middle gap-2 px-3 cursor-pointer py-2 rounded-md bg-lime-800 text-white font-bold hover:bg-lime-700 hover:text-slate-300 hover:underline text-lg">
+                  Buy us a coffee
+                  <FiCoffee />
+                </p>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
