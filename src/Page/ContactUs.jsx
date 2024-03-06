@@ -4,6 +4,7 @@ import { FaEnvelope, FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
+import { Helmet } from "react-helmet";
 const ContactUs = () => {
   const form = useRef();
 
@@ -41,7 +42,9 @@ const ContactUs = () => {
   return (
     <section id="contact" className="py-10 px-3 text-white bg-base-200">
      <Particlesanimation2></Particlesanimation2>
-
+     <Helmet>
+        <title>SwiftInbox | Contact Us</title>
+      </Helmet>
      
       <div className="text-center ">
       <motion.h3

@@ -1,14 +1,17 @@
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
+import { Helmet } from "react-helmet";
 
 
 const Profile = () => {
-  const { user } = useContext(AuthContext);
-  console.log(user);
+  const { user, userData } = useContext(AuthContext);
   return (
     <>
     <Particlesanimation2></Particlesanimation2>
+    <Helmet>
+        <title>SwiftInbox | Profile</title>
+      </Helmet>
     <div className={`p-10 text-white rounded-lg`}>
       <div>
         <img
@@ -23,6 +26,9 @@ const Profile = () => {
       </div>
       <h1 className="text-center text-xl font-semibold">
         Name: {user?.displayName}
+      </h1>
+      <h1 className="text-center text-xl font-semibold">
+        Role: {userData?.role?.toUpperCase()}
       </h1>
       <div className="grid grid-cols-2 gap-5 my-10">
         <div className="md:px-20">

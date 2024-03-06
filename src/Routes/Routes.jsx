@@ -15,6 +15,13 @@ import AllMessage from "../Page/AllMessage";
 import Faq from "../Page/Faq";
 
 
+import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import Opinion from "../Page/Opinion";
+import UserRoute from "./UserRoute";
+import Testimonial from "../Page/Testimonial";
+import Blog from "../Page/Blog/Blog";
+import ShowBlogDetails from "../Page/Blog/ShowBlogDetails";
 
 export const router = createBrowserRouter([
   {
@@ -28,16 +35,25 @@ export const router = createBrowserRouter([
       },
       {
         path: "/bookmark",
-        element: <Bookmarks></Bookmarks>,
+        element: (
+          <PrivateRoute>
+            <Bookmarks></Bookmarks>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/contact",
         element: <ContactUs></ContactUs>,
       },
       {
+        path: "/testimonial",
+        element: <Testimonial></Testimonial>,
+      },
+      {
         path: "/about",
         element: <About></About>,
       },
+
       {
         path: "/faq",
         element: <Faq></Faq>
@@ -57,21 +73,57 @@ export const router = createBrowserRouter([
     element: <Register></Register>,
   },
   {
+    path: "/blog",
+    element: <Blog></Blog>,
+    loader: () => fetch("/blog.json"),
+  },
+  {
+    path: "/blogDetails/:id",
+    element: <ShowBlogDetails></ShowBlogDetails>,
+    loader: () => fetch("/blog.json"),
+  },
+  {
     path: "/dashboard",
-    element: <DashboardLayout></DashboardLayout>,
-    children:[
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
       {
-        path:"/dashboard",
-        element:<Profile></Profile>
+        path: "/dashboard",
+        element: <Profile></Profile>,
       },
       {
-        path:"manageuser",
-        element:<ManageUser></ManageUser>
+        path: "manageuser",
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <ManageUser></ManageUser>
+            </PrivateRoute>
+          </AdminRoute>
+        ),
       },
       {
-        path:"allmessage",
-        element:<AllMessage></AllMessage>
-      }
-    ]
+        path: "allmessage",
+        element: (
+          <AdminRoute>
+            <PrivateRoute>
+              <AllMessage></AllMessage>
+            </PrivateRoute>
+          </AdminRoute>
+        ),
+      },
+      {
+        path: "opinion",
+        element: (
+          <UserRoute>
+            <PrivateRoute>
+              <Opinion></Opinion>
+            </PrivateRoute>
+          </UserRoute>
+        ),
+      },
+    ],
   },
 ]);

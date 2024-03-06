@@ -10,9 +10,11 @@ const Navbar = () => {
     navigate("/");
   };
   return (
-    <div className="navbar bg-white shadow-md md:sticky rounded-md top-0 md:z-50 backdrop-blur">
+    <div className="navbar bg-blue-800/15 shadow-md md:sticky rounded-md top-0 md:z-50 backdrop-blur text-white">
       <div className="flex-1">
-        <a className="text-xl ">{user ? user?.displayName : <p>Guest</p>}</a>
+        <a className="text-xl font-bold bg-gradient-to-r from-lime-400 via-lime-500 to-green-600 text-transparent bg-clip-text">
+          {user ? user?.displayName : <p>Guest</p>}
+        </a>
       </div>
       <div className="flex-none">
         <div className="flex gap-4 justify-end items-center">
@@ -42,19 +44,25 @@ const Navbar = () => {
                   tabIndex={0}
                   className="menu menu-sm mr-4 dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-20"
                 >
-                  <p className="px-3 cursor-pointer py-2 rounded-lg bg-gradient-to-r from-green-700 via-green-600 to-green-700 text-white font-black hover:bg-gradient-to-l" onClick={handleLogOut}>
+                  <p
+                    className="px-3 cursor-pointer py-2 rounded-lg bg-gradient-to-r from-green-700 via-green-600 to-green-700 text-white font-black hover:bg-gradient-to-l"
+                    onClick={handleLogOut}
+                  >
                     Logout
                   </p>
                   <Link to={"/dashboard"}>
-                  <p className="px-3 mt-2 cursor-pointer py-2 rounded-lg bg-gradient-to-r from-green-700 via-green-600 to-green-700 text-white font-black hover:bg-gradient-to-l">
-                    Dashboard
-                  </p>
+                    <p className="px-3 mt-2 cursor-pointer py-2 rounded-lg bg-gradient-to-r from-green-700 via-green-600 to-green-700 text-white font-black hover:bg-gradient-to-l">
+                      Dashboard
+                    </p>
                   </Link>
                 </ul>
               </div>
             </div>
           ) : (
-            <Link to="/login" className="px-3 py-2 rounded-lg bg-gradient-to-r from-blue-700 via-blue-600 to-purple-700 text-white font-black hover:bg-gradient-to-l">
+            <Link
+              to="/login"
+              className="px-5 py-2 rounded-md shadow-xl text-white font-bold  bg-gradient-to-r from-lime-700 to-lime-900 hover:bg-gradient-to-l"
+            >
               Login
             </Link>
           )}

@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
+import { GoCodeReview } from "react-icons/go";
 import { FaInbox, FaRegBookmark } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
@@ -8,7 +9,7 @@ import Menu from "./Home/Menu";
 
 const DashboardSidebar = () => {
   const [isActive, setActive] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { userData } = useContext(AuthContext);
 
   // Sidebar Responsive Handler
   const handleToggle = () => {
@@ -62,18 +63,29 @@ const DashboardSidebar = () => {
             <nav>
               <>
                 <Menu icon={FaInbox} label="Profile" address="/dashboard" />
-                { (
-                  <Menu
-                    icon={FaRegBookmark}
-                    label="User Manage"
-                    address="manageuser"
-                  />
+                {userData?.role === "admin" && (
+                  <>
+                    <Menu
+                      icon={FaRegBookmark}
+                      label="Manage User"
+                      address="manageuser"
+                    />
+                    <Menu
+                      icon={MdOutlineConnectWithoutContact}
+                      label="All Messages"
+                      address="allmessage"
+                    />
+                  </>
                 )}
-                <Menu
-                  icon={MdOutlineConnectWithoutContact}
-                  label="All Messages"
-                  address="allmessage"
-                />
+                {userData?.role === "user" && (
+                  <>
+                    <Menu
+                      icon={GoCodeReview}
+                      label="Opinion"
+                      address="opinion"
+                    />
+                  </>
+                )}
               </>
               {/* Menu Items */}
             </nav>

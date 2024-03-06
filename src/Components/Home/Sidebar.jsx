@@ -2,7 +2,9 @@ import { useContext, useState } from "react";
 import { AiOutlineBars } from "react-icons/ai";
 import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { CiSquareInfo } from "react-icons/ci";
+import { SiBloglovin } from "react-icons/si";
 import { FaInbox, FaRegBookmark, FaQq } from "react-icons/fa";
+import { GoCodeReview } from "react-icons/go";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
 import { AuthContext } from "../../Provider/AuthProvider";
@@ -30,7 +32,7 @@ const Sidebar = () => {
         <div className="my-2 flex">
           <img
             src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
-            className="h-10 mr-3"
+            className="h-9 mr-3"
           />
           <span className="self-center text-white text-2xl font-extrabold whitespace-nowrap ">
             SwiftInbox
@@ -50,7 +52,7 @@ const Sidebar = () => {
                 <div className="my-2 flex">
                   <img
                     src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
-                    className="h-10 rounded mr-3"
+                    className="h-9 mr-3"
                   />
                   <span className="self-center text-white text-2xl font-extrabold whitespace-nowrap ">
                     SwiftInbox
@@ -73,13 +75,17 @@ const Sidebar = () => {
                   />
                 )}
                 <Menu
+                  icon={GoCodeReview}
+                  label="Testimonials"
+                  address="/testimonial"
+                />
+                <Menu
                   icon={MdOutlineConnectWithoutContact}
                   label="Contact Us"
                   address="/contact"
                 />
                 <Menu icon={CiSquareInfo} label="About Us" address="about" />
                 <Menu icon={FaQq} label="FAQ" address="faq" />
-                
               </>
               {/* Menu Items */}
             </nav>
