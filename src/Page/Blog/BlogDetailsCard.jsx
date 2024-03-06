@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import ParticlesAnimation2 from "../../Components/Animation/ParticlesAnimation2";
+import ParticlesAnimation2 from "../../Components/Animation/Particlesanimation2";
 
 const BlogDetailsCard = ({ blog }) => {
   const { title, date, article, imageUrl } = blog || {};

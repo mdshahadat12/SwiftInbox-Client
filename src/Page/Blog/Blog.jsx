@@ -151,7 +151,7 @@ import { axiosSecure } from "../../Components/useAxios";
 import toast from "react-hot-toast";
 import Loader from "../../Components/Loader";
 import { motion } from "framer-motion";
-import Particlesanimation from "../../Components/Animation/Particlesanimation";
+import Particlesanimation from "../../Components/Animation/ParticlesAnimation";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
 
