@@ -2,7 +2,7 @@
 import { MdOutlineMailOutline, MdFiberNew } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Avatar from "./Avatar";
@@ -12,6 +12,7 @@ import { AuthContext } from "../Provider/AuthProvider";
 const InboxCard = ({ data, bookFetch, admin }) => {
   const { user, refetch } = useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   //add delete function here
   const handleDelete = (id) => {
@@ -87,7 +88,11 @@ const InboxCard = ({ data, bookFetch, admin }) => {
           data.status == "unread" ? "bg-base-200" : "bg-gray-400"
         } flex items-center justify-between w-full rounded-lg `}
       >
-        <Link to={`/inbox/${data?._id}`} className=" w-3/4">
+        <Link
+          to={`/inbox/${data?._id}`}
+          state={{ from: location.pathname }}
+          className=" w-3/4"
+        >
           <div className="flex items-center justify-between p-4">
             {/* image and sender info */}
             <div className="flex items-center gap-2 w-1/3 md:1/3 lg:1/3">

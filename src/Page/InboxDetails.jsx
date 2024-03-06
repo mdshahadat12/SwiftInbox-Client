@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthProvider";
@@ -17,8 +17,11 @@ import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { Helmet } from "react-helmet";
 const InboxDetails = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
   const { user, refetch } = useContext(AuthContext);
+  const { from } = location.state || "";
+  console.log(from);
   const {
     data: message,
     isLoading,
@@ -26,8 +29,10 @@ const InboxDetails = () => {
   } = Loader(`/message/${id}`, "singleMessage");
 
   useEffect(() => {
-    axiosSecure.put(`/notify-mail/${id}`);
-  }, [id]);
+    if (from !== "/dashboard/allmessage" && from !== undefined) {
+      axiosSecure.put(`/notify-mail/${id}`);
+    }
+  }, [from, id]);
 
   if (isLoading) {
     return <Lottie animationData={lott} />;
