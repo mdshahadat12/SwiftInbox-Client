@@ -18,7 +18,7 @@ import { Helmet } from "react-helmet";
 const InboxDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { user, refetch, userData } = useContext(AuthContext);
+  const { user, refetch } = useContext(AuthContext);
   const {
     data: message,
     isLoading,
@@ -26,10 +26,8 @@ const InboxDetails = () => {
   } = Loader(`/message/${id}`, "singleMessage");
 
   useEffect(() => {
-    if (userData?.role != "admin") {
-      axiosSecure.put(`/notify-mail/${id}`);
-    }
-  }, [id, userData?.role]);
+    axiosSecure.put(`/notify-mail/${id}`);
+  }, [id]);
 
   if (isLoading) {
     return <Lottie animationData={lott} />;
