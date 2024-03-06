@@ -41,7 +41,7 @@ const Login = () => {
 
       if (userExists) {
         navigate(from, { replace: true });
-        toast("You Are Successfully Logged In");
+        toast.success("You Are Successfully Logged In");
       } else {
         saveUser(loggedInUser.email, loggedInUser.displayName);
       }
@@ -51,7 +51,7 @@ const Login = () => {
       //   photoURL: loggedInUser.photoURL,
       // };
       // axiosPublic.post("/users", saveUser);
-      toast("You Are Successfully Logged In");
+      toast.success("You Are Successfully Logged In");
       navigate(from, { replace: true });
     });
   };
@@ -65,7 +65,7 @@ const Login = () => {
 
         if (userExists) {
           navigate(location?.state ? location.state : "/");
-          toast("You Are Successfuly Logged In");
+          toast.success("You Are Successfuly Logged In");
         } else {
           saveUser(loggedInUser.email, loggedInUser.displayName);
         }
@@ -76,7 +76,7 @@ const Login = () => {
         // };
         // axiosPublic.post("/users", saveUser);
 
-        toast("You Are Successfuly Logged In");
+        toast.success("You Are Successfuly Logged In");
         navigate(location?.state ? location.state : "/");
       })
       .catch((err) => console.log(err));

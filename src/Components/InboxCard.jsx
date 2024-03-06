@@ -2,7 +2,7 @@
 import { MdOutlineMailOutline, MdFiberNew } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Avatar from "./Avatar";
@@ -11,6 +11,7 @@ import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 const InboxCard = ({ data, bookFetch, admin }) => {
   const { user, refetch } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   //add delete function here
   const handleDelete = (id) => {
@@ -23,6 +24,10 @@ const InboxCard = ({ data, bookFetch, admin }) => {
   };
   // add bookmark function here
   const handleBookmark = (id) => {
+    if (!user) {
+      navigate("/login");
+    }
+
     {
       data?.bookmark?.includes(user?.email)
         ? axiosSecure
