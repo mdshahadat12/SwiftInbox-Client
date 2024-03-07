@@ -3,7 +3,7 @@ import { Navigate, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 import CustomSpinner from "../Components/CustomSpinner";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 
 const AdminRoute = ({ children }) => {
   const { roleLoading, userData } = useContext(AuthContext);
@@ -13,14 +13,14 @@ const AdminRoute = ({ children }) => {
   if (roleLoading) {
     return (
       <>
-        <Particlesanimation2></Particlesanimation2>
+        <ParticlesAnimation></ParticlesAnimation>
         <CustomSpinner />
       </>
     );
   } else if (userData?.role === "admin") {
     return (
       <>
-        <Particlesanimation2></Particlesanimation2>
+        <ParticlesAnimation></ParticlesAnimation>
         {children}
       </>
     );

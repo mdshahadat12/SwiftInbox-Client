@@ -1,5 +1,5 @@
+import EmailBoxAnimation from "../Components/Animation/EmailBoxAnimation ";
 import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import CustomSpinner from "../Components/CustomSpinner";
 import Loader from "../Components/Loader";
 import { Rating, RoundedStar } from "@smastrom/react-rating";
@@ -15,7 +15,7 @@ const Testimonial = () => {
   if (isLoading) {
     return (
       <>
-        <Particlesanimation2></Particlesanimation2>
+        <EmailBoxAnimation></EmailBoxAnimation>
         <CustomSpinner></CustomSpinner>
       </>
     );

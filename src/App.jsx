@@ -13,7 +13,9 @@ function App() {
         <hr />
       </div>
       <Inbox></Inbox>
-      <hr />
+      <div className="max-w-screen-xl mx-auto">
+        <hr />
+      </div>
       <Faq></Faq>
     </>
   );

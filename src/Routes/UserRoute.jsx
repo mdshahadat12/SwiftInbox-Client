@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 import { Navigate, useLocation } from "react-router";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import CustomSpinner from "../Components/CustomSpinner";
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 
 // eslint-disable-next-line react/prop-types
 const UserRoute = ( {children}) => {
@@ -12,14 +12,14 @@ const UserRoute = ( {children}) => {
     if (roleLoading) {
         return (
           <>
-            <Particlesanimation2></Particlesanimation2>
+            <ParticlesAnimation></ParticlesAnimation>
             <CustomSpinner />
           </>
         );
       } else if (userData?.role === "user") {
         return (
           <>
-            <Particlesanimation2></Particlesanimation2>
+            <ParticlesAnimation></ParticlesAnimation>
             {children}
           </>
         );
