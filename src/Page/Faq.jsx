@@ -1,4 +1,3 @@
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { useState } from "react";
 
 const Faq = () => {
@@ -16,7 +15,6 @@ const Faq = () => {
 
   return (
     <section>
-      <Particlesanimation2 />
       <div className="container mx-auto px-4 py-8 text-white">
         <h1 className="text-3xl font-semibold text-accent text-center mb-3 md:mb-6">
           Frequently Asked Questions
@@ -28,7 +26,9 @@ const Faq = () => {
                 className="flex justify-between items-center w-full p-2 md:p-4 focus:outline-none"
                 onClick={() => toggleItem(index)}
               >
-                <h2 className="text-lg md:text-xl font-semibold">{item.question}</h2>
+                <h2 className="text-lg md:text-xl font-semibold">
+                  {item.question}
+                </h2>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className={`h-6 w-6 transition-transform ${

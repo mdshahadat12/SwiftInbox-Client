@@ -21,7 +21,6 @@ const InboxDetails = () => {
   const { id } = useParams();
   const { user, refetch } = useContext(AuthContext);
   const { from } = location.state || "";
-  console.log(from);
   const {
     data: message,
     isLoading,

@@ -1,3 +1,4 @@
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import CustomSpinner from "../Components/CustomSpinner";
 import Loader from "../Components/Loader";
@@ -21,7 +22,7 @@ const Testimonial = () => {
   }
   return (
     <>
-      <Particlesanimation2></Particlesanimation2>
+      <ParticlesAnimation></ParticlesAnimation>
       <div className="text-white px-2 lg:px-20">
         {/* title here  */}
         <h2 className="text-center mt-5 font-semibold text-3xl mb-3">

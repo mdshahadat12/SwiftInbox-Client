@@ -1,10 +1,10 @@
 import Lottie from "lottie-react";
 import lott from "../assets/lott.json";
 import Loader from "../Components/Loader";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { Helmet } from "react-helmet";
 import { axiosSecure } from "../Components/useAxios";
 import toast from "react-hot-toast";
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 
 const ManageUser = () => {
   const { data, isLoading, refetch } = Loader("/all-users", "userinfo");
@@ -34,7 +34,7 @@ const ManageUser = () => {
         </div>
       ) : (
         <div className="text-white">
-          <Particlesanimation2></Particlesanimation2>
+          <ParticlesAnimation></ParticlesAnimation>
           <Helmet>
             <title>SwiftInbox | Manage User</title>
           </Helmet>

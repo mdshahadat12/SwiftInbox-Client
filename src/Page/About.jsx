@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import AboutBanner from "./AboutBanner";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { Helmet } from "react-helmet";
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 
 const About = () => {
   const testimonialData = [
@@ -58,7 +58,7 @@ const About = () => {
     >
       <AboutBanner />
 
-      <Particlesanimation2></Particlesanimation2>
+      <ParticlesAnimation></ParticlesAnimation>
       <Helmet>
         <title>SwiftInbox | About Us</title>
       </Helmet>
