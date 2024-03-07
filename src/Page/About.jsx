@@ -20,7 +20,7 @@ const About = () => {
         "https://i.ibb.co/B6dsDh7/419754644-1887187531695695-3202775527816768482-n.jpg",
     },
     {
-      name: "Hassan Mohammad",
+      name: "Hassan Sabbir",
       position: "MERN developer",
       description:
         "Professional Cybersecurity expert with 3 years of experience",
