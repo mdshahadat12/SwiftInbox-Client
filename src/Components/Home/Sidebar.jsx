@@ -91,14 +91,15 @@ const Sidebar = () => {
               </>
               {/* Menu Items */}
             </nav>
-            <div>
+            {/* donate feature  */}
+            {/* <div>
               <Link to="/buyCoffee">
                 <p className="flex justify-center items-center align-middle gap-2 px-3 cursor-pointer py-2 rounded-md bg-lime-800 text-white font-bold hover:bg-lime-700 hover:text-slate-300 hover:underline text-lg">
                   Buy us a coffee
                   <FiCoffee />
                 </p>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
