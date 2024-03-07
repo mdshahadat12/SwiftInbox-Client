@@ -71,7 +71,7 @@ const ContactUs = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="mt-16 flex md:flex-row flex-col gap-6 max-w-5xl bg-gray-800 md:p-6 p-2 rounded-lg mx-auto"
+      className="mt-16 flex lg:flex-row flex-col-reverse gap-6 max-w-5xl bg-gray-800 md:p-6 p-2 rounded-lg mx-auto"
     >
       <form
         onSubmit={sendEmail}

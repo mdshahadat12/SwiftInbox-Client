@@ -1,7 +1,8 @@
+/* eslint-disable react/prop-types */
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import ParticlesAnimation2 from "../../Components/Animation/Particlesanimation2";
+import ParticlesAnimation from "../../Components/Animation/ParticlesAnimation";
 
 const BlogDetailsCard = ({ blog }) => {
   const { title, date, article, imageUrl } = blog || {};
@@ -15,7 +16,7 @@ const BlogDetailsCard = ({ blog }) => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <ParticlesAnimation2></ParticlesAnimation2>
+        <ParticlesAnimation></ParticlesAnimation>
         <div className="p-10 flex md:flex-row justify-around flex-col-reverse text-white">
           <div className="md:w-2/3 w-full">
             <div className="pb-4">

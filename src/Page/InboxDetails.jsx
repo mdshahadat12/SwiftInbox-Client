@@ -13,8 +13,8 @@ import { IoPrintOutline } from "react-icons/io5";
 import { MdOutlineDelete } from "react-icons/md";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import Loader from "../Components/Loader";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { Helmet } from "react-helmet";
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 const InboxDetails = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -154,7 +154,7 @@ const InboxDetails = () => {
 
   return (
     <>
-      <Particlesanimation2></Particlesanimation2>
+      <ParticlesAnimation></ParticlesAnimation>
       <Helmet>
         <title>SwiftInbox | Inbox Details</title>
       </Helmet>

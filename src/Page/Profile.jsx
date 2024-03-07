@@ -11,7 +11,7 @@ const Profile = () => {
       <Helmet>
         <title>SwiftInbox | Profile</title>
       </Helmet>
-      <div className={`p-10 text-white rounded-lg`}>
+      <div className={`lg:p-10 text-white rounded-lg`}>
         <div>
           <img
             className="h-[150px] w-[150px] rounded-full ring-4 ring-gray-400 mx-auto my-10"
@@ -30,7 +30,7 @@ const Profile = () => {
           Role: {userData?.role?.toUpperCase()}
         </h1>
         <div className="grid grid-cols-2 gap-5 my-10">
-          <div className="md:px-20">
+          <div className="lg:px-20">
             <h2>E-mail</h2>
             <h2>{user?.email ? user?.email : "E-imail@mail.com"}</h2>
             <hr />
@@ -40,7 +40,7 @@ const Profile = () => {
             <h2>Phone</h2>
             <h2>+88017xxxxxxxx</h2>
           </div>
-          <div className="md:px-20">
+          <div className="lg:px-20">
             <h2>Address</h2>
             <h2>Dhaka, Bangladesh</h2>
             <hr />

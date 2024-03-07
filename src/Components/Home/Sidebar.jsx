@@ -4,7 +4,7 @@ import { MdOutlineConnectWithoutContact } from "react-icons/md";
 import { CiSquareInfo } from "react-icons/ci";
 import { FiCoffee } from "react-icons/fi";
 import { SiBloglovin } from "react-icons/si";
-import { FaInbox, FaRegBookmark} from "react-icons/fa";
+import { FaInbox, FaRegBookmark } from "react-icons/fa";
 import { GoCodeReview } from "react-icons/go";
 import { Link } from "react-router-dom";
 import Menu from "./Menu";
@@ -24,11 +24,11 @@ const Sidebar = () => {
       <div className="text-gray-800 flex md:hidden">
         <button
           onClick={handleToggle}
-          className="mobile-menu-button p-4 z-20 focus:outline-none"
+          className="mobile-menu-button p-4 z-50 text-white focus:outline-none"
         >
           <AiOutlineBars className="h-5 w-5" />
         </button>
-        <div className="my-2 flex">
+        <Link to={"/"} className="my-2 flex">
           <img
             src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
             className="h-9 mr-3"
@@ -36,12 +36,12 @@ const Sidebar = () => {
           <span className="self-center text-white text-2xl font-extrabold whitespace-nowrap ">
             SwiftInbox
           </span>
-        </div>
+        </Link>
       </div>
       {/* Sidebar */}
       <div
-        className={`z-10 md:fixed  overflow-x-hidden border-r-2 border-gray-200 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive ? "-translate-x-full " : "bg-gray-200 md:bg-white"
+        className={`z-40 md:fixed  overflow-x-hidden border-r-2 border-gray-200 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
+          isActive ? "-translate-x-full " : "bg-black md:bg-white"
         }  md:translate-x-0 transition duration-200 ease-in-out`}
       >
         <div>
@@ -84,21 +84,22 @@ const Sidebar = () => {
                   address="/contact"
                 />
                 <Menu icon={CiSquareInfo} label="About Us" address="about" />
-                
+
                 <div className="bg-lime-400/10 rounded-md text-lg font-bold shadow-xl">
                   <Menu icon={SiBloglovin} label="BLOG" address="/blog" />
                 </div>
               </>
               {/* Menu Items */}
             </nav>
-            <div>
+            {/* donate feature  */}
+            {/* <div>
               <Link to="/buyCoffee">
                 <p className="flex justify-center items-center align-middle gap-2 px-3 cursor-pointer py-2 rounded-md bg-lime-800 text-white font-bold hover:bg-lime-700 hover:text-slate-300 hover:underline text-lg">
                   Buy us a coffee
                   <FiCoffee />
                 </p>
               </Link>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
