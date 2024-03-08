@@ -48,12 +48,11 @@ const EmailBox = () => {
         localStorage.setItem("email", data?.email);
         setTempMail(data?.email);
         if (user && userData?.tempMail !== localStorage.getItem("email")) {
-          axiosSecure
-            .post(`/manage-user`, {
-              userEmail: user?.email,
-              displayName: user?.displayName,
-              tempMail: data?.email,
-            })
+          axiosSecure.post(`/manage-user`, {
+            userEmail: user?.email,
+            displayName: user?.displayName,
+            tempMail: data?.email,
+          });
         }
       });
       return data.email;
@@ -160,7 +159,6 @@ const EmailBox = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto my-12 px-4">
-      
       {/* <ParticlesAnimation></ParticlesAnimation> */}
       {/* <Particlesanimation2></Particlesanimation2> */}
       {/* <AmongUsAnimation></AmongUsAnimation> */}
@@ -276,14 +274,19 @@ const EmailBox = () => {
               defaultValue={tempMail?.split("@")[1]}
             >
               {domains?.map((domain, idx) => {
-                if (domain?.type === "public") {
-                  return (
-                    <option value={domain?.name} key={idx}>
-                      @{domain?.name}
-                    </option>
-                  );
-                }
-                return null;
+                // if (domain?.type === "public") {
+                //   return (
+                //     <option value={domain?.name} key={idx}>
+                //       @{domain?.name}
+                //     </option>
+                //   );
+                // }
+                // return null;
+                return (
+                  <option value={domain} key={idx}>
+                    @{domain}
+                  </option>
+                );
               })}
             </select>
           </div>
