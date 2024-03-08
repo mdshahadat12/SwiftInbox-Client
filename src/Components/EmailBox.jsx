@@ -14,7 +14,7 @@ import Loader from "./Loader";
 import EmailBoxAnimation from "./Animation/EmailBoxAnimation ";
 
 const EmailBox = () => {
-  const { refetch, setTempMail, tempMail, user, userData } =
+  const { refetch, setTempMail, tempMail, user, userData, setUserData } =
     useContext(AuthContext);
 
   const { data: domains } = Loader("/get-domains", "domains");
@@ -48,11 +48,15 @@ const EmailBox = () => {
         localStorage.setItem("email", data?.email);
         setTempMail(data?.email);
         if (user && userData?.tempMail !== localStorage.getItem("email")) {
-          axiosSecure.post(`/manage-user`, {
-            userEmail: user?.email,
-            displayName: user?.displayName,
-            tempMail: data?.email,
-          });
+          axiosSecure
+            .post(`/manage-user`, {
+              userEmail: user?.email,
+              displayName: user?.displayName,
+              tempMail: data?.email,
+            })
+            .then((res) => {
+              setUserData(res.data);
+            });
         }
       });
       return data.email;

@@ -173,6 +173,7 @@ const AuthProvider = ({ children }) => {
     checkUser,
     saveUser,
     roleLoading,
+    setUserData,
   };
 
   return (
