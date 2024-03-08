@@ -4,8 +4,13 @@ import Navbar from "../../Components/Home/Navbar";
 import { FaQuestionCircle } from "react-icons/fa";
 import { motion } from "framer-motion";
 import EmailBoxAnimation from "../../Components/Animation/EmailBoxAnimation ";
+import Payment from "../../Components/Payment/Payment";
+import { useState } from "react";
 
 const BuyCoffee = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const closeModal = ()=>setIsOpen(false)
+  const openModal = ()=>setIsOpen(true)
   return (
     <>
       <Helmet>
@@ -30,7 +35,7 @@ const BuyCoffee = () => {
                 />
                 <Link to="/">
                   <span className="self-center text-2xl font-extrabold whitespace-nowrap">
-                    SwiftInbox
+                    SwiftInboxaa
                   </span>
                 </Link>
               </div>
@@ -90,12 +95,12 @@ const BuyCoffee = () => {
                     />
                   </div>
                   <div className="form-control"></div>
+                </form>
                   <div className="form-control mt-6">
-                    <button className="p-3 rounded-lg bg-green-500 w-full font-bold">
+                    <button onClick={openModal} className="p-3 rounded-lg bg-green-500 w-full font-bold">
                       Support 50 Tk
                     </button>
                   </div>
-                </form>
                 {/* FORM ENDS */}
               </div>
             </div>
@@ -109,6 +114,7 @@ const BuyCoffee = () => {
             </div>
           </div>
         </div>
+        <Payment closeModal={closeModal} isOpen={isOpen} />
       </motion.div>
     </>
   );
