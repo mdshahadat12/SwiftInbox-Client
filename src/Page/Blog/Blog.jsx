@@ -223,6 +223,7 @@ const Blog = () => {
           </div>
           <div className="flex-1 py-10 flex justify-center">
             <div className="w-2/3">
+              <Link to={"/"}>
               <div className="my-2 flex">
                 <img
                   src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
@@ -232,6 +233,7 @@ const Blog = () => {
                   SwiftInbox
                 </span>
               </div>
+              </Link>
               <div className="pb-4 flex justify-between">
                 <div>
                   <Link to="/">
