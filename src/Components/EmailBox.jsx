@@ -102,11 +102,15 @@ const EmailBox = () => {
           toast.success("Email changed successfully");
           tempFetch();
           if (user) {
-            axiosSecure.post(`/manage-user`, {
-              userEmail: user?.email,
-              displayName: user?.displayName,
-              tempMail: `${customName}@${customDoamin}`,
-            });
+            axiosSecure
+              .post(`/manage-user`, {
+                userEmail: user?.email,
+                displayName: user?.displayName,
+                tempMail: `${customName}@${customDoamin}`,
+              })
+              .then((res) => {
+                setUserData(res.data);
+              });
           }
         } else {
           toast.error("Email already taken");
