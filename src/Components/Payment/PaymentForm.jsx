@@ -9,7 +9,7 @@ import { AuthContext } from '../../Provider/AuthProvider';
 import toast from 'react-hot-toast'
 
 
-const PaymentForm = ({ price, closeModal }) => {
+const PaymentForm = ({ data, closeModal }) => {
   const stripe = useStripe()
   const elements = useElements()
   const { user } = useContext(AuthContext)
@@ -17,6 +17,10 @@ const PaymentForm = ({ price, closeModal }) => {
   const [clientSecret, setClientSecret] = useState('')
   const [processing, setProcessing] = useState(false)
   const navigate = useNavigate()
+  const price = Number(data.amount)
+  console.log(price);
+  // console.log('100');
+  // console.log(100);
 
   // Create Payment Intent
   useEffect(()=>{
@@ -52,9 +56,9 @@ const PaymentForm = ({ price, closeModal }) => {
     }
 
     setProcessing(true)
-
+    console.log(clientSecret);
     const { paymentIntent, error: confirmError } =
-      await stripe.confirmCardPayment(clientSecret, {
+      await stripe.confirmCardPayment(clientSecret,{
         payment_method: {
           card: card,
           billing_details: {
@@ -68,7 +72,6 @@ const PaymentForm = ({ price, closeModal }) => {
       console.log(confirmError)
       setCardError(confirmError.message)
     }
-
     console.log('payment intent', paymentIntent)
 
     if (paymentIntent.status === 'succeeded') {
@@ -77,6 +80,8 @@ const PaymentForm = ({ price, closeModal }) => {
       const info = {
           Email: user?.email,
           Name: user?.displayName,
+          PaymentName: data.name,
+          amount:data.amount,
           transactionId: paymentIntent.id,
           date: new Date(),
         }

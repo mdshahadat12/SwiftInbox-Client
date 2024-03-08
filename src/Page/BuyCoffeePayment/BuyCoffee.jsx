@@ -9,8 +9,21 @@ import { useState } from "react";
 
 const BuyCoffee = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [amount, setAmount] = useState(10);
+  const [name, setName] = useState("");
   const closeModal = ()=>setIsOpen(false)
   const openModal = ()=>setIsOpen(true)
+  const handlesubmit = e =>{
+    e.preventDefault()
+    openModal()
+  }
+  const changeamount = (e)=>{
+    setAmount(e.target.value);
+  }
+  const changename = (e)=>{
+    setName(e.target.value);
+  }
+  const data = {name:name,amount:amount}
   return (
     <>
       <Helmet>
@@ -35,7 +48,7 @@ const BuyCoffee = () => {
                 />
                 <Link to="/">
                   <span className="self-center text-2xl font-extrabold whitespace-nowrap">
-                    SwiftInboxaa
+                    SwiftInbox
                   </span>
                 </Link>
               </div>
@@ -77,9 +90,11 @@ const BuyCoffee = () => {
                   <FaQuestionCircle title="Show your appreciation for SwiftInbox with a symbolic 'coffee'! Each one is just 50tk and helps fuel our helpful platform." />
                 </h1>
                 {/* FORM STARTS */}
-                <form className="card-body flex-1">
+                <form onSubmit={handlesubmit} className="card-body text-black flex-1">
                   <div className="form-control">
                     <input
+                    required
+                    onChange={changename}
                       type="text"
                       name="name"
                       placeholder="Your Name"
@@ -88,19 +103,26 @@ const BuyCoffee = () => {
                   </div>
                   <div className="form-control">
                     <input
+                    required
+                    onChange={changeamount}
+                      type="number"
+                      name="amount"
+                      placeholder="Amount"
+                      className="input input-bordered w-full"
+                    />
+                    <input
                       type="text"
                       name="text"
                       placeholder="Say Something Good About Us"
-                      className="input input-bordered w-full"
+                      className="input mt-2 input-bordered w-full"
                     />
                   </div>
-                  <div className="form-control"></div>
-                </form>
                   <div className="form-control mt-6">
-                    <button onClick={openModal} className="p-3 rounded-lg bg-green-500 w-full font-bold">
-                      Support 50 Tk
+                    <button className="p-3 rounded-lg text-white bg-green-500 w-full font-bold">
+                      Support {`${amount}`} $
                     </button>
                   </div>
+                </form>
                 {/* FORM ENDS */}
               </div>
             </div>
@@ -114,7 +136,7 @@ const BuyCoffee = () => {
             </div>
           </div>
         </div>
-        <Payment closeModal={closeModal} isOpen={isOpen} />
+        <Payment data={data} closeModal={closeModal} isOpen={isOpen} />
       </motion.div>
     </>
   );

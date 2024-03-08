@@ -8,7 +8,7 @@ import { loadStripe } from "@stripe/stripe-js";
 const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT_PK);
 // console.log(import.meta.env.VITE_PAYMENT_PK);
 
-export default function Payment({ isOpen, closeModal }) {
+export default function Payment({data, isOpen, closeModal }) {
   return (
     <>
       <Transition appear show={isOpen} as={Fragment}>
@@ -49,7 +49,7 @@ export default function Payment({ isOpen, closeModal }) {
                     </p>
                   </div>
                   <Elements stripe={stripePromise}>
-                    <PaymentForm price={50} closeModal={closeModal} />
+                    <PaymentForm data={data} closeModal={closeModal} />
                   </Elements>
                 </Dialog.Panel>
               </Transition.Child>
