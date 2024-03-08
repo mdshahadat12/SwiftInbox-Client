@@ -145,8 +145,7 @@ import Navbar from "../../Components/Home/Navbar";
 import { IoMdAddCircleOutline } from "react-icons/io";
 import { useState, useEffect, useContext } from "react";
 import { Helmet } from "react-helmet";
-import SingleBlogCard from "./SingleBlog.Card";
-import axios from "axios"; // Import Axios for making HTTP requests
+import SingleBlogCard from "./SingleBlog.Card";// Import Axios for making HTTP requests
 import { axiosSecure } from "../../Components/useAxios";
 import toast from "react-hot-toast";
 import Loader from "../../Components/Loader";
