@@ -14,7 +14,7 @@ import Loader from "./Loader";
 import EmailBoxAnimation from "./Animation/EmailBoxAnimation ";
 
 const EmailBox = () => {
-  const { refetch, setTempMail, tempMail, user, userData } =
+  const { refetch, setTempMail, tempMail, user, userData, setUserData } =
     useContext(AuthContext);
 
   const { data: domains } = Loader("/get-domains", "domains");
@@ -54,6 +54,9 @@ const EmailBox = () => {
               displayName: user?.displayName,
               tempMail: data?.email,
             })
+            .then((res) => {
+              setUserData(res.data);
+            });
         }
       });
       return data.email;
@@ -99,11 +102,15 @@ const EmailBox = () => {
           toast.success("Email changed successfully");
           tempFetch();
           if (user) {
-            axiosSecure.post(`/manage-user`, {
-              userEmail: user?.email,
-              displayName: user?.displayName,
-              tempMail: `${customName}@${customDoamin}`,
-            });
+            axiosSecure
+              .post(`/manage-user`, {
+                userEmail: user?.email,
+                displayName: user?.displayName,
+                tempMail: `${customName}@${customDoamin}`,
+              })
+              .then((res) => {
+                setUserData(res.data);
+              });
           }
         } else {
           toast.error("Email already taken");
@@ -160,7 +167,6 @@ const EmailBox = () => {
 
   return (
     <div className="max-w-screen-xl mx-auto my-12 px-4">
-      
       {/* <ParticlesAnimation></ParticlesAnimation> */}
       {/* <Particlesanimation2></Particlesanimation2> */}
       {/* <AmongUsAnimation></AmongUsAnimation> */}
@@ -177,7 +183,7 @@ const EmailBox = () => {
               Your Temporary Email Address
             </h2>
             <div className="border flex justify-around rounded-3xl my-2 border-accent py-3">
-              <h3 className="text-center font-semibold text-lg">{userEmail}</h3>
+              <h3 className="font-semibold text-lg">{userEmail}</h3>
               <button onClick={handleCopyToClipboard} title="Click to Copy">
                 <FaRegCopy></FaRegCopy>
               </button>
@@ -276,14 +282,19 @@ const EmailBox = () => {
               defaultValue={tempMail?.split("@")[1]}
             >
               {domains?.map((domain, idx) => {
-                if (domain?.type === "public") {
-                  return (
-                    <option value={domain?.name} key={idx}>
-                      @{domain?.name}
-                    </option>
-                  );
-                }
-                return null;
+                // if (domain?.type === "public") {
+                //   return (
+                //     <option value={domain?.name} key={idx}>
+                //       @{domain?.name}
+                //     </option>
+                //   );
+                // }
+                // return null;
+                return (
+                  <option value={domain} key={idx}>
+                    @{domain}
+                  </option>
+                );
               })}
             </select>
           </div>
