@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import { AuthContext } from "../Provider/AuthProvider";
@@ -13,12 +13,14 @@ import { IoPrintOutline } from "react-icons/io5";
 import { MdOutlineDelete } from "react-icons/md";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import Loader from "../Components/Loader";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { Helmet } from "react-helmet";
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 const InboxDetails = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { id } = useParams();
   const { user, refetch } = useContext(AuthContext);
+  const { from } = location.state || "";
   const {
     data: message,
     isLoading,
@@ -26,17 +28,17 @@ const InboxDetails = () => {
   } = Loader(`/message/${id}`, "singleMessage");
 
   useEffect(() => {
-    axiosSecure.put(`/notify-mail/${id}`);
-  }, [id]);
+    if (from !== "/dashboard/allmessage" && from !== undefined) {
+      axiosSecure.put(`/notify-mail/${id}`);
+    }
+  }, [from, id]);
 
   if (isLoading) {
     return <Lottie animationData={lott} />;
   }
 
-  const emailRegex = /<([^>]+)>/;
-  const emailMatch = message?.from.match(emailRegex);
-  const email = emailMatch ? emailMatch[1] : null;
-  const name = message?.from.replace(emailRegex, "").replace(/"/g, "").trim();
+
+  const email = message?.from;
 
   const date = new Date(message?.created_at);
   // Adjust to UTC+6
@@ -76,6 +78,9 @@ const InboxDetails = () => {
 
   // add bookmark function here
   const handleBookmark = (id) => {
+    if (!user) {
+      navigate("/login");
+    }
     {
       message?.bookmark?.includes(user?.email)
         ? axiosSecure
@@ -147,7 +152,7 @@ const InboxDetails = () => {
 
   return (
     <>
-      <Particlesanimation2></Particlesanimation2>
+      <ParticlesAnimation></ParticlesAnimation>
       <Helmet>
         <title>SwiftInbox | Inbox Details</title>
       </Helmet>

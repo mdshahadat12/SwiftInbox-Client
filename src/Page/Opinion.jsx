@@ -39,12 +39,12 @@ const Opinion = () => {
         Share Your Opinions
       </motion.h1>
       <button className="my-6  w-44 h-1 text-white bg-[#37B3E6] rounded-full hover:bg-[#164863]"></button>
-      <div className="text-center bg-base-200 py-10">
+      <div className="text-center py-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex md:flex-row flex-col gap-6 max-w-5xl bg-gray-800 md:p-6 p-2 rounded-lg mx-auto"
+          className="flex md:flex-row flex-col gap-6 max-w-5xl bg-gray-800 py-10 md:px-6 px-2 rounded-lg mx-auto"
         >
           <form
             onSubmit={handleSubmit}

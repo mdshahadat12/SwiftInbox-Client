@@ -21,11 +21,11 @@ const DashboardSidebar = () => {
       <div className="text-gray-800 flex md:hidden">
         <button
           onClick={handleToggle}
-          className="mobile-menu-button p-4 z-20 focus:outline-none"
+          className="mobile-menu-button p-4 z-20 text-white focus:outline-none"
         >
           <AiOutlineBars className="h-5 w-5" />
         </button>
-        <div className="my-2 flex">
+        <Link to={"/"} className="my-2 flex">
           <img
             src="https://i.ibb.co/0MtxH7T/Picsart-24-01-18-10-33-37-005.png"
             className="h-10 mr-3"
@@ -33,12 +33,12 @@ const DashboardSidebar = () => {
           <span className="self-center text-white text-2xl font-extrabold whitespace-nowrap ">
             SwiftInbox
           </span>
-        </div>
+        </Link>
       </div>
       {/* Sidebar */}
       <div
         className={`z-10 md:fixed  overflow-x-hidden border-r-2 border-gray-200 w-64 space-y-6 px-2 py-4 absolute inset-y-0 left-0 transform ${
-          isActive ? "-translate-x-full " : "bg-gray-200 md:bg-white"
+          isActive ? "-translate-x-full " : "bg-black md:bg-white"
         }  md:translate-x-0 transition duration-200 ease-in-out`}
       >
         <div>

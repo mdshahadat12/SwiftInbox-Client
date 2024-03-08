@@ -2,7 +2,7 @@
 import { MdOutlineMailOutline, MdFiberNew } from "react-icons/md";
 import { AiFillDelete } from "react-icons/ai";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 import Avatar from "./Avatar";
@@ -11,6 +11,8 @@ import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthProvider";
 const InboxCard = ({ data, bookFetch, admin }) => {
   const { user, refetch } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   //add delete function here
   const handleDelete = (id) => {
@@ -23,6 +25,10 @@ const InboxCard = ({ data, bookFetch, admin }) => {
   };
   // add bookmark function here
   const handleBookmark = (id) => {
+    if (!user) {
+      navigate("/login");
+    }
+
     {
       data?.bookmark?.includes(user?.email)
         ? axiosSecure
@@ -44,10 +50,7 @@ const InboxCard = ({ data, bookFetch, admin }) => {
     }
   };
 
-  const emailRegex = /<([^>]+)>/;
-  const emailMatch = data?.from?.match(emailRegex);
-  const email = emailMatch ? emailMatch[1] : null;
-  const name = data?.from?.replace(emailRegex, "").replace(/"/g, "").trim();
+  const email = data?.from;
 
   const displayDescription = () => {
     const maxLength = 50;
@@ -82,7 +85,11 @@ const InboxCard = ({ data, bookFetch, admin }) => {
           data.status == "unread" ? "bg-base-200" : "bg-gray-400"
         } flex items-center justify-between w-full rounded-lg `}
       >
-        <Link to={`/inbox/${data?._id}`} className=" w-3/4">
+        <Link
+          to={`/inbox/${data?._id}`}
+          state={{ from: location.pathname }}
+          className=" w-3/4"
+        >
           <div className="flex items-center justify-between p-4">
             {/* image and sender info */}
             <div className="flex items-center gap-2 w-1/3 md:1/3 lg:1/3">
@@ -92,9 +99,9 @@ const InboxCard = ({ data, bookFetch, admin }) => {
               </div>
               {/* email sender name and their email  */}
               <div>
-                <h2 className="font-semibold">{name}</h2>
-                <p className="text-xs flex items-center justify-center gap-1">
-                  <MdOutlineMailOutline /> {email}
+                <h2 className="font-semibold">{email}</h2>
+                <p className="text-xs flex items-center justify-start gap-1">
+                  <MdOutlineMailOutline /> {data?.to}
                 </p>
               </div>
             </div>
@@ -140,7 +147,7 @@ const InboxCard = ({ data, bookFetch, admin }) => {
             variants={buttonVariants}
             whileHover={{ scale: 1.2 }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => document.getElementById("deleteModal2").showModal()}
+            onClick={() => document.getElementById(data._id).showModal()}
             className={`btn text-accent font-bold text-xl ${
               data.status == "unread"
                 ? "bg-base-200"
@@ -152,7 +159,7 @@ const InboxCard = ({ data, bookFetch, admin }) => {
         </div>
       </div>
       {/* delete modal here  */}
-      <dialog id="deleteModal2" className="modal modal-bottom sm:modal-middle">
+      <dialog id={data._id} className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="font-bold text-lg mb-5">
             Are you sure you want to delete this email ?

@@ -2,15 +2,15 @@ import Lottie from "lottie-react";
 import Loader from "../Components/Loader";
 import lott from "../assets/lott.json";
 import InboxCard from "../Components/InboxCard";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { Helmet } from "react-helmet";
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 
 const AllMessage = () => {
   const { data, isLoading } = Loader("/all-messages", "allMessages");
   const admin = true;
   return (
     <div>
-      <Particlesanimation2></Particlesanimation2>
+      <ParticlesAnimation></ParticlesAnimation>
       <Helmet>
         <title>SwiftInbox | All Messages</title>
       </Helmet>

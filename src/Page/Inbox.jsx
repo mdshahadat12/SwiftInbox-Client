@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import Lottie from "lottie-react";
 import lott from "../assets/lott.json";
 import InboxCard from "../Components/InboxCard";
@@ -11,12 +11,13 @@ const Inbox = ({ bookmarkPage }) => {
   const { user, messages } = useContext(AuthContext);
   const [filteredMessages, setFilteredMessages] = useState([]);
   const [bookmarkedMessages, setBookmarkedMessages] = useState([]);
+  const [checkMessage, setCheckedMessages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5); // Default items per page
-  let checkMessage = [];
-  checkMessage = messages?.filter((message) => {
-    return message.status !== "deleted";
-  });
+  useMemo(() => {
+    const check = messages?.filter(message => message.status !== "deleted");
+    setCheckedMessages(check);
+  }, [messages]);
   const { data: allMessages, refetch: bookFetch } = Loader(
     `/all-messages`,
     "allMessages"

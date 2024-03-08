@@ -3,8 +3,8 @@ import emailjs from "@emailjs/browser";
 import { FaEnvelope, FaWhatsapp, FaMapMarkerAlt } from "react-icons/fa";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
-import Particlesanimation2 from "../Components/Animation/Particlesanimation2";
 import { Helmet } from "react-helmet";
+import ParticlesAnimation from "../Components/Animation/ParticlesAnimation";
 const ContactUs = () => {
   const form = useRef();
 
@@ -13,8 +13,8 @@ const ContactUs = () => {
 
     emailjs
       .sendForm(
-        "service_pxyrcyz",
-        "template_8dn512p",
+        "service_8cgrojl",
+        "template_94pfvrp",
         form.current,
         "5Pvfyvswn_SbZTfcK"
       )
@@ -40,8 +40,8 @@ const ContactUs = () => {
   ];
 
   return (
-    <section id="contact" className="py-10 px-3 text-white bg-base-200">
-     <Particlesanimation2></Particlesanimation2>
+    <section id="contact" className="py-10 px-3 text-white">
+    <ParticlesAnimation></ParticlesAnimation>
      <Helmet>
         <title>SwiftInbox | Contact Us</title>
       </Helmet>
@@ -59,7 +59,7 @@ const ContactUs = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-gray-600 mt-3 text-center max-w-[900px] mx-auto text-lg"
+        className="text-white mt-3 text-center max-w-[900px] mx-auto text-lg"
       >
         Instantly generate temporary email addresses for secure and private
         communication. Utilize the form below to create a temporary email and
@@ -71,9 +71,9 @@ const ContactUs = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="mt-16 flex md:flex-row flex-col gap-6 max-w-5xl bg-gray-800 md:p-6 p-2 rounded-lg mx-auto"
+      className="mt-16 flex lg:flex-row flex-col-reverse gap-6 max-w-5xl bg-gray-800 md:p-6 p-2 rounded-lg mx-auto"
     >
-      <form
+      <form ref={form}
         onSubmit={sendEmail}
         className="flex flex-col flex-1 gap-5 text-black"
       >
