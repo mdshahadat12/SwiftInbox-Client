@@ -3,7 +3,7 @@ import { useContext, useEffect } from "react";
 
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../Provider/AuthProvider";
-// export const baseUrl = "https://swift-inbox-server.vercel.app";
+// export const baseUrl = "https://swift-inbox-server-mu.vercel.app";
 export const baseUrl = "http://localhost:5000";
 export const axiosSecure = axios.create({
   baseURL: baseUrl,

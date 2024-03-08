@@ -37,10 +37,8 @@ const InboxDetails = () => {
     return <Lottie animationData={lott} />;
   }
 
-  const emailRegex = /<([^>]+)>/;
-  const emailMatch = message?.from.match(emailRegex);
-  const email = emailMatch ? emailMatch[1] : null;
-  const name = message?.from.replace(emailRegex, "").replace(/"/g, "").trim();
+
+  const email = message?.from;
 
   const date = new Date(message?.created_at);
   // Adjust to UTC+6

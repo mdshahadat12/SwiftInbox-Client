@@ -175,7 +175,7 @@ const EmailBox = () => {
               Your Temporary Email Address
             </h2>
             <div className="border flex justify-around rounded-3xl my-2 border-accent py-3">
-              <h3 className="text-center font-semibold text-lg">{userEmail}</h3>
+              <h3 className="font-semibold text-lg">{userEmail}</h3>
               <button onClick={handleCopyToClipboard} title="Click to Copy">
                 <FaRegCopy></FaRegCopy>
               </button>
