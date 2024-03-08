@@ -81,7 +81,14 @@ const PaymentForm = ({ price, closeModal }) => {
           date: new Date(),
         }
         console.log(info);
-       
+        axiosSecure.post("/saveInfo",info).then((res) => {
+          console.log(res.data);
+          if(res.data._id){
+            setProcessing(false)
+            navigate('/')
+            toast.success("You donation Successfuly");
+          }
+        });
 
     }
   }
